@@ -4,6 +4,7 @@ import com.restaurent.manager.dto.request.RoleRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.RoleResponse;
 import com.restaurent.manager.service.IRoleService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/role")
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @AllArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class RoleController {
     IRoleService roleService;
     @PostMapping
