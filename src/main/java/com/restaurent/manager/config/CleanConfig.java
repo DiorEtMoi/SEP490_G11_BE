@@ -20,7 +20,7 @@ import java.util.List;
 public class CleanConfig {
 
     RestaurantRepository restaurantRepository;
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(cron = "0 0 0 * * *")
     public void scheduleFixedDelayTask() {
         log.info("Size : " + restaurantRepository.findByRestaurantPackageIdIsNotNullAndExpiryDateBefore(LocalDateTime.now()).size());
         List<Restaurant> restaurants = restaurantRepository.findByRestaurantPackageIdIsNotNullAndExpiryDateBefore(LocalDateTime.now());

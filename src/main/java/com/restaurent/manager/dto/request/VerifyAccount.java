@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class VerifyAccount {
-    private String phoneNumber;
+    private String email;
     private String otp;
 }
