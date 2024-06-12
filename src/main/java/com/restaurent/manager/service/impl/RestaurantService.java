@@ -40,7 +40,7 @@ public class RestaurantService implements IRestaurantService {
         );
         restaurant.setAccount(account);
         restaurant.setRestaurantPackage(packageRepository.findByPackName("Trial"));
-        restaurant.setExpiryDate(LocalDateTime.now().plusMonths(1));
+        restaurant.setExpiryDate(LocalDateTime.now().plusDays(7));
         return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
     }
 

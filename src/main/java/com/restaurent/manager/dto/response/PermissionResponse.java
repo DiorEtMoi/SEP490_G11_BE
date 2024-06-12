@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class PackageResponse {
-   private String packName;
-   private Set<PermissionResponse> permissions;
+public class PermissionResponse {
+    private Long id;
+    private String name;
+    private String description;
 }

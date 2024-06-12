@@ -22,8 +22,13 @@ public class Package {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     Set<Restaurant> restaurants;
-    public void addRestaurant(Restaurant restaurant){
-        restaurant.setRestaurantPackage(this);
-        this.restaurants.add(restaurant);
-    }
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "package_permission",
+            joinColumns = @JoinColumn(name = "package_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id",referencedColumnName = "id")
+    )
+    Set<Permission> permissions;
+
 }

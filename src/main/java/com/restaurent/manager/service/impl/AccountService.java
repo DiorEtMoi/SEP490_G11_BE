@@ -144,6 +144,9 @@ public class AccountService implements IAccountService {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(user.getRole() != null){
             stringJoiner.add(user.getRole().getName());
+            if(user.getRestaurant() != null){
+                user.getRestaurant().getRestaurantPackage().getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
+            }
         }
         return stringJoiner.toString();
     }

@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -32,5 +33,13 @@ public class PackageController {
                 builder()
                 .result(packageService.getPacks())
                 .build();
+    }
+    @PutMapping("/{packId}/permission/{permissionId}")
+    public ApiResponse<PackageResponse> addPermission(@PathVariable String packId, @PathVariable String permissionId ){
+            int pId = Integer.parseInt(packId);
+            Long perId = Long.parseLong(permissionId);
+            return ApiResponse.<PackageResponse>builder()
+                    .result(packageService.addPermission(perId,pId))
+                    .build();
     }
 }
