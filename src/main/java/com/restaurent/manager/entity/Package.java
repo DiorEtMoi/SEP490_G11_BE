@@ -1,10 +1,7 @@
 package com.restaurent.manager.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
@@ -14,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Builder
 public class Package {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +22,13 @@ public class Package {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     Set<Restaurant> restaurants;
-    public void addRestaurant(Restaurant restaurant){
-        restaurant.setRestaurantPackage(this);
-        this.restaurants.add(restaurant);
-    }
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "package_permission",
+            joinColumns = @JoinColumn(name = "package_id",referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id",referencedColumnName = "id")
+    )
+    Set<Permission> permissions;
+
 }

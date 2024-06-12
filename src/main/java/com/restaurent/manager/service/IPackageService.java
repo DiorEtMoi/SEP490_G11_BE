@@ -8,4 +8,5 @@ import java.util.List;
 public interface IPackageService {
     PackageResponse create(PackageRequest request);
     List<PackageResponse> getPacks();
+    PackageResponse addPermission(Long permissionID,int packId);
 }

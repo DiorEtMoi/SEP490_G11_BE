@@ -3,8 +3,12 @@ package com.restaurent.manager.service.impl;
 import com.restaurent.manager.dto.request.PackageRequest;
 import com.restaurent.manager.dto.response.PackageResponse;
 import com.restaurent.manager.entity.Package;
+import com.restaurent.manager.entity.Permission;
+import com.restaurent.manager.exception.AppException;
+import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.PackageMapper;
 import com.restaurent.manager.repository.PackageRepository;
+import com.restaurent.manager.repository.PermissionRepository;
 import com.restaurent.manager.service.IPackageService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,6 +25,7 @@ import java.util.List;
 public class PackageService implements IPackageService {
     PackageRepository packageRepository;
     PackageMapper packageMapper;
+    PermissionRepository permissionRepository;
     @Override
     public PackageResponse create(PackageRequest request) {
         Package pack = packageMapper.toPackage(request);
@@ -30,5 +35,15 @@ public class PackageService implements IPackageService {
     @Override
     public List<PackageResponse> getPacks() {
         return packageRepository.findAll().stream().map(packageMapper::toPackResponse).toList();
+    }
+
+    @Override
+    public PackageResponse addPermission(Long permissionID,int packId) {
+        Permission permission = permissionRepository.findById(permissionID).orElseThrow(() ->
+                new AppException(ErrorCode.INVALID_KEY));
+        Package pack = packageRepository.findById(packId).orElseThrow(() ->
+                new AppException(ErrorCode.INVALID_KEY));
+        permission.addPermissionToPackage(pack);
+        return packageMapper.toPackResponse(packageRepository.save(pack));
     }
 }

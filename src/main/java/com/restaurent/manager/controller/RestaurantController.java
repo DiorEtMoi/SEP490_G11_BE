@@ -1,0 +1,34 @@
+package com.restaurent.manager.controller;
+
+import com.restaurent.manager.dto.request.RestaurantRequest;
+import com.restaurent.manager.dto.response.ApiResponse;
+import com.restaurent.manager.dto.response.RestaurantResponse;
+import com.restaurent.manager.service.IRestaurantService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/restaurant")
+@Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+public class RestaurantController {
+    IRestaurantService restaurantService;
+    @PostMapping("/init")
+    public ApiResponse<RestaurantResponse> initRestaurant(@RequestBody RestaurantRequest request){
+        return ApiResponse.<RestaurantResponse>builder()
+                .result(restaurantService.initRestaurant(request))
+                .build();
+    }
+    @GetMapping
+    public ApiResponse<List<RestaurantResponse>> getRestaurants(){
+        return ApiResponse.<List<RestaurantResponse>>builder()
+                .result(restaurantService.getRestaurants())
+                .build();
+    }
+}

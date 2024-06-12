@@ -27,6 +27,8 @@ public class Account {
     private LocalDateTime otpGeneratedTime;
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
+    @OneToOne(mappedBy = "account")
+    private Restaurant restaurant;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

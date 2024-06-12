@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,10 @@ public class Restaurant {
     private String district;
     @ManyToOne(fetch = FetchType.LAZY)
     private Package restaurantPackage;
+    private LocalDateTime expiryDate;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -64,7 +64,7 @@ public class AccountService implements IAccountService {
         account.setStatus(false);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());
-        Role role = roleRepository.findByName(RoleSystem.MANAGER.name()).orElseThrow( () ->  new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION)
+        Role role = roleRepository.findByName(RoleSystem.MANAGER.name()).orElseThrow(() -> new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION)
         );
         role.assignAccount(account);
         String body = "Your OTP is : " + otp;
@@ -144,6 +144,9 @@ public class AccountService implements IAccountService {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(user.getRole() != null){
             stringJoiner.add(user.getRole().getName());
+            if(user.getRestaurant() != null){
+                user.getRestaurant().getRestaurantPackage().getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
+            }
         }
         return stringJoiner.toString();
     }
