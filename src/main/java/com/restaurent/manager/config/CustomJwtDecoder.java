@@ -2,11 +2,14 @@ package com.restaurent.manager.config;
 
 
 
+
+import java.text.ParseException;
 import java.util.Objects;
 import javax.crypto.spec.SecretKeySpec;
 
 import com.restaurent.manager.dto.request.IntrospectRequest;
 import com.restaurent.manager.dto.response.IntrospectResponse;
+import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.service.impl.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,7 @@ import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
+import com.nimbusds.jose.JOSEException;
 
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
@@ -31,15 +35,19 @@ public class CustomJwtDecoder implements JwtDecoder {
     @Override
     public Jwt decode(String token) throws JwtException {
 
-        IntrospectResponse response = authenticationService.introspect(
-                IntrospectRequest.builder().token(token).build());
+        try {
+            IntrospectResponse response = authenticationService.introspect(
+                    IntrospectRequest.builder().token(token).build());
+            if (!response.isValid()) throw new JwtException("Token invalid");
 
-        if (!response.isValid()) throw new JwtException("Token invalid");
+        } catch (JOSEException | ParseException e) {
+            throw new JwtException(e.getMessage());
+        }
 
         if (Objects.isNull(nimbusJwtDecoder)) {
-            SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
+            SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS256");
             nimbusJwtDecoder = NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                    .macAlgorithm(MacAlgorithm.HS512)
+                    .macAlgorithm(MacAlgorithm.HS256)
                     .build();
         }
 
