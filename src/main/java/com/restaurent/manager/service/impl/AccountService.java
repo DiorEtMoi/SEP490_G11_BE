@@ -54,7 +54,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountResponse register(AccountRequest req) {
-        if(accountRepository.existsByPhoneNumber(req.getPhoneNumber())){
+        if(accountRepository.existsByEmail(req.getEmail())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         Account account = accountMapper.toAccount(req);
@@ -79,7 +79,10 @@ public class AccountService implements IAccountService {
 
     @Override
     public VerifyResponse verifyAccount(VerifyAccount req) {
-        Account account = accountRepository.findByPhoneNumberAndStatus(req.getPhoneNumber(),false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        Account account = accountRepository.findByEmail(req.getEmail()).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        if(account.isStatus()){
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
         if(account.getOtp().equals(req.getOtp()) && Duration.between(LocalDateTime.now(), account.getOtpGeneratedTime()).getSeconds() < 60){
             account.setStatus(true);
             return VerifyResponse.builder()
@@ -95,7 +98,7 @@ public class AccountService implements IAccountService {
 
     @Override
     public AuthenticationResponse authenticated(AuthenticationRequest req) {
-        Account account = accountRepository.findByPhoneNumberAndStatus(req.getPhoneNumber(),true).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        Account account = accountRepository.findByEmailAndStatus(req.getEmail(),true).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated =  passwordEncoder.matches(req.getPassword(), account.getPassword());
         if(!authenticated){
@@ -109,8 +112,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public String regenerateOtp(String phoneNumber) {
-        Account account = accountRepository.findByPhoneNumberAndStatus(phoneNumber,false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public String regenerateOtp(String email) {
+        Account account = accountRepository.findByEmailAndStatus(email,false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         String otp = emailService.generateCode(6);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());

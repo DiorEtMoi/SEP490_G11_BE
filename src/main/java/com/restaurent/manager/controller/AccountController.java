@@ -8,6 +8,7 @@ import com.restaurent.manager.dto.response.*;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IAuthenticationService;
 import com.restaurent.manager.service.IRoleService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,7 @@ import java.util.List;
 public class AccountController {
     IAccountService accountService;
     @PostMapping("/register")
-    public ApiResponse<AccountResponse> register(@RequestBody AccountRequest req){
+    public ApiResponse<AccountResponse> register(@RequestBody @Valid AccountRequest req){
         return ApiResponse.<AccountResponse>builder()
                 .result(accountService.register(req))
                 .build();
@@ -58,9 +59,9 @@ public class AccountController {
                 .build();
     }
     @PostMapping("/regenerated-otp")
-    public ApiResponse<String> regeneratedOtp(@RequestBody String  phoneNumber){
+    public ApiResponse<String> regeneratedOtp(@RequestBody String  email){
         return ApiResponse.<String>builder()
-                .result(accountService.regenerateOtp(phoneNumber))
+                .result(accountService.regenerateOtp(email))
                 .build();
     }
     @GetMapping(value = "/myInfo")

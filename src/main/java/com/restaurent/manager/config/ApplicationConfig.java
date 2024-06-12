@@ -24,7 +24,7 @@ public class ApplicationConfig {
     @Bean
     ApplicationRunner applicationRunner(AccountRepository repository){
         return args -> {
-            if(repository.findByUsername("admin").isEmpty()){
+            if(repository.findByEmail("dinhhoan05112gmail.com").isEmpty()){
                 Role roleRequest = new Role();
                 roleRequest.setName("ADMIN");
                 roleRequest.setDescription("Admin of system");
@@ -34,6 +34,7 @@ public class ApplicationConfig {
                 Account user = Account.builder()
                         .username("admin")
                         .phoneNumber("0357753844")
+                        .email("dinhhoan0511@gmail.com")
                         .status(true)
                         .password(passwordEncoder.encode("admin"))
                         .build();
