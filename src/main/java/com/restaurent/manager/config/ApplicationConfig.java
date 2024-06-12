@@ -25,9 +25,10 @@ public class ApplicationConfig {
     ApplicationRunner applicationRunner(AccountRepository repository){
         return args -> {
             if(repository.findByUsername("admin").isEmpty()){
-               Role roleRequest = new Role();
+                Role roleRequest = new Role();
                 roleRequest.setName("ADMIN");
                 roleRequest.setDescription("Admin of system");
+
                 Role role = roleRepository.save(roleRequest);
 
                 Account user = Account.builder()
@@ -40,6 +41,9 @@ public class ApplicationConfig {
                                 .packName("Trial")
                         .build());
                 role.assignAccount(user);
+                roleRepository.save(Role.builder()
+                                .name("MANAGER").description("MANAGER of system")
+                        .build());
                 repository.save(user);
             }
         };

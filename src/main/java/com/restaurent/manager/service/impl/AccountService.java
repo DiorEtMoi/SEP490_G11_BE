@@ -64,7 +64,7 @@ public class AccountService implements IAccountService {
         account.setStatus(false);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());
-        Role role = roleRepository.findByName(RoleSystem.MANAGER.name()).orElseThrow( () ->  new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION)
+        Role role = roleRepository.findByName(RoleSystem.MANAGER.name()).orElseThrow(() -> new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION)
         );
         role.assignAccount(account);
         String body = "Your OTP is : " + otp;
