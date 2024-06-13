@@ -17,5 +17,5 @@ public class PackageRequest {
     @Valid
     @NotNull(message = "INVALID")
     private String packName;
-    private Set<Integer> permissions;
+    private Set<Long> permissions;
 }

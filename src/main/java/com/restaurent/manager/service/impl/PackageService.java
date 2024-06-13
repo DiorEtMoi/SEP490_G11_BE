@@ -16,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,6 +30,9 @@ public class PackageService implements IPackageService {
     @Override
     public PackageResponse create(PackageRequest request) {
         Package pack = packageMapper.toPackage(request);
+        List<Permission> permissions = permissionRepository.findAllById(request.getPermissions());
+        permissions.forEach(permission -> permission.addPermissionToPackage(pack));
+        pack.setPermissions(new HashSet<>(permissions));
         return packageMapper.toPackResponse(packageRepository.save(pack));
     }
 
