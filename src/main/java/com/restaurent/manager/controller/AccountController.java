@@ -39,7 +39,7 @@ public class AccountController {
                 .build();
     }
     @PostMapping("/verify")
-    public ApiResponse<VerifyResponse> verifyAccount(@RequestBody VerifyAccount req){
+    public ApiResponse<VerifyResponse> verifyAccount(@RequestBody @Valid VerifyAccount req){
         VerifyResponse verifyResponse = accountService.verifyAccount(req);
         if(verifyResponse.isStatus()){
            return ApiResponse.<VerifyResponse>builder()

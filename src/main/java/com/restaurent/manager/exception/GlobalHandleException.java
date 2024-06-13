@@ -3,11 +3,14 @@ package com.restaurent.manager.exception;
 import com.restaurent.manager.dto.response.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.naming.AuthenticationException;
 import java.nio.file.AccessDeniedException;
 import java.util.Map;
 import java.util.Objects;
@@ -39,6 +42,14 @@ public class GlobalHandleException {
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
         return ResponseEntity.status(errorCode.getStatusCode()).body(ApiResponse.builder()
                 .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .build());
+    }
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ResponseEntity<ApiResponse> handleAuthenticationException(AuthenticationException e){
+        ErrorCode errorCode = ErrorCode.INVALID_TOKEN;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.builder()
+                .code(errorCode.getStatusCode().value())
                 .message(errorCode.getMessage())
                 .build());
     }

@@ -87,11 +87,11 @@ public class AccountService implements IAccountService {
             account.setStatus(true);
             return VerifyResponse.builder()
                     .status(accountRepository.save(account).isStatus())
-                    .phoneNumber(account.getPhoneNumber())
+                    .email(account.getEmail())
                     .build();
         }
         return VerifyResponse.builder()
-                .phoneNumber(account.getPhoneNumber())
+                .email(account.getEmail())
                 .status(false)
                 .build();
     }

@@ -11,20 +11,19 @@ import lombok.*;
 @NoArgsConstructor
 public class AccountRequest {
     @Valid
-    @NotNull(message = "Username is require")
-    @NotBlank(message = "Username is require")
+    @NotNull(message = "INVALID_USERNAME")
+    @NotBlank(message = "INVALID_USERNAME")
     private String username;
 
-    @NotBlank(message = "phoneNumber is require")
-    @NotNull(message = "phoneNumber is require")
-    @Pattern(regexp = "^(0[3|5|7|8|9])[0-9]{8}$", message = "Invalid phone number")
+    @NotBlank(message = "INVALID_PHONENUMBER")
+    @NotNull(message = "INVALID_PHONENUMBER")
+    @Pattern(regexp = "^(0[3|5|7|8|9])[0-9]{8}$", message = "INVALID_PHONENUMBER")
     private String phoneNumber;
 
-    @NotBlank(message = "password is require")
-    @NotNull(message = "password is require")
+    @Size(min = 8,message = "INVALID_PASSWORD")
     private String password;
 
-    @NotNull(message = "Email is mandatory")
-    @ValidEmail
+    @NotNull(message = "INVALID_EMAIL")
+    @ValidEmail(message = "INVALID_EMAIL")
     private String email;
 }
