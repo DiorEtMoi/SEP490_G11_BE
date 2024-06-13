@@ -1,9 +1,8 @@
 package com.restaurent.manager.dto.request;
 
+import com.restaurent.manager.custom.ValidEmail;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Data
@@ -15,14 +14,17 @@ public class AccountRequest {
     @NotNull(message = "Username is require")
     @NotBlank(message = "Username is require")
     private String username;
+
     @NotBlank(message = "phoneNumber is require")
     @NotNull(message = "phoneNumber is require")
+    @Pattern(regexp = "^(0[3|5|7|8|9])[0-9]{8}$", message = "Invalid phone number")
     private String phoneNumber;
+
     @NotBlank(message = "password is require")
     @NotNull(message = "password is require")
     private String password;
-    @NotBlank(message = "Email is mandatory")
+
     @NotNull(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
+    @ValidEmail
     private String email;
 }

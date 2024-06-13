@@ -1,6 +1,7 @@
 package com.restaurent.manager.service.impl;
 
-import com.restaurent.manager.dto.request.RestaurantRequest;
+import com.restaurent.manager.dto.request.Restaurant.RestaurantRequest;
+import com.restaurent.manager.dto.request.Restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.RestaurantResponse;
 import com.restaurent.manager.entity.Account;
 import com.restaurent.manager.entity.Restaurant;
@@ -18,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -47,5 +46,20 @@ public class RestaurantService implements IRestaurantService {
     @Override
     public List<RestaurantResponse> getRestaurants() {
         return restaurantRepository.findAll().stream().map(restaurantMapper::toRestaurantResponse).toList();
+    }
+
+    @Override
+    public RestaurantResponse updateRestaurant(RestaurantUpdateRequest request) {
+        Restaurant restaurant = getRestaurantById(request.getId());
+        restaurant.setRestaurantPackage(packageRepository.findById(request.getPackId())
+                .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY)));
+        restaurant.setExpiryDate(LocalDateTime.now().plusMonths(request.getMonths()));
+        restaurantMapper.updateRestaurant(restaurant,request);
+        return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
+    }
+
+    @Override
+    public Restaurant getRestaurantById(Long id) {
+        return restaurantRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
     }
 }
