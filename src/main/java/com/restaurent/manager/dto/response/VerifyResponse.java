@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class VerifyResponse {
-    String phoneNumber;
+    String email;
     boolean status;
 }

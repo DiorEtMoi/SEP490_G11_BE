@@ -14,7 +14,12 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
-    ROLE_EXISTED(1009,"Role existed",HttpStatus.BAD_REQUEST)
+    ROLE_EXISTED(1009,"Role existed",HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(400,"Invalid code",HttpStatus.BAD_REQUEST),
+    INVALID_USERNAME(400,"username can not empty",HttpStatus.BAD_REQUEST),
+    INVALID_PHONENUMBER(400,"invalid phone number",HttpStatus.BAD_REQUEST),
+    INVALID_EMAIL(400,"invalid email",HttpStatus.BAD_REQUEST)
+
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
