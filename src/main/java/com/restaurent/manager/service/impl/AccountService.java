@@ -131,6 +131,7 @@ public class AccountService implements IAccountService {
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("scope",buildScope(user))
+                .claim("email",user.getEmail())
                 .jwtID(UUID.randomUUID().toString())
                 .build();
         Payload payload = new Payload(claims.toJSONObject());
