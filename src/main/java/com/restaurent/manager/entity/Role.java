@@ -25,8 +25,18 @@ public class Role {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<Account> accounts = new HashSet<>();
+    @OneToMany(mappedBy = "role",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Employee> employees;
     public void assignAccount(Account account){
         this.accounts.add(account);
         account.setRole(this);
+    }
+    public void assginEmployee(Employee employee){
+        this.employees.add(employee);
+        employee.setRole(this);
     }
 }

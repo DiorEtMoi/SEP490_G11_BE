@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -26,6 +26,28 @@ public class Restaurant {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
+    @OneToMany(mappedBy = "restaurant",
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private Set<Employee> employees;
+    @OneToMany(mappedBy = "restaurant",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Customer> customers;
+    @OneToMany(mappedBy = "restaurant",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Area> areas;
+    public void addEmployee(Employee employee){
+        this.employees.add(employee);
+        employee.setRestaurant(this);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
