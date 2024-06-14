@@ -102,7 +102,7 @@ public class AccountService implements IAccountService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         boolean authenticated =  passwordEncoder.matches(req.getPassword(), account.getPassword());
         if(!authenticated){
-            throw new AppException(ErrorCode.UNAUTHENTICATED);
+            throw new AppException(ErrorCode.PASSWORD_INCORRECT);
         }
         String token = generateToken(account);
         return AuthenticationResponse.builder()

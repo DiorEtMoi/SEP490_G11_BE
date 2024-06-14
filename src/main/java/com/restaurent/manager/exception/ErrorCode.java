@@ -18,7 +18,8 @@ public enum ErrorCode {
     INVALID_TOKEN(400,"Invalid code",HttpStatus.BAD_REQUEST),
     INVALID_USERNAME(400,"username can not empty",HttpStatus.BAD_REQUEST),
     INVALID_PHONENUMBER(400,"invalid phone number",HttpStatus.BAD_REQUEST),
-    INVALID_EMAIL(400,"invalid email",HttpStatus.BAD_REQUEST)
+    INVALID_EMAIL(400,"invalid email",HttpStatus.BAD_REQUEST),
+    PASSWORD_INCORRECT(400,"Incorrect password",HttpStatus.BAD_REQUEST)
 
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
