@@ -59,6 +59,9 @@ public class AccountService implements IAccountService {
         if(accountRepository.existsByPhoneNumberAndStatus(req.getPhoneNumber(), true)){
             throw new AppException(ErrorCode.PHONENUMBER_EXIST);
         }
+        if(accountRepository.existsByEmailAndStatus(req.getEmail(),false)){
+            accountRepository.delete(accountRepository.findByEmail(req.getEmail()).orElseThrow());
+        }
         Account account = accountMapper.toAccount(req);
         String otp = emailService.generateCode(6);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
