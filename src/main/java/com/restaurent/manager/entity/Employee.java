@@ -12,7 +12,8 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Employee {
     @Id
-    String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String username;
     String password;
     String employeeName;
