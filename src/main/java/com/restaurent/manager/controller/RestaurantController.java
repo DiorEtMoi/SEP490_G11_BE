@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.request.Restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.RestaurantResponse;
 import com.restaurent.manager.service.IRestaurantService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@SecurityRequirement(name = "bearerAuth")
 public class RestaurantController {
     IRestaurantService restaurantService;
     @PostMapping("/init")

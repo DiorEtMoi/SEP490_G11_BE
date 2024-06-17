@@ -28,7 +28,7 @@ public class ApplicationConfig {
     @Bean
     ApplicationRunner applicationRunner(AccountRepository repository){
         return args -> {
-            if(repository.findByEmail("dinhhoan05112gmail.com").isEmpty()){
+            if(repository.findByEmail("dinhhoan0511@gmail.com").isEmpty()){
                 Role roleRequest = new Role();
                 roleRequest.setName(RoleSystem.ADMIN.name());
                 roleRequest.setDescription("Admin of system");

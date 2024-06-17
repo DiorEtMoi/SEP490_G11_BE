@@ -1,4 +1,4 @@
-package com.restaurent.manager.dto.request;
+package com.restaurent.manager.dto.request.employee;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -10,8 +10,6 @@ public class EmployeeRequest {
     String username;
     String password;
     String employeeName;
-    String email;
-    String phoneNumber;
     Long accountId;
     Long roleId;
 }

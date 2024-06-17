@@ -4,6 +4,7 @@ import com.restaurent.manager.dto.request.PermissionRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.PermissionResponse;
 import com.restaurent.manager.service.IPermissionService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping(value = "/api/permission")
 @AllArgsConstructor
 @FieldDefaults(makeFinal = true)
+@SecurityRequirement(name = "bearerAuth")
 public class PermissionController {
     IPermissionService permissionService;
     @PostMapping("/create")

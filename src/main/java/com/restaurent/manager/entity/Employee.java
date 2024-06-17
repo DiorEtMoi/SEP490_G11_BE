@@ -27,4 +27,15 @@ public class Employee {
     cascade = CascadeType.ALL,
     orphanRemoval = true)
     Set<Order> orders;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee )) return false;
+        return id != null && id.equals(((Employee) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
