@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Set;
+
 @Data
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -18,4 +20,13 @@ public class Customer {
     float point;
     @ManyToOne(fetch = FetchType.LAZY)
     Restaurant restaurant;
+    @OneToMany(mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    Set<Order> orders;
+    public void addOrder(Order order){
+        this.orders.add(order);
+        order.setCustomer(this);
+    }
 }

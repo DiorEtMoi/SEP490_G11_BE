@@ -1,19 +1,18 @@
 package com.restaurent.manager.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Entity
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Employee {
     @Id
-    String employeeId;
+    String id;
     String username;
     String password;
     String employeeName;
@@ -23,4 +22,8 @@ public class Employee {
     Restaurant restaurant;
     @ManyToOne(fetch = FetchType.LAZY)
     Role role;
+    @OneToMany(mappedBy = "employee",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true)
+    Set<Order> orders;
 }
