@@ -17,6 +17,7 @@ public enum ErrorCode {
     UNAUTHORIZED(403, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(400, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
     ROLE_EXISTED(400,"Role existed",HttpStatus.BAD_REQUEST),
+    ROLE_NOT_EXISTED(400,"Role not existed",HttpStatus.BAD_REQUEST),
     INVALID_TOKEN(400,"Invalid code",HttpStatus.BAD_REQUEST),
     INVALID_USERNAME(400,"username can not empty",HttpStatus.BAD_REQUEST),
     INVALID_PHONENUMBER(400,"invalid phone number",HttpStatus.BAD_REQUEST),
