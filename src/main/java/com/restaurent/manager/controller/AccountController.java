@@ -56,7 +56,7 @@ public class AccountController {
                 .build();
     }
     @PostMapping("/regenerated-otp")
-    public ApiResponse<String> regeneratedOtp(@RequestBody String  email){
+    public ApiResponse<String> regeneratedOtp(@RequestBody VerifyAccount email){
         return ApiResponse.<String>builder()
                 .result(accountService.regenerateOtp(email))
                 .build();

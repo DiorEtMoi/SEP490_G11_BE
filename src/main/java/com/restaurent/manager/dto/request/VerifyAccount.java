@@ -14,6 +14,5 @@ import lombok.NoArgsConstructor;
 public class VerifyAccount {
     @ValidEmail(message = "INVALID_EMAIL")
     private String email;
-    @NotNull
     private String otp;
 }

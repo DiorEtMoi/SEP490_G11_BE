@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatusCode;
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(500, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(400, "Uncategorized error", HttpStatus.BAD_REQUEST),
-    USER_EXISTED(400, "User existed", HttpStatus.BAD_REQUEST),
+    USER_EXISTED(400, "Phone number or email is exist in system", HttpStatus.BAD_REQUEST),
+    EMAIL_EXIST(400, "Email existed", HttpStatus.BAD_REQUEST),
+    PHONENUMBER_EXIST(400, "Phone number existed", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(400, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
     INVALID_PASSWORD(400, "Password must be at least {min} characters", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(404, "User not existed", HttpStatus.NOT_FOUND),

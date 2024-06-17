@@ -20,12 +20,10 @@ import com.restaurent.manager.repository.RoleRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IEmailService;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +40,7 @@ import java.util.UUID;
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 public class AccountService implements IAccountService {
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -54,8 +53,11 @@ public class AccountService implements IAccountService {
 
     @Override
     public AccountResponse register(AccountRequest req) {
-        if(accountRepository.existsByEmail(req.getEmail())){
-            throw new AppException(ErrorCode.USER_EXISTED);
+        if(accountRepository.existsByEmailAndStatus(req.getEmail(), true)){
+            throw new AppException(ErrorCode.EMAIL_EXIST);
+        }
+        if(accountRepository.existsByPhoneNumberAndStatus(req.getPhoneNumber(), true)){
+            throw new AppException(ErrorCode.PHONENUMBER_EXIST);
         }
         Account account = accountMapper.toAccount(req);
         String otp = emailService.generateCode(6);
@@ -112,8 +114,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public String regenerateOtp(String email) {
-        Account account = accountRepository.findByEmailAndStatus(email,false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public String regenerateOtp(VerifyAccount req) {
+        Account account = accountRepository.findByEmailAndStatus(req.getEmail(), false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         String otp = emailService.generateCode(6);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());

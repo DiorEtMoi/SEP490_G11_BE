@@ -14,6 +14,6 @@ public interface IAccountService {
     List<AccountResponse> getAccounts();
     VerifyResponse verifyAccount(VerifyAccount req);
     AuthenticationResponse authenticated(AuthenticationRequest req);
-    String regenerateOtp(String phoneNumber);
+    String regenerateOtp(VerifyAccount req);
 
 }

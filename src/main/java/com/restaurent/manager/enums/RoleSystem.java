@@ -9,5 +9,5 @@ public enum RoleSystem {
     //Dau Bep
     CHEF,
     //Le Tan
-    RECEPTIONIST
+    HOSTESS
 }

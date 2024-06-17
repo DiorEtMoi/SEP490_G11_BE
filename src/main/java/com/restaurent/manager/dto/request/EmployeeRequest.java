@@ -12,6 +12,6 @@ public class EmployeeRequest {
     String employeeName;
     String email;
     String phoneNumber;
-    Long restaurantId;
+    Long accountId;
     Long roleId;
 }

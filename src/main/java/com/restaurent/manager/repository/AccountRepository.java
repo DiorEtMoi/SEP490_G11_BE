@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account,Long> {
-    boolean existsByEmail(String email);
+    boolean existsByEmailAndStatus(String email,boolean status);
+    boolean existsByPhoneNumberAndStatus(String phoneNumber,boolean status);
+
     Optional<Account> findByEmailAndStatus(String email,boolean status);
     Optional<Account> findByEmail(String userName);
+    void deleteByEmail(String email);
 }
