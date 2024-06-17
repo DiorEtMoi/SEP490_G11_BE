@@ -122,6 +122,7 @@ public class AccountService implements IAccountService {
         String otp = emailService.generateCode(6);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());
+        accountRepository.save(account);
         String body = "Your OTP is : " + otp;
         emailService.sendEmail(account.getEmail(),body,"Verify account ");
         return "New otp are generated !";
