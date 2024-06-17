@@ -7,19 +7,15 @@ import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
-@Data
 @Entity
+@Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Area {
+public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    Restaurant restaurant;
-    @OneToMany(mappedBy = "area",
-        cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    Set<TableRestaurant> tableRestaurants;
+    @OneToMany(mappedBy = "unit",
+    cascade = CascadeType.ALL)
+    Set<Dish> dishes;
 }
