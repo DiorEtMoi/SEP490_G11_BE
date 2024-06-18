@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     List<Employee> findByRestaurant_Id(Long restaurantId);
+    boolean existsByUsername(String userName);
 }

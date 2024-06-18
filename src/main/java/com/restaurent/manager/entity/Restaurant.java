@@ -44,6 +44,8 @@ public class Restaurant {
             orphanRemoval = true
     )
     private Set<Area> areas;
+    private double moneyToPoint;
+    private double pointToMoney;
     public void addEmployee(Employee employee){
         this.employees.add(employee);
         employee.setRestaurant(this);
