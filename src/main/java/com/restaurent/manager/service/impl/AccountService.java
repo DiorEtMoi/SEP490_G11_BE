@@ -128,6 +128,13 @@ public class AccountService implements IAccountService {
         return "New otp are generated !";
     }
 
+    @Override
+    public Account findAccountByID(Long id) {
+        return accountRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
+        );
+    }
+
     private String generateToken(Account user){
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
                 .issuer(user.getUsername())

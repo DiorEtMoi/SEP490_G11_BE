@@ -1,4 +1,4 @@
-package com.restaurent.manager.dto.request.Restaurant;
+package com.restaurent.manager.dto.request.restaurant;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

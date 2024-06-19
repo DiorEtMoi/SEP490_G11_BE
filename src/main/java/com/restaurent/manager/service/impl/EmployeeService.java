@@ -33,11 +33,11 @@ public class EmployeeService implements IEmployeeService {
     EmployeeRepository employeeRepository;
     @Override
     public EmployeeResponse createEmployee(EmployeeRequest request) {
-        if(employeeRepository.existsByUsername(request.getUsername())){
+        Restaurant restaurant = restaurantRepository.findByAccount_Id(request.getAccountId());
+        if(employeeRepository.existsByUsernameAndRestaurant_Id(request.getUsername(),restaurant.getId())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         Employee employee = employeeMapper.toEmployee(request);
-        Restaurant restaurant = restaurantRepository.findByAccount_Id(request.getAccountId());
         Role role = roleRepository.findById(request.getRoleId()).orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_EXISTED)
         );
         restaurant.addEmployee(employee);

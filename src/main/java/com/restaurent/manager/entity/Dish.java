@@ -26,4 +26,6 @@ public class Dish {
     Unit unit;
     @OneToMany(mappedBy = "dish")
     Set<DishOrder> dishOrders;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Account account;
 }
