@@ -10,4 +10,6 @@ import java.util.List;
 public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
 List<Restaurant> findByRestaurantPackageIdIsNotNullAndExpiryDateBefore(LocalDateTime time);
 Restaurant findByAccount_Id(Long accountID);
+boolean existsByRestaurantName(String restaurantName);
+boolean existsByAccount_Id(Long accountId);
 }

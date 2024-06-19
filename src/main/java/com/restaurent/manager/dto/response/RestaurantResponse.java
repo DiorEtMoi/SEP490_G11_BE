@@ -19,4 +19,5 @@ public class RestaurantResponse {
     private String district;
     private PackageResponse restaurantPackage;
     private LocalDateTime expiryDate;
+    private String token;
 }
