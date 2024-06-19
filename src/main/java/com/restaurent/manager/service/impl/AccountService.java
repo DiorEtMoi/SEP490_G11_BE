@@ -135,7 +135,7 @@ public class AccountService implements IAccountService {
         );
     }
 
-    private String generateToken(Account user){
+    public String generateToken(Account user){
         String restaurantId = "";
         if(user.getRestaurant() != null){
             restaurantId = user.getRestaurant().getId().toString();
@@ -162,7 +162,7 @@ public class AccountService implements IAccountService {
         }
         return token.serialize();
     }
-    private String buildScope(Account user){
+    public String buildScope(Account user){
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(user.getRole() != null){
             stringJoiner.add(user.getRole().getName());

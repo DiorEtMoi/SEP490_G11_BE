@@ -30,9 +30,15 @@ public class RestaurantService implements IRestaurantService {
     RestaurantRepository restaurantRepository;
     AccountRepository accountRepository;
     PackageRepository packageRepository;
+    AccountService accountService;
     @Override
     public RestaurantResponse initRestaurant(RestaurantRequest request) {
-
+        if(restaurantRepository.existsByAccount_Id(request.getAccountId())){
+            throw new AppException(ErrorCode.LIMITED_RESTAURANT);
+        }
+        if(restaurantRepository.existsByRestaurantName((request.getRestaurantName()))){
+            throw new AppException(ErrorCode.RESTAURANT_NAME_EXISTED);
+        }
         Restaurant restaurant = restaurantMapper.toRestaurant(request);
         Account account = accountRepository.findById(request.getAccountId()).orElseThrow(() ->
                 new AppException(ErrorCode.USER_NOT_EXISTED)
@@ -40,7 +46,11 @@ public class RestaurantService implements IRestaurantService {
         restaurant.setAccount(account);
         restaurant.setRestaurantPackage(packageRepository.findByPackName("Trial"));
         restaurant.setExpiryDate(LocalDateTime.now().plusDays(7));
-        return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
+        account.setRestaurant(restaurant);
+        Restaurant restaurantSaved = restaurantRepository.save(restaurant);
+        RestaurantResponse restaurantResponse = restaurantMapper.toRestaurantResponse(restaurantSaved);
+        restaurantResponse.setToken(accountService.generateToken(account));
+        return restaurantResponse;
     }
 
     @Override
@@ -50,6 +60,9 @@ public class RestaurantService implements IRestaurantService {
 
     @Override
     public RestaurantResponse updateRestaurant(RestaurantUpdateRequest request) {
+        if(restaurantRepository.existsByRestaurantName((request.getRestaurantName()))){
+            throw new AppException(ErrorCode.RESTAURANT_NAME_EXISTED);
+        }
         Restaurant restaurant = getRestaurantById(request.getId());
         restaurant.setRestaurantPackage(packageRepository.findById(request.getPackId())
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY)));
