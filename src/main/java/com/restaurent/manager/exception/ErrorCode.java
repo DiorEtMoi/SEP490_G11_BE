@@ -23,7 +23,8 @@ public enum ErrorCode {
     INVALID_PHONENUMBER(400,"invalid phone number",HttpStatus.BAD_REQUEST),
     INVALID_EMAIL(400,"invalid email",HttpStatus.BAD_REQUEST),
     PASSWORD_INCORRECT(400,"Incorrect password",HttpStatus.BAD_REQUEST),
-    DISH_CATEGORY_EXIST(400,"Dish category name is existed ",HttpStatus.BAD_REQUEST)
+    DISH_CATEGORY_EXIST(400,"Dish category name is existed ",HttpStatus.BAD_REQUEST),
+    RESTAURANT_NOT_EXISTED(404, "Restaurant not existed", HttpStatus.NOT_FOUND),
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
