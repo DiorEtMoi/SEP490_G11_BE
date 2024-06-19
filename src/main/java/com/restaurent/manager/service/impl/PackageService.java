@@ -31,8 +31,10 @@ public class PackageService implements IPackageService {
     public PackageResponse create(PackageRequest request) {
         Package pack = packageMapper.toPackage(request);
         List<Permission> permissions = permissionRepository.findAllById(request.getPermissions());
-        permissions.forEach(permission -> permission.addPermissionToPackage(pack));
-        pack.setPermissions(new HashSet<>(permissions));
+        if(!permissions.isEmpty()){
+            pack.setPermissions(new HashSet<>(permissions));
+            permissions.forEach(permission -> permission.getPackages().add(pack));
+        }
         return packageMapper.toPackResponse(packageRepository.save(pack));
     }
 

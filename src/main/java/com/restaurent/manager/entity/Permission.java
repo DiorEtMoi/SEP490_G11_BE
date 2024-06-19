@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,7 @@ public class Permission {
     private String name;
     private String description;
     @ManyToMany(mappedBy = "permissions",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Package> packages;
+    private Set<Package> packages = new HashSet<>();
 
     public void addPermissionToPackage(Package pack){
         pack.getPermissions().add(this);

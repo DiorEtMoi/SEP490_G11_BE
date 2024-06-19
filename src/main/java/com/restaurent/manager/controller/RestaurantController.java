@@ -1,7 +1,7 @@
 package com.restaurent.manager.controller;
 
-import com.restaurent.manager.dto.request.Restaurant.RestaurantRequest;
-import com.restaurent.manager.dto.request.Restaurant.RestaurantUpdateRequest;
+import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
+import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.RestaurantResponse;
 import com.restaurent.manager.service.IRestaurantService;

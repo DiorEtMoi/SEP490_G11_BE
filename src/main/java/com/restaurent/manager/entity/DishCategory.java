@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,5 +20,7 @@ public class DishCategory {
     @OneToMany(mappedBy = "dishCategory",
     cascade = CascadeType.ALL
     )
-    Set<Dish> dishes;
+    Set<Dish> dishes = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    Account account;
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -29,6 +30,6 @@ public class Package {
             joinColumns = @JoinColumn(name = "package_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id",referencedColumnName = "id")
     )
-    Set<Permission> permissions;
+    Set<Permission> permissions = new HashSet<>();
 
 }

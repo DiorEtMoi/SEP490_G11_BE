@@ -22,7 +22,8 @@ public enum ErrorCode {
     INVALID_USERNAME(400,"username can not empty",HttpStatus.BAD_REQUEST),
     INVALID_PHONENUMBER(400,"invalid phone number",HttpStatus.BAD_REQUEST),
     INVALID_EMAIL(400,"invalid email",HttpStatus.BAD_REQUEST),
-    PASSWORD_INCORRECT(400,"Incorrect password",HttpStatus.BAD_REQUEST)
+    PASSWORD_INCORRECT(400,"Incorrect password",HttpStatus.BAD_REQUEST),
+    DISH_CATEGORY_EXIST(400,"Dish category name is existed ",HttpStatus.BAD_REQUEST)
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
