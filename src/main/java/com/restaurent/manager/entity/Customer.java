@@ -17,7 +17,8 @@ public class Customer {
     String phoneNumber;
     String name;
     String address;
-    float point;
+    float currentPoint;
+    float totalPoint;
     @ManyToOne(fetch = FetchType.LAZY)
     Restaurant restaurant;
     @OneToMany(mappedBy = "customer",
@@ -25,6 +26,7 @@ public class Customer {
             orphanRemoval = true
     )
     Set<Order> orders;
+
     public void addOrder(Order order){
         this.orders.add(order);
         order.setCustomer(this);
