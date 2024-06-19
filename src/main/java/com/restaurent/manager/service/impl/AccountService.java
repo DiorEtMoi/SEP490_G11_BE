@@ -136,6 +136,10 @@ public class AccountService implements IAccountService {
     }
 
     private String generateToken(Account user){
+        String restaurantId = "";
+        if(user.getRestaurant() != null){
+            restaurantId = user.getRestaurant().getId().toString();
+        }
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
                 .issuer(user.getUsername())
                 .subject(user.getUsername())
@@ -145,6 +149,7 @@ public class AccountService implements IAccountService {
                 ))
                 .claim("scope",buildScope(user))
                 .claim("email",user.getEmail())
+                .claim("restaurantId",restaurantId)
                 .jwtID(UUID.randomUUID().toString())
                 .build();
         Payload payload = new Payload(claims.toJSONObject());
