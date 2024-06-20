@@ -12,6 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class PackageResponse {
+   private Long id;
    private String packName;
    private Set<PermissionResponse> permissions;
    private double pricePerMonth;
