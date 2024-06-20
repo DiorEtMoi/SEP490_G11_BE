@@ -26,4 +26,6 @@ public class TableRestaurant {
     Set<Order> orders;
     @ManyToOne(fetch = FetchType.LAZY)
     Area area;
+    float positionX;
+    float positionY;
 }

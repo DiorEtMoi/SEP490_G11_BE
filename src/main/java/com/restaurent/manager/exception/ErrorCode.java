@@ -26,7 +26,9 @@ public enum ErrorCode {
     DISH_CATEGORY_EXIST(400,"Dish category name is existed ",HttpStatus.BAD_REQUEST),
     RESTAURANT_NOT_EXISTED(404, "Restaurant not existed", HttpStatus.NOT_FOUND),
     LIMITED_RESTAURANT(400,"You can only create one restaurant ",HttpStatus.BAD_REQUEST),
-    RESTAURANT_NAME_EXISTED(400,"Restaurant name is exist ",HttpStatus.BAD_REQUEST)
+    RESTAURANT_NAME_EXISTED(400,"Restaurant name is exist ",HttpStatus.BAD_REQUEST),
+    FIELD_EMPTY(400,"this field can not empty",HttpStatus.BAD_REQUEST),
+    NUMBER_CHAIRS_TOO_FEW(400,"number chairs must be greater than 3", HttpStatus.BAD_REQUEST)
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
