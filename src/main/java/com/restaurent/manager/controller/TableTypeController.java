@@ -1,6 +1,7 @@
 package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.TableTypeRequest;
+import com.restaurent.manager.dto.request.TableTypeUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.TableTypeResponse;
 import com.restaurent.manager.service.ITableTypeService;
@@ -30,6 +31,19 @@ public class TableTypeController {
     public ApiResponse<TableTypeResponse> createTableType(@RequestBody @Valid TableTypeRequest request){
         return ApiResponse.<TableTypeResponse>builder()
                 .result(tableTypeService.createTableType(request))
+                .build();
+    }
+    @PutMapping(value = "/update")
+    public ApiResponse<TableTypeResponse> updateTableTypeById(@RequestBody TableTypeUpdateRequest request){
+        return ApiResponse.<TableTypeResponse>builder()
+                .result(tableTypeService.updateTableType(request))
+                .build();
+    }
+    @DeleteMapping(value = "/{tableTypeId}")
+    public ApiResponse<Void> deleteTableType(@PathVariable String tableTypeId){
+        tableTypeService.deleteTableType(Long.parseLong(tableTypeId));
+        return ApiResponse.<Void>builder()
+                .message("Delete success")
                 .build();
     }
 }
