@@ -28,8 +28,9 @@ public enum ErrorCode {
     LIMITED_RESTAURANT(400,"You can only create one restaurant ",HttpStatus.BAD_REQUEST),
     RESTAURANT_NAME_EXISTED(400,"Restaurant name is exist ",HttpStatus.BAD_REQUEST),
     FIELD_EMPTY(400,"this field can not empty",HttpStatus.BAD_REQUEST),
-    NUMBER_CHAIRS_TOO_FEW(400,"number chairs must be greater than 3", HttpStatus.BAD_REQUEST),
-    NOT_EXIST(404,"id not exist ",HttpStatus.BAD_REQUEST)
+    NUMBER_CHAIRS_TOO_FEW(400,"number chairs must be greater than {min}", HttpStatus.BAD_REQUEST),
+    NOT_EXIST(404,"id not exist ",HttpStatus.BAD_REQUEST),
+    GREATER_NUMBER(400,"can not set field equal 0 or less than 0",HttpStatus.BAD_REQUEST)
     ;
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
