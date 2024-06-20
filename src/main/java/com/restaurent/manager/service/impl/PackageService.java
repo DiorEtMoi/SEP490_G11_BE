@@ -44,12 +44,31 @@ public class PackageService implements IPackageService {
     }
 
     @Override
-    public PackageResponse addPermission(Long permissionID,int packId) {
+    public PackageResponse addPermission(Long permissionID,Long packId) {
         Permission permission = permissionRepository.findById(permissionID).orElseThrow(() ->
                 new AppException(ErrorCode.INVALID_KEY));
         Package pack = packageRepository.findById(packId).orElseThrow(() ->
                 new AppException(ErrorCode.INVALID_KEY));
         permission.addPermissionToPackage(pack);
         return packageMapper.toPackResponse(packageRepository.save(pack));
+    }
+
+    @Override
+    public PackageResponse updatePackage(Long id, PackageRequest packageRequest) {
+        Package pack = findPackById(id);
+        packageMapper.updatePackage(pack,packageRequest);
+        List<Permission> permissions = permissionRepository.findAllById(packageRequest.getPermissions());
+        if(!permissions.isEmpty()){
+            pack.setPermissions(new HashSet<>(permissions));
+            permissions.forEach(permission -> permission.getPackages().add(pack));
+        }
+        return packageMapper.toPackResponse(pack);
+    }
+
+    @Override
+    public Package findPackById(Long id) {
+        return packageRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
     }
 }

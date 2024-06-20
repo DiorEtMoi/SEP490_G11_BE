@@ -18,4 +18,6 @@ public class PackageRequest {
     @NotNull(message = "INVALID")
     private String packName;
     private Set<Long> permissions;
+    private double pricePerMonth;
+    private double pricePerYear;
 }

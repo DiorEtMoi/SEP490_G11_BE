@@ -16,7 +16,7 @@ import java.util.Set;
 public class Package {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
     String packName;
     @OneToMany(mappedBy = "restaurantPackage",
             fetch = FetchType.LAZY,
@@ -31,5 +31,6 @@ public class Package {
             inverseJoinColumns = @JoinColumn(name = "permission_id",referencedColumnName = "id")
     )
     Set<Permission> permissions = new HashSet<>();
-
+    double pricePerMonth;
+    double pricePerYear;
 }

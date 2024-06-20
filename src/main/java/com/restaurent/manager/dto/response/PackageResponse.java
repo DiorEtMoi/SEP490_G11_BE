@@ -14,4 +14,6 @@ import java.util.Set;
 public class PackageResponse {
    private String packName;
    private Set<PermissionResponse> permissions;
+   private double pricePerMonth;
+   private double pricePerYear;
 }

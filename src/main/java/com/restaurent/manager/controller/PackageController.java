@@ -34,10 +34,16 @@ public class PackageController {
     }
     @PutMapping("/{packId}/permission/{permissionId}")
     public ApiResponse<PackageResponse> addPermission(@PathVariable String packId, @PathVariable String permissionId ){
-            int pId = Integer.parseInt(packId);
+            Long pId = Long.parseLong(packId);
             Long perId = Long.parseLong(permissionId);
             return ApiResponse.<PackageResponse>builder()
                     .result(packageService.addPermission(perId,pId))
                     .build();
+    }
+    @PutMapping("/{packId}")
+    public ApiResponse<PackageResponse> updatePackage(@PathVariable String packId,@RequestBody PackageRequest request){
+        return ApiResponse.<PackageResponse>builder()
+                .result(packageService.updatePackage(Long.parseLong(packId),request))
+                .build();
     }
 }
