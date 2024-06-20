@@ -1,8 +1,11 @@
 package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.TableTypeRequest;
+import com.restaurent.manager.dto.request.TableTypeUpdateRequest;
 import com.restaurent.manager.dto.response.TableTypeResponse;
 import com.restaurent.manager.entity.TableType;
+import com.restaurent.manager.exception.AppException;
+import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.TableTypeMapper;
 import com.restaurent.manager.repository.TableTypeRepository;
 import com.restaurent.manager.service.ITableTypeService;
@@ -29,5 +32,25 @@ public class TableTypeService implements ITableTypeService {
     @Override
     public List<TableTypeResponse> getTableTypes() {
         return tableTypeRepository.findAll().stream().map(tableTypeMapper::toTableTypeResponse).toList();
+    }
+
+    @Override
+    public void deleteTableType(Long id) {
+        TableType tableType = findTableTypeById(id);
+        tableTypeRepository.delete(tableType);
+    }
+
+    @Override
+    public TableType findTableTypeById(Long id) {
+        return tableTypeRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+    }
+
+    @Override
+    public TableTypeResponse updateTableType(TableTypeUpdateRequest request) {
+        TableType tableType = findTableTypeById(request.getId());
+        tableTypeMapper.updateRestaurant(tableType,request);
+        return tableTypeMapper.toTableTypeResponse(tableType);
     }
 }
