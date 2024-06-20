@@ -12,4 +12,6 @@ public interface PackageMapper {
     @Mapping(target = "permissions", ignore = true)
     Package toPackage(PackageRequest request);
     PackageResponse toPackResponse(Package pack);
+    @Mapping(target = "permissions", ignore = true)
+    void updatePackage(@MappingTarget Package pack,PackageRequest request);
 }
