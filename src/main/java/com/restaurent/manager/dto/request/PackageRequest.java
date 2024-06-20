@@ -1,6 +1,7 @@
 package com.restaurent.manager.dto.request;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +19,8 @@ public class PackageRequest {
     @NotNull(message = "INVALID")
     private String packName;
     private Set<Long> permissions;
+    @Min(value = 1,message = "GREATER_NUMBER")
     private double pricePerMonth;
+    @Min(value = 1,message = "GREATER_NUMBER")
     private double pricePerYear;
 }
