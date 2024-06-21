@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface IAccountService {
     AccountResponse register(AccountRequest req);
-    List<AccountResponse> getAccountsByRoleId(Long roleId);
+    List<AccountResponse> getAccountsManager();
     VerifyResponse verifyAccount(VerifyAccount req);
     AuthenticationResponse authenticated(AuthenticationRequest req);
     String regenerateOtp(VerifyAccount req);

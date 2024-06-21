@@ -30,11 +30,11 @@ public class AccountController {
                 .build();
     }
     @SecurityRequirement(name = "bearerAuth")
-    @GetMapping(value = "/role/{roleId}")
-    public ApiResponse<List<AccountResponse>> getAccountsByRoleId(@PathVariable String roleId){
+    @GetMapping(value = "/manager")
+    public ApiResponse<List<AccountResponse>> getAccountsByRoleId(){
         return ApiResponse.<List<AccountResponse>>
                 builder()
-                .result(accountService.getAccountsByRoleId(Long.parseLong(roleId)))
+                .result(accountService.getAccountsManager())
                 .build();
     }
     @PostMapping("/verify")
