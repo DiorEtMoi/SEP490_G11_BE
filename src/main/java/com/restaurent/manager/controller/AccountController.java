@@ -70,5 +70,10 @@ public class AccountController {
         authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
         return "";
     }
-
+    @GetMapping("/{accountId}")
+    public ApiResponse<AccountResponse> getAccountById(@PathVariable String accountId){
+        return  ApiResponse.<AccountResponse>builder()
+                .result(accountService.getAccountById(Long.parseLong(accountId)))
+                .build();
+    }
 }

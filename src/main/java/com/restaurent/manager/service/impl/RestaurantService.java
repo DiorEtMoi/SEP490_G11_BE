@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.request.restaurant.RestaurantManagerUpdateRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.RestaurantResponse;
@@ -59,14 +60,21 @@ public class RestaurantService implements IRestaurantService {
     }
 
     @Override
-    public RestaurantResponse updateRestaurant(RestaurantUpdateRequest request) {
-        if(restaurantRepository.existsByRestaurantName((request.getRestaurantName()))){
-            throw new AppException(ErrorCode.RESTAURANT_NAME_EXISTED);
-        }
-        Restaurant restaurant = getRestaurantById(request.getId());
+    public RestaurantResponse updateRestaurant(Long restaurantId,RestaurantUpdateRequest request) {
+        Restaurant restaurant = getRestaurantById(restaurantId);
         restaurant.setRestaurantPackage(packageRepository.findById(request.getPackId())
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY)));
         restaurant.setExpiryDate(LocalDateTime.now().plusMonths(request.getMonths()));
+        restaurantMapper.updateRestaurant(restaurant,request);
+        return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
+    }
+
+    @Override
+    public RestaurantResponse updateRestaurant(Long accountId, RestaurantManagerUpdateRequest request) {
+        Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
+        if(restaurant == null){
+            throw new AppException(ErrorCode.NOT_EXIST);
+        }
         restaurantMapper.updateRestaurant(restaurant,request);
         return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
     }

@@ -17,5 +17,6 @@ public interface IAccountService {
     AuthenticationResponse authenticated(AuthenticationRequest req);
     String regenerateOtp(VerifyAccount req);
     Account findAccountByID(Long id);
+    AccountResponse getAccountById(Long id);
 
 }

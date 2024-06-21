@@ -12,11 +12,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantUpdateRequest {
-    @Valid
-    @NotNull(message = "id pack is require to update")
-    private Long packId;
-    @NotNull(message = "months is require for extend package")
-    @Min(value = 1, message = "extend package months must be equal or greater than 1")
-    private int months;
+public class RestaurantManagerUpdateRequest {
+    private String restaurantName;
+    private String address;
+    private String province;
+    private String district;
 }
