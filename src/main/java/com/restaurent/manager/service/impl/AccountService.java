@@ -136,6 +136,13 @@ public class AccountService implements IAccountService {
         );
     }
 
+    @Override
+    public AccountResponse getAccountById(Long accountId) {
+        return accountMapper.toAccountResponse(
+                findAccountByID(accountId)
+        );
+    }
+
     public String generateToken(Account user){
         String restaurantId = "";
         if(user.getRestaurant() != null){

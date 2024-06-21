@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.request.restaurant.RestaurantManagerUpdateRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
@@ -35,10 +36,16 @@ public class RestaurantController {
                 .result(restaurantService.getRestaurants())
                 .build();
     }
-    @PutMapping("/update")
-    public ApiResponse<RestaurantResponse> updateRestaurant(@RequestBody @Valid RestaurantUpdateRequest request){
+    @PutMapping("/admin/{restaurantId}")
+    public ApiResponse<RestaurantResponse> updateRestaurant(@PathVariable String restaurantId ,@RequestBody @Valid RestaurantUpdateRequest request){
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.updateRestaurant(request))
+                .result(restaurantService.updateRestaurant(Long.parseLong(restaurantId),request))
+                .build();
+    }
+    @PutMapping("/manager/{accountId}")
+    public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable String accountId,@RequestBody RestaurantManagerUpdateRequest request){
+        return ApiResponse.<RestaurantResponse>builder()
+                .result(restaurantService.updateRestaurant(Long.parseLong(accountId),request))
                 .build();
     }
     @GetMapping("/account/{accountID}")
