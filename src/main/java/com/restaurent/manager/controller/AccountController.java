@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.VerifyAccount;
 import com.restaurent.manager.dto.response.*;
 import com.restaurent.manager.service.IAccountService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -28,11 +29,12 @@ public class AccountController {
                 .result(accountService.register(req))
                 .build();
     }
-    @GetMapping
-    public ApiResponse<List<AccountResponse>> getRoles(){
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping(value = "/role/{roleId}")
+    public ApiResponse<List<AccountResponse>> getAccountsByRoleId(@PathVariable String roleId){
         return ApiResponse.<List<AccountResponse>>
                 builder()
-                .result(accountService.getAccounts())
+                .result(accountService.getAccountsByRoleId(Long.parseLong(roleId)))
                 .build();
     }
     @PostMapping("/verify")
