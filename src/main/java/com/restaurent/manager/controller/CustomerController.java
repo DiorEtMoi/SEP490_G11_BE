@@ -6,6 +6,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.CustomerResponse;
 import com.restaurent.manager.service.ICustomerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,14 +21,14 @@ public class CustomerController {
     private ICustomerService customerService;
 
     @PostMapping("create")
-    public ApiResponse<CustomerResponse> createCustomer(@RequestBody CustomerRequest customerRequest) {
+    public ApiResponse<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
         return ApiResponse.<CustomerResponse>builder()
                 .result(customerService.createCustomer(customerRequest))
                 .build();
     }
 
     @PutMapping("update")
-    public ApiResponse<CustomerResponse> updateCustomer(@RequestBody CustomerUpdateRequest customerUpdateRequest) {
+    public ApiResponse<CustomerResponse> updateCustomer(@RequestBody @Valid CustomerUpdateRequest customerUpdateRequest) {
         return ApiResponse.<CustomerResponse>builder()
                 .result(customerService.updateCustomer(customerUpdateRequest))
                 .build();

@@ -30,8 +30,14 @@ public enum ErrorCode {
     FIELD_EMPTY(400,"this field can not empty",HttpStatus.BAD_REQUEST),
     NUMBER_CHAIRS_TOO_FEW(400,"number chairs must be greater than {min}", HttpStatus.BAD_REQUEST),
     NOT_EXIST(404,"id not exist ",HttpStatus.BAD_REQUEST),
-    GREATER_NUMBER(400,"can not set field equal 0 or less than 0",HttpStatus.BAD_REQUEST)
-    ;
+    GREATER_NUMBER(400,"can not set field equal 0 or less than 0",HttpStatus.BAD_REQUEST),
+    DISH_NOT_FOUND(404,"Dish not existed" , HttpStatus.NOT_FOUND ),
+    INVALID_COMBO_PRICE(400, "Combo price must be number and greater than 0", HttpStatus.BAD_REQUEST),
+    INVALID_COMBO_DESCRIPTION(400, "Combo description can not be empty", HttpStatus.BAD_REQUEST),
+    INVALID_CUSTOMER_NAME(400, "Customer name can not be empty", HttpStatus.BAD_REQUEST),
+    COMBO_NOT_EXISTED(400, "Combo not existed", HttpStatus.NOT_FOUND),
+    INVALID_COMBO_NAME(400, "Combo name can not empty", HttpStatus.BAD_REQUEST);
+
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
         this.message = message;
