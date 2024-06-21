@@ -41,4 +41,10 @@ public class RestaurantController {
                 .result(restaurantService.updateRestaurant(request))
                 .build();
     }
+    @GetMapping("/account/{accountID}")
+    public ApiResponse<RestaurantResponse> getRestaurantByAccountId(@PathVariable String accountID){
+        return ApiResponse.<RestaurantResponse>builder()
+                .result(restaurantService.getRestaurantByAccountId(Long.parseLong(accountID)))
+                .build();
+    }
 }
