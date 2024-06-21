@@ -78,8 +78,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<AccountResponse> getAccounts() {
-        return accountRepository.findAll().stream().map(accountMapper::toAccountResponse).toList();
+    public List<AccountResponse> getAccountsByRoleId(Long roleId) {
+        return accountRepository.findByRole_Id(roleId).stream().map(accountMapper::toAccountResponse).toList();
     }
 
     @Override
