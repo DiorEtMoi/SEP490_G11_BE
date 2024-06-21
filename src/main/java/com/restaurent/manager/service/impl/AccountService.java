@@ -78,9 +78,10 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public List<AccountResponse> getAccountsByRoleId(Long roleId) {
-        return accountRepository.findByRole_Id(roleId).stream().map(accountMapper::toAccountResponse).toList();
+    public List<AccountResponse> getAccountsManager() {
+        return accountRepository.findByRole_Id(5L).stream().map(accountMapper::toAccountResponse).toList();
     }
+
 
     @Override
     public VerifyResponse verifyAccount(VerifyAccount req) {
@@ -150,6 +151,7 @@ public class AccountService implements IAccountService {
                 .claim("scope",buildScope(user))
                 .claim("email",user.getEmail())
                 .claim("restaurantId",restaurantId)
+                .claim("accountId",user.getId())
                 .jwtID(UUID.randomUUID().toString())
                 .build();
         Payload payload = new Payload(claims.toJSONObject());

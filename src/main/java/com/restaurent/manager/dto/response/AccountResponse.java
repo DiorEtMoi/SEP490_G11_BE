@@ -1,5 +1,6 @@
 package com.restaurent.manager.dto.response;
 
+import com.restaurent.manager.entity.Restaurant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,5 @@ public class AccountResponse {
     private String email;
     private boolean status;
     private RoleResponse role;
+    private RestaurantResponse restaurant;
 }
