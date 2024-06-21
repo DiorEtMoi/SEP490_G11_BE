@@ -75,4 +75,11 @@ public class RestaurantService implements IRestaurantService {
     public Restaurant getRestaurantById(Long id) {
         return restaurantRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY));
     }
+
+    @Override
+    public RestaurantResponse getRestaurantByAccountId(Long accountId) {
+        return restaurantMapper.toRestaurantResponse(
+                restaurantRepository.findByAccount_Id(accountId)
+        );
+    }
 }

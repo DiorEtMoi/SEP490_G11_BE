@@ -15,4 +15,6 @@ RestaurantResponse updateRestaurant(RestaurantUpdateRequest request);
 
 Restaurant getRestaurantById(Long id);
 
+RestaurantResponse getRestaurantByAccountId(Long accountId);
+
 }
