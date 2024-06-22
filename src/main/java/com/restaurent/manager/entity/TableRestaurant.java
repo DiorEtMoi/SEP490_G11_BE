@@ -14,7 +14,7 @@ import java.util.Set;
 public class TableRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id;
     int numberChairs;
     Long orderCurrent;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,6 +2,9 @@ package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.PermissionRequest;
 import com.restaurent.manager.dto.response.PermissionResponse;
+import com.restaurent.manager.entity.Permission;
+import com.restaurent.manager.exception.AppException;
+import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.PermissionMapper;
 import com.restaurent.manager.repository.PermissionRepository;
 import com.restaurent.manager.service.IPermissionService;
@@ -29,5 +32,19 @@ public class PermissionService implements IPermissionService {
     @Override
     public List<PermissionResponse> getPermissions() {
         return permissionRepository.findAll().stream().map(permissionMapper::toPermissionResponse).toList();
+    }
+
+    @Override
+    public PermissionResponse updatePermission(Long permissionId, PermissionRequest request) {
+        Permission permission = findPermissionById(permissionId);
+        permissionMapper.updatePermission(permission,request);
+        return permissionMapper.toPermissionResponse(permission);
+    }
+
+    @Override
+    public Permission findPermissionById(Long permissionId) {
+        return permissionRepository.findById(permissionId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
     }
 }

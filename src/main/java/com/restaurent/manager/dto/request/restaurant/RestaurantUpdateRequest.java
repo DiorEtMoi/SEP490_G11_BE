@@ -18,5 +18,5 @@ public class RestaurantUpdateRequest {
     private Long packId;
     @NotNull(message = "months is require for extend package")
     @Min(value = 1, message = "extend package months must be equal or greater than 1")
-    private int months;
+    private int days;
 }
