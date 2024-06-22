@@ -64,7 +64,7 @@ public class RestaurantService implements IRestaurantService {
         Restaurant restaurant = getRestaurantById(restaurantId);
         restaurant.setRestaurantPackage(packageRepository.findById(request.getPackId())
                 .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY)));
-        restaurant.setExpiryDate(LocalDateTime.now().plusMonths(request.getMonths()));
+        restaurant.setExpiryDate(LocalDateTime.now().plusDays(request.getDays()));
         restaurantMapper.updateRestaurant(restaurant,request);
         return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
     }
