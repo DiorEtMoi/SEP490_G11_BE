@@ -3,6 +3,7 @@ package com.restaurent.manager.service.impl;
 import com.restaurent.manager.dto.request.RoleRequest;
 import com.restaurent.manager.dto.response.RoleResponse;
 import com.restaurent.manager.entity.Role;
+import com.restaurent.manager.enums.RoleSystem;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.RoleMapper;
@@ -13,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,5 +35,21 @@ public class RoleService implements IRoleService {
     @Override
     public List<RoleResponse> getRoles() {
         return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
+    }
+    @Override
+    public List<RoleResponse> getRolesInRestaurant() {
+        List<RoleResponse> roles = new ArrayList<>();
+        roles.add(findRoleByName(RoleSystem.CHEF.name()));
+        roles.add(findRoleByName(RoleSystem.WAITER.name()));
+        roles.add(findRoleByName(RoleSystem.HOSTESS.name()));
+        return roles;
+    }
+
+    @Override
+    public RoleResponse findRoleByName(String name) {
+        return roleMapper.toRoleResponse(roleRepository.findByName(name)
+                .orElseThrow(
+                        () -> new AppException(ErrorCode.ROLE_NOT_EXISTED)
+                ));
     }
 }

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
 
@@ -84,14 +85,19 @@ public class PackageService implements IPackageService {
         Package pack = findPackById(restaurant.getRestaurantPackage().getId());
         List<PackageResponse> packages = packageRepository.findByPricePerMonthGreaterThan(pack.getPricePerMonth()).stream()
                 .map(packageMapper::toPackResponse).toList();
-        double moneyPerDay = pack.getPricePerMonth() / 30;
-        int daysLeft = restaurant.getExpiryDate().getDayOfMonth() - LocalDateTime.now().getDayOfMonth();
+        double moneyPerDay = pack.getPricePerMonth() / LocalDate.MAX.getDayOfMonth();
+        LocalDate expiryDate = restaurant.getExpiryDate().toLocalDate();
+        LocalDate currentDate = LocalDate.now();
+        long daysLeft = ChronoUnit.DAYS.between(currentDate, expiryDate);
+        log.info("Max day in month :" + LocalDate.MAX.getDayOfMonth());
+        log.info("Price per month :" + pack.getPricePerMonth());
+        log.info("moneyPerDay : " + moneyPerDay);
         double deposit = 0;
         if(daysLeft > 0){
             deposit = moneyPerDay * daysLeft;
         }
         return PackUpgradeResponse.builder()
-                .deposit(deposit)
+                .deposit(Math.ceil(deposit))
                 .packages(packages)
                 .build();
     }

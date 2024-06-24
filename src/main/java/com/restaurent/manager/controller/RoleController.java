@@ -26,10 +26,10 @@ public class RoleController {
                 .build();
     }
     @GetMapping
-    public ApiResponse<List<RoleResponse>> getRoles(){
+    public ApiResponse<List<RoleResponse>> getRolesInRestaurant(){
         return ApiResponse.<List<RoleResponse>>
                 builder()
-                .result(roleService.getRoles())
+                .result(roleService.getRolesInRestaurant())
                 .build();
     }
 }
