@@ -74,6 +74,9 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public List<EmployeeResponse> findEmployeesByAccountId(Long accountId) {
         Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
+        if(restaurant == null){
+            throw new AppException(ErrorCode.NOT_EXIST);
+        }
         return employeeRepository.findByRestaurant_Id(restaurant.getId()).stream().map(employeeMapper::toEmployeeResponse).toList();
     }
 }
