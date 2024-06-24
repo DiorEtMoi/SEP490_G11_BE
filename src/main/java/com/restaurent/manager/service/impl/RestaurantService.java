@@ -10,7 +10,6 @@ import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.RestaurantMapper;
 import com.restaurent.manager.repository.AccountRepository;
-import com.restaurent.manager.repository.PackageRepository;
 import com.restaurent.manager.repository.RestaurantRepository;
 import com.restaurent.manager.service.IPackageService;
 import com.restaurent.manager.service.IRestaurantService;
@@ -63,8 +62,7 @@ public class RestaurantService implements IRestaurantService {
     @Override
     public RestaurantResponse updateRestaurant(Long restaurantId,RestaurantUpdateRequest request) {
         Restaurant restaurant = getRestaurantById(restaurantId);
-        restaurant.setRestaurantPackage(packageRepository.findById(request.getPackId())
-                .orElseThrow(() -> new AppException(ErrorCode.INVALID_KEY)));
+        restaurant.setRestaurantPackage(packageService.findPackById(request.getPackId()));
         restaurant.setExpiryDate(LocalDateTime.now().plusDays(request.getDays()));
         restaurantMapper.updateRestaurant(restaurant,request);
         return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
