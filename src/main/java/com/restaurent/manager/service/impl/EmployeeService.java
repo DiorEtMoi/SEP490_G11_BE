@@ -50,6 +50,7 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request) {
         Employee employee = findEmployeeById(employeeId);
         employeeMapper.updateRestaurant(employee,request);
+        employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
