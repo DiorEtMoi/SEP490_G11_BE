@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 public class EmployeeRequest {
     String username;
     String password;
+    String phoneNumber;
     String employeeName;
     Long accountId;
     Long roleId;

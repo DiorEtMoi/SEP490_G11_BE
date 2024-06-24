@@ -17,7 +17,6 @@ public class Employee {
     String username;
     String password;
     String employeeName;
-    String email;
     String phoneNumber;
     @ManyToOne(fetch = FetchType.LAZY)
     Restaurant restaurant;

@@ -11,7 +11,6 @@ public class EmployeeResponse {
     String username;
     String password;
     String employeeName;
-    String email;
     String phoneNumber;
     RoleResponse role ;
 }
