@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PackageRepository extends JpaRepository<Package,Long> {
-    Package findByPackName(String packName);
+    Optional<Package> findByPackName(String packName);
     List<Package> findByPricePerMonthGreaterThan(double pricePerMonth);
 }
