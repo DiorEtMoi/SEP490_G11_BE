@@ -38,6 +38,7 @@ public class PermissionService implements IPermissionService {
     public PermissionResponse updatePermission(Long permissionId, PermissionRequest request) {
         Permission permission = findPermissionById(permissionId);
         permissionMapper.updatePermission(permission,request);
+        permissionRepository.save(permission);
         return permissionMapper.toPermissionResponse(permission);
     }
 
