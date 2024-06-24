@@ -8,4 +8,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UnitRequest {
     String name;
+    String code;
+    Long accountId;
 }

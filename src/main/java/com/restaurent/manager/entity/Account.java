@@ -30,12 +30,7 @@ public class Account {
     private Role role;
     @OneToOne(mappedBy = "account")
     private Restaurant restaurant;
-//    @OneToMany(mappedBy = "account")
-//    private Set<Dish> dish = new HashSet<>();
-//    @OneToMany(mappedBy = "account")
-//    private Set<DishCategory> dishCategories = new HashSet<>();
-//    @OneToMany(mappedBy = "account")
-//    private Set<Combo> combos = new HashSet<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -61,4 +61,5 @@ public class Restaurant {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

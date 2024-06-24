@@ -20,16 +20,29 @@ import java.util.List;
 public class UnitController {
 
     IUnitService unitService;
-    @GetMapping
-    public ApiResponse<List<UnitResponse>> getUnits(){
+    @GetMapping(value = "/account/{accountId}")
+    public ApiResponse<List<UnitResponse>> getUnitsByAccountId(@PathVariable String accountId){
         return ApiResponse.<List<UnitResponse>>builder()
-                .result(unitService.getUnits())
+                .result(unitService.getUnitsByAccountId(Long.parseLong(accountId)))
                 .build();
     }
     @PostMapping(value = "/create")
     public ApiResponse<UnitResponse> createUnit(@RequestBody UnitRequest request){
         return ApiResponse.<UnitResponse>builder()
                 .result(unitService.createUnit(request))
+                .build();
+    }
+    @PutMapping(value = "/{unitId}")
+    public ApiResponse<UnitResponse> updateUnit(@PathVariable String unitId,@RequestBody UnitRequest request){
+        return ApiResponse.<UnitResponse>builder()
+                .result(unitService.updateUnit(Long.parseLong(unitId),request))
+                .build();
+    }
+    @DeleteMapping(value = "/{unitId}")
+    public ApiResponse<Void> deleteUnitById(@PathVariable String unitId){
+        unitService.deleteUnitById(Long.parseLong(unitId));
+        return ApiResponse.<Void>builder()
+                .message("Delete success")
                 .build();
     }
 }
