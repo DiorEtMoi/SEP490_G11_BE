@@ -15,7 +15,6 @@ public class Unit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    String code;
     @OneToMany(mappedBy = "unit",
     cascade = CascadeType.ALL)
     Set<Dish> dishes;
