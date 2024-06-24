@@ -6,6 +6,7 @@ import com.restaurent.manager.entity.Unit;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.UnitMapper;
+import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.UnitRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IUnitService;
@@ -23,11 +24,14 @@ public class UnitService implements IUnitService {
 
     UnitMapper unitMapper;
     UnitRepository unitRepository;
-    IAccountService accountService;
+    AccountRepository accountRepository;
     @Override
     public UnitResponse createUnit(UnitRequest request) {
         Unit unit = unitMapper.toUnit(request);
-        unit.setAccount(accountService.findAccountByID(request.getAccountId()));
+        unit.setAccount(accountRepository.findById(request.getAccountId())
+                .orElseThrow(
+                        () -> new AppException(ErrorCode.NOT_EXIST)
+                ));
         return unitMapper.toUnitResponse(unitRepository.save(
                 unit
         ));
