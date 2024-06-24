@@ -47,8 +47,8 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public EmployeeResponse updateEmployee(EmployeeUpdateRequest request) {
-        Employee employee = findEmployeeById(request.getId());
+    public EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request) {
+        Employee employee = findEmployeeById(employeeId);
         employeeMapper.updateRestaurant(employee,request);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
@@ -74,6 +74,9 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public List<EmployeeResponse> findEmployeesByAccountId(Long accountId) {
         Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
+        if(restaurant == null){
+            throw new AppException(ErrorCode.NOT_EXIST);
+        }
         return employeeRepository.findByRestaurant_Id(restaurant.getId()).stream().map(employeeMapper::toEmployeeResponse).toList();
     }
 }

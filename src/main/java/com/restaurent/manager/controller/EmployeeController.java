@@ -28,10 +28,10 @@ public class EmployeeController {
                 .result(employeeService.createEmployee(req))
                 .build();
     }
-    @PutMapping("/update")
-    public ApiResponse<EmployeeResponse> updateEmployee(@RequestBody EmployeeUpdateRequest req){
+    @PutMapping("/{employeeId}")
+    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable String employeeId,@RequestBody EmployeeUpdateRequest req){
         return ApiResponse.<EmployeeResponse>builder()
-                .result(employeeService.updateEmployee(req))
+                .result(employeeService.updateEmployee(Long.parseLong(employeeId),req))
                 .build();
     }
     @DeleteMapping("/delete/{employeeId}")
