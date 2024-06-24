@@ -2,7 +2,8 @@ package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.PackageRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
-import com.restaurent.manager.dto.response.PackageResponse;
+import com.restaurent.manager.dto.response.Pack.PackUpgradeResponse;
+import com.restaurent.manager.dto.response.Pack.PackageResponse;
 import com.restaurent.manager.service.IPackageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
@@ -46,4 +47,11 @@ public class PackageController {
                 .result(packageService.updatePackage(Long.parseLong(packId),request))
                 .build();
     }
+    @GetMapping(value = "/restaurant/{restaurantId}")
+    public ApiResponse<PackUpgradeResponse> findPacksUpgradeForRestaurant(@PathVariable String restaurantId){
+        return ApiResponse.<PackUpgradeResponse>builder()
+                .result(packageService.findPacksToUpgradeForRestaurant(Long.parseLong(restaurantId)))
+                .build();
+    }
+
 }

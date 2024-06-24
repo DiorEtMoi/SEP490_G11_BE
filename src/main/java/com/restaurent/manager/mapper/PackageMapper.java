@@ -1,7 +1,7 @@
 package com.restaurent.manager.mapper;
 
 import com.restaurent.manager.dto.request.PackageRequest;
-import com.restaurent.manager.dto.response.PackageResponse;
+import com.restaurent.manager.dto.response.Pack.PackageResponse;
 import com.restaurent.manager.entity.Package;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,5 +1,6 @@
-package com.restaurent.manager.dto.response;
+package com.restaurent.manager.dto.response.Pack;
 
+import com.restaurent.manager.dto.response.PermissionResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

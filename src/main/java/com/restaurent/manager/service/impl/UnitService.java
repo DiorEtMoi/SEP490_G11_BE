@@ -2,8 +2,12 @@ package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.UnitRequest;
 import com.restaurent.manager.dto.response.UnitResponse;
+import com.restaurent.manager.entity.Unit;
+import com.restaurent.manager.exception.AppException;
+import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.UnitMapper;
 import com.restaurent.manager.repository.UnitRepository;
+import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IUnitService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +23,32 @@ public class UnitService implements IUnitService {
 
     UnitMapper unitMapper;
     UnitRepository unitRepository;
+    IAccountService accountService;
     @Override
     public UnitResponse createUnit(UnitRequest request) {
+        Unit unit = unitMapper.toUnit(request);
+        unit.setAccount(accountService.findAccountByID(request.getAccountId()));
         return unitMapper.toUnitResponse(unitRepository.save(
-                unitMapper.toUnit(request)
+                unit
         ));
     }
 
     @Override
-    public List<UnitResponse> getUnits() {
-        return unitRepository.findAll().stream().map(unitMapper::toUnitResponse).toList();
+    public List<UnitResponse> getUnitsByAccountId(Long accountId) {
+        return unitRepository.getUnitsByAccount_Id(accountId).stream().map(unitMapper::toUnitResponse).toList();
+    }
+
+    @Override
+    public UnitResponse updateUnit(Long unitId, UnitRequest request) {
+        Unit unit = unitRepository.findById(unitId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+        unitMapper.updateUnit(unit,request);
+        return unitMapper.toUnitResponse(unit);
+    }
+
+    @Override
+    public void deleteUnitById(Long unitId) {
+        unitRepository.deleteById(unitId);
     }
 }
