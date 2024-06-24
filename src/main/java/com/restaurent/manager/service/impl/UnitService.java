@@ -44,6 +44,7 @@ public class UnitService implements IUnitService {
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
         unitMapper.updateUnit(unit,request);
+        unitRepository.save(unit);
         return unitMapper.toUnitResponse(unit);
     }
 
