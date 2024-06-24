@@ -50,6 +50,9 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request) {
         Employee employee = findEmployeeById(employeeId);
         employeeMapper.updateRestaurant(employee,request);
+        employee.setRole(roleRepository.findById(request.getRoleId()).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        ));
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
