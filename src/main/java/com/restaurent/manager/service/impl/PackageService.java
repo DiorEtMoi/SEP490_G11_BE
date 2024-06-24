@@ -80,6 +80,13 @@ public class PackageService implements IPackageService {
     }
 
     @Override
+    public Package findByPackName(String name) {
+        return packageRepository.findByPackName(name).orElseThrow(
+                () -> new AppException(ErrorCode.PACKAGE_NOT_EXIST)
+        );
+    }
+
+    @Override
     public PackUpgradeResponse findPacksToUpgradeForRestaurant(Long restaurantId) {
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
         Package pack = findPackById(restaurant.getRestaurantPackage().getId());

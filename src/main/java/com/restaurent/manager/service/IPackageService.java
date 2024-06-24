@@ -13,5 +13,6 @@ public interface IPackageService {
     PackageResponse addPermission(Long permissionID,Long packId);
     PackageResponse updatePackage(Long id, PackageRequest packageRequest);
     Package findPackById(Long id);
+    Package findByPackName(String name);
     PackUpgradeResponse findPacksToUpgradeForRestaurant(Long restaurantId);
 }

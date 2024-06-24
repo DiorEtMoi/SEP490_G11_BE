@@ -12,6 +12,7 @@ import com.restaurent.manager.mapper.RestaurantMapper;
 import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.PackageRepository;
 import com.restaurent.manager.repository.RestaurantRepository;
+import com.restaurent.manager.service.IPackageService;
 import com.restaurent.manager.service.IRestaurantService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class RestaurantService implements IRestaurantService {
     RestaurantMapper restaurantMapper;
     RestaurantRepository restaurantRepository;
     AccountRepository accountRepository;
-    PackageRepository packageRepository;
+    IPackageService packageService;
     AccountService accountService;
     @Override
     public RestaurantResponse initRestaurant(RestaurantRequest request) {
@@ -45,7 +46,7 @@ public class RestaurantService implements IRestaurantService {
                 new AppException(ErrorCode.USER_NOT_EXISTED)
         );
         restaurant.setAccount(account);
-        restaurant.setRestaurantPackage(packageRepository.findByPackName("Trial"));
+        restaurant.setRestaurantPackage(packageService.findByPackName("Trial"));
         restaurant.setExpiryDate(LocalDateTime.now().plusDays(7));
         account.setRestaurant(restaurant);
         Restaurant restaurantSaved = restaurantRepository.save(restaurant);

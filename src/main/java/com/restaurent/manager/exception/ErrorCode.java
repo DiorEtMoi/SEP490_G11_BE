@@ -36,7 +36,8 @@ public enum ErrorCode {
     INVALID_COMBO_DESCRIPTION(400, "Combo description can not be empty", HttpStatus.BAD_REQUEST),
     INVALID_CUSTOMER_NAME(400, "Customer name can not be empty", HttpStatus.BAD_REQUEST),
     COMBO_NOT_EXISTED(400, "Combo not existed", HttpStatus.NOT_FOUND),
-    INVALID_COMBO_NAME(400, "Combo name can not empty", HttpStatus.BAD_REQUEST);
+    INVALID_COMBO_NAME(400, "Combo name can not empty", HttpStatus.BAD_REQUEST),
+    PACKAGE_NOT_EXIST(404,"Pack is not exist",HttpStatus.BAD_REQUEST);
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
