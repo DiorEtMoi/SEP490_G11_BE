@@ -11,8 +11,8 @@ import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.PackageMapper;
 import com.restaurent.manager.repository.PackageRepository;
 import com.restaurent.manager.repository.PermissionRepository;
+import com.restaurent.manager.repository.RestaurantRepository;
 import com.restaurent.manager.service.IPackageService;
-import com.restaurent.manager.service.IRestaurantService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -33,7 +33,7 @@ public class PackageService implements IPackageService {
     PackageRepository packageRepository;
     PackageMapper packageMapper;
     PermissionRepository permissionRepository;
-    IRestaurantService restaurantService;
+    RestaurantRepository restaurantRepository;
     @Override
     public PackageResponse create(PackageRequest request) {
         Package pack = packageMapper.toPackage(request);
@@ -88,7 +88,10 @@ public class PackageService implements IPackageService {
 
     @Override
     public PackUpgradeResponse findPacksToUpgradeForRestaurant(Long restaurantId) {
-        Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(
+                        () -> new AppException(ErrorCode.NOT_EXIST)
+                );
         Package pack = findPackById(restaurant.getRestaurantPackage().getId());
         List<PackageResponse> packages = packageRepository.findByPricePerMonthGreaterThan(pack.getPricePerMonth()).stream()
                 .map(packageMapper::toPackResponse).toList();
