@@ -47,8 +47,8 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public EmployeeResponse updateEmployee(EmployeeUpdateRequest request) {
-        Employee employee = findEmployeeById(request.getId());
+    public EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request) {
+        Employee employee = findEmployeeById(employeeId);
         employeeMapper.updateRestaurant(employee,request);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IEmployeeService {
     EmployeeResponse createEmployee(EmployeeRequest request);
-    EmployeeResponse updateEmployee(EmployeeUpdateRequest request);
+    EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request);
     Employee findEmployeeById(Long id);
     EmployeeResponse findEmployeeByIdConvertDTO(Long id);
     void deleteEmployee(Long id);
