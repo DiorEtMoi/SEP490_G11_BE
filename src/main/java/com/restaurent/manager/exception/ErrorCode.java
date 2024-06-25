@@ -37,7 +37,12 @@ public enum ErrorCode {
     INVALID_CUSTOMER_NAME(400, "Customer name can not be empty", HttpStatus.BAD_REQUEST),
     COMBO_NOT_EXISTED(400, "Combo not existed", HttpStatus.NOT_FOUND),
     INVALID_COMBO_NAME(400, "Combo name can not empty", HttpStatus.BAD_REQUEST),
-    PACKAGE_NOT_EXIST(404,"Pack is not exist",HttpStatus.BAD_REQUEST);
+    PACKAGE_NOT_EXIST(404,"Pack is not exist",HttpStatus.BAD_REQUEST),
+    TABLE_NAME_EXISTED(400,"Table name is existed",HttpStatus.BAD_REQUEST),
+    TABLE_TYPE_NULL(400,"Table type can not null field",HttpStatus.BAD_REQUEST),
+    AREA_NULL(400,"Area can not null field",HttpStatus.BAD_REQUEST),
+    NAME_NULL(400,"name can not null",HttpStatus.BAD_REQUEST);
+    ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
