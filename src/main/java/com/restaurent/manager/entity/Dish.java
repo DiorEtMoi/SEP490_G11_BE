@@ -14,10 +14,11 @@ public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String foodName;
+    String name;
+    String code;
     float weight;
     String description;
-    double money;
+    double price;
     @ManyToOne(fetch = FetchType.LAZY)
     DishCategory dishCategory;
     String imageUrl;

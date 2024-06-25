@@ -1,4 +1,4 @@
-package com.restaurent.manager.dto.response;
+package com.restaurent.manager.dto.request.dish;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -6,15 +6,14 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DishResponse {
-    Long id;
+public class DishRequest {
     String name;
-    String code;
-    boolean status;
     float weight;
+    boolean status;
     String description;
     double price;
-    DishCategoryResponse dishCategory;
+    Long dishCategoryId;
     String imageUrl;
-    UnitResponse unit;
+    Long unitId;
+    Long accountId;
 }

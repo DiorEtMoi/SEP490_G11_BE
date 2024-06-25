@@ -56,4 +56,11 @@ public class UnitService implements IUnitService {
     public void deleteUnitById(Long unitId) {
         unitRepository.deleteById(unitId);
     }
+
+    @Override
+    public Unit findById(Long id) {
+        return unitRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+    }
 }
