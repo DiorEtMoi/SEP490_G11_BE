@@ -88,4 +88,10 @@ public class TableRestaurantService implements ITableRestaurantService {
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
     }
+
+    @Override
+    public void deleteTableById(Long tableId) {
+        TableRestaurant tableRestaurant = findById(tableId);
+        tableRestaurantRepository.delete(tableRestaurant);
+    }
 }
