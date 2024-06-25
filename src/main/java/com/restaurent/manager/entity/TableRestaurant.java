@@ -15,6 +15,7 @@ public class TableRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    String name;
     int numberChairs;
     Long orderCurrent;
     @ManyToOne(fetch = FetchType.LAZY)
