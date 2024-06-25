@@ -45,4 +45,11 @@ public class TableRestaurantController {
                 .result(tableRestaurantService.updateTableByTableId(Long.parseLong(tableRestaurantId),request))
                 .build();
     }
+    @DeleteMapping(value = "/{tableRestaurantId}")
+    public ApiResponse<Void> deleteTableById(@PathVariable Long tableRestaurantId){
+        tableRestaurantService.deleteTableById(tableRestaurantId);
+        return ApiResponse.<Void>builder()
+                .message("Delete success")
+                .build();
+    }
 }

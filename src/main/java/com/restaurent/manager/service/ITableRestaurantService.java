@@ -12,4 +12,5 @@ public interface ITableRestaurantService {
     List<TableRestaurantResponse> createManyTable(int numbers,TableRestaurantRequest request);
     TableRestaurantResponse updateTableByTableId(Long tableId, TableRestaurantRequest request);
     TableRestaurant findById(Long id);
+    void deleteTableById(Long tableId);
 }
