@@ -40,8 +40,8 @@ public class TableTypeController {
                 .build();
     }
     @DeleteMapping(value = "/{tableTypeId}")
-    public ApiResponse<Void> deleteTableType(@PathVariable String tableTypeId){
-        tableTypeService.deleteTableType(Long.parseLong(tableTypeId));
+    public ApiResponse<Void> deleteTableType(@PathVariable Long tableTypeId){
+        tableTypeService.deleteTableType(tableTypeId);
         return ApiResponse.<Void>builder()
                 .message("Delete success")
                 .build();

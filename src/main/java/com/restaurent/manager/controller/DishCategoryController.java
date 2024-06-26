@@ -22,9 +22,9 @@ import java.util.List;
 public class DishCategoryController {
     IDishCategoryService dishCategoryService;
     @GetMapping(value = "/{accountId}")
-    public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable String accountId){
+    public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<DishCategoryResponse>>builder()
-                .result(dishCategoryService.getAllDishCategoryByAccountId(Long.parseLong(accountId)))
+                .result(dishCategoryService.getAllDishCategoryByAccountId(accountId))
                 .build();
     }
     @PostMapping(value = "/create")

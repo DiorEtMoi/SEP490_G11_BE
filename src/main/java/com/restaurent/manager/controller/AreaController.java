@@ -20,9 +20,9 @@ import java.util.List;
 public class AreaController {
     IAreaService areaService;
     @GetMapping(value = "/{restaurantId}")
-    public ApiResponse<List<AreaResponse>> getAreasByRestaurantId(@PathVariable String restaurantId){
+    public ApiResponse<List<AreaResponse>> getAreasByRestaurantId(@PathVariable Long restaurantId){
         return ApiResponse.<List<AreaResponse>>builder()
-                .result(areaService.getAreasByRestaurantId(Long.parseLong(restaurantId)))
+                .result(areaService.getAreasByRestaurantId(restaurantId))
                 .build();
     }
     @PostMapping(value = "/create")

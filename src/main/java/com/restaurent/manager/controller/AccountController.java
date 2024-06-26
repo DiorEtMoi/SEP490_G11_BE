@@ -71,9 +71,9 @@ public class AccountController {
         return "";
     }
     @GetMapping("/{accountId}")
-    public ApiResponse<AccountResponse> getAccountById(@PathVariable String accountId){
+    public ApiResponse<AccountResponse> getAccountById(@PathVariable Long accountId){
         return  ApiResponse.<AccountResponse>builder()
-                .result(accountService.getAccountById(Long.parseLong(accountId)))
+                .result(accountService.getAccountById(accountId))
                 .build();
     }
 }
