@@ -12,7 +12,7 @@ public class ComboResponse {
     String comboName;
     double comboPrice;
     String description;
+    String imageUrl;
     boolean status;
     Set<DishResponse> dishes;
-    AccountResponse account;
 }

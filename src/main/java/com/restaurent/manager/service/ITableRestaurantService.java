@@ -14,5 +14,5 @@ public interface ITableRestaurantService {
     TableRestaurantResponse updateTableByTableId(Long tableId, TableRestaurantRequest request);
     TableRestaurant findById(Long id);
     void deleteTableById(Long tableId);
-    void updateTables(List<TableRestaurantUpdateRequest> tables);
+    void updateTables(List<TableRestaurantResponse> tables);
 }
