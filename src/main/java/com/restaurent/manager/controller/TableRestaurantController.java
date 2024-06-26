@@ -54,8 +54,8 @@ public class TableRestaurantController {
                 .build();
     }
     @PutMapping(value = "/update")
-    public ApiResponse<Void> updateTables(@RequestBody List<TableRestaurantUpdateRequest> restaurantUpdateRequests){
-        tableRestaurantService.updateTables(restaurantUpdateRequests);
+    public ApiResponse<Void> updateTables(@RequestBody List<TableRestaurantResponse> tableRestaurantResponses){
+        tableRestaurantService.updateTables(tableRestaurantResponses);
         return ApiResponse.<Void>builder()
                 .message("Update success")
                 .build();

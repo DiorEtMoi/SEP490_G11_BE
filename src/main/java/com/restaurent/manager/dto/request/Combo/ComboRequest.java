@@ -28,6 +28,7 @@ public class ComboRequest {
     @NotNull(message = "INVALID_COMBO_DESCRIPTION")
     @NotBlank(message = "INVALID COMBO_DESCRIPTION")
     String description;
+    String imageUrl;
 
     boolean status;
     Set<Long> dishIds;

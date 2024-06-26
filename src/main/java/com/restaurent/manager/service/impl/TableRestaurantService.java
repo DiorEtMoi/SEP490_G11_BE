@@ -97,9 +97,12 @@ public class TableRestaurantService implements ITableRestaurantService {
     }
 
     @Override
-    public void updateTables(List<TableRestaurantUpdateRequest> tables) {
-        for (TableRestaurantUpdateRequest tableRestaurant : tables){
-            updateTableByTableId(tableRestaurant.getId(),tableRestaurantMapper.toTableRestaurantRequest(tableRestaurant));
+    public void updateTables(List<TableRestaurantResponse> tables) {
+        for (TableRestaurantResponse tableRestaurantResponse : tables){
+            TableRestaurant tableRestaurant = findById(tableRestaurantResponse.getId());
+            tableRestaurant.setPositionX(tableRestaurantResponse.getPositionX());
+            tableRestaurant.setPositionY(tableRestaurantResponse.getPositionY());
+            tableRestaurantRepository.save(tableRestaurant);
         }
     }
 }
