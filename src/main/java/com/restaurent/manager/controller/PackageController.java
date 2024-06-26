@@ -42,15 +42,15 @@ public class PackageController {
                     .build();
     }
     @PutMapping("/{packId}")
-    public ApiResponse<PackageResponse> updatePackage(@PathVariable String packId,@RequestBody PackageRequest request){
+    public ApiResponse<PackageResponse> updatePackage(@PathVariable Long packId,@RequestBody PackageRequest request){
         return ApiResponse.<PackageResponse>builder()
-                .result(packageService.updatePackage(Long.parseLong(packId),request))
+                .result(packageService.updatePackage(packId,request))
                 .build();
     }
     @GetMapping(value = "/restaurant/{restaurantId}")
-    public ApiResponse<PackUpgradeResponse> findPacksUpgradeForRestaurant(@PathVariable String restaurantId){
+    public ApiResponse<PackUpgradeResponse> findPacksUpgradeForRestaurant(@PathVariable Long restaurantId){
         return ApiResponse.<PackUpgradeResponse>builder()
-                .result(packageService.findPacksToUpgradeForRestaurant(Long.parseLong(restaurantId)))
+                .result(packageService.findPacksToUpgradeForRestaurant(restaurantId))
                 .build();
     }
 

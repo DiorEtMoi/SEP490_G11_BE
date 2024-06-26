@@ -29,9 +29,9 @@ public class TableRestaurantController {
                 .build();
     }
     @GetMapping(value = "/area/{areaId}")
-    public ApiResponse<List<TableRestaurantResponse>> getTableByAreaId(@PathVariable String areaId){
+    public ApiResponse<List<TableRestaurantResponse>> getTableByAreaId(@PathVariable Long areaId){
         return ApiResponse.<List<TableRestaurantResponse>>builder()
-                .result(tableRestaurantService.getTableByAreaId(Long.parseLong(areaId)))
+                .result(tableRestaurantService.getTableByAreaId(areaId))
                 .build();
     }
     @PostMapping(value = "/create/{numbers}")
@@ -41,9 +41,9 @@ public class TableRestaurantController {
                 .build();
     }
     @PutMapping(value = "/{tableRestaurantId}")
-    public ApiResponse<TableRestaurantResponse> updateTable(@PathVariable String tableRestaurantId,@RequestBody @Valid TableRestaurantRequest request){
+    public ApiResponse<TableRestaurantResponse> updateTable(@PathVariable Long tableRestaurantId,@RequestBody @Valid TableRestaurantRequest request){
         return ApiResponse.<TableRestaurantResponse>builder()
-                .result(tableRestaurantService.updateTableByTableId(Long.parseLong(tableRestaurantId),request))
+                .result(tableRestaurantService.updateTableByTableId(tableRestaurantId,request))
                 .build();
     }
     @DeleteMapping(value = "/{tableRestaurantId}")

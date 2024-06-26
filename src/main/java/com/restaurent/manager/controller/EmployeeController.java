@@ -29,28 +29,28 @@ public class EmployeeController {
                 .build();
     }
     @PutMapping("/{employeeId}")
-    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable String employeeId,@RequestBody EmployeeUpdateRequest req){
+    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable Long employeeId,@RequestBody EmployeeUpdateRequest req){
         return ApiResponse.<EmployeeResponse>builder()
-                .result(employeeService.updateEmployee(Long.parseLong(employeeId),req))
+                .result(employeeService.updateEmployee(employeeId,req))
                 .build();
     }
     @DeleteMapping("/delete/{employeeId}")
-    public ApiResponse<Void> deleteEmployee(@PathVariable String employeeId){
-        employeeService.deleteEmployee(Long.parseLong(employeeId));
+    public ApiResponse<Void> deleteEmployee(@PathVariable Long employeeId){
+        employeeService.deleteEmployee(employeeId);
         return ApiResponse.<Void>builder()
                 .message("Delete success")
                 .build();
     }
     @GetMapping("/{employeeId}")
-    public ApiResponse<EmployeeResponse> getEmployeeById(@PathVariable String employeeId){
+    public ApiResponse<EmployeeResponse> getEmployeeById(@PathVariable Long employeeId){
         return ApiResponse.<EmployeeResponse>builder()
-                .result(employeeService.findEmployeeByIdConvertDTO(Long.parseLong(employeeId)))
+                .result(employeeService.findEmployeeByIdConvertDTO(employeeId))
                 .build();
     }
     @GetMapping("/restaurant/{accountId}")
-    public ApiResponse<List<EmployeeResponse>> getEmployeesInRestaurantByAccountId(@PathVariable String accountId){
+    public ApiResponse<List<EmployeeResponse>> getEmployeesInRestaurantByAccountId(@PathVariable Long accountId){
         return  ApiResponse.<List<EmployeeResponse>>builder()
-                .result(employeeService.findEmployeesByAccountId(Long.parseLong(accountId)))
+                .result(employeeService.findEmployeesByAccountId(accountId))
                 .build();
     }
 }

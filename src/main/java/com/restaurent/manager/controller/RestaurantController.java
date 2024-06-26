@@ -37,21 +37,21 @@ public class RestaurantController {
                 .build();
     }
     @PutMapping("/admin/{restaurantId}")
-    public ApiResponse<RestaurantResponse> updateRestaurant(@PathVariable String restaurantId ,@RequestBody @Valid RestaurantUpdateRequest request){
+    public ApiResponse<RestaurantResponse> updateRestaurant(@PathVariable Long restaurantId ,@RequestBody @Valid RestaurantUpdateRequest request){
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.updateRestaurant(Long.parseLong(restaurantId),request))
+                .result(restaurantService.updateRestaurant(restaurantId,request))
                 .build();
     }
     @PutMapping("/manager/{accountId}")
-    public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable String accountId,@RequestBody RestaurantManagerUpdateRequest request){
+    public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable Long accountId,@RequestBody RestaurantManagerUpdateRequest request){
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.updateRestaurant(Long.parseLong(accountId),request))
+                .result(restaurantService.updateRestaurant(accountId,request))
                 .build();
     }
     @GetMapping("/account/{accountID}")
-    public ApiResponse<RestaurantResponse> getRestaurantByAccountId(@PathVariable String accountID){
+    public ApiResponse<RestaurantResponse> getRestaurantByAccountId(@PathVariable Long accountID){
         return ApiResponse.<RestaurantResponse>builder()
-                .result(restaurantService.getRestaurantByAccountId(Long.parseLong(accountID)))
+                .result(restaurantService.getRestaurantByAccountId(accountID))
                 .build();
     }
 }

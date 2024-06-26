@@ -21,9 +21,9 @@ public class UnitController {
 
     IUnitService unitService;
     @GetMapping(value = "/account/{accountId}")
-    public ApiResponse<List<UnitResponse>> getUnitsByAccountId(@PathVariable String accountId){
+    public ApiResponse<List<UnitResponse>> getUnitsByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<UnitResponse>>builder()
-                .result(unitService.getUnitsByAccountId(Long.parseLong(accountId)))
+                .result(unitService.getUnitsByAccountId(accountId))
                 .build();
     }
     @PostMapping(value = "/create")
@@ -33,14 +33,14 @@ public class UnitController {
                 .build();
     }
     @PutMapping(value = "/{unitId}")
-    public ApiResponse<UnitResponse> updateUnit(@PathVariable String unitId,@RequestBody UnitRequest request){
+    public ApiResponse<UnitResponse> updateUnit(@PathVariable Long unitId,@RequestBody UnitRequest request){
         return ApiResponse.<UnitResponse>builder()
-                .result(unitService.updateUnit(Long.parseLong(unitId),request))
+                .result(unitService.updateUnit(unitId,request))
                 .build();
     }
     @DeleteMapping(value = "/{unitId}")
-    public ApiResponse<Void> deleteUnitById(@PathVariable String unitId){
-        unitService.deleteUnitById(Long.parseLong(unitId));
+    public ApiResponse<Void> deleteUnitById(@PathVariable Long unitId){
+        unitService.deleteUnitById(unitId);
         return ApiResponse.<Void>builder()
                 .message("Delete success")
                 .build();

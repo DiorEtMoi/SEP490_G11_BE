@@ -26,9 +26,9 @@ public class DishController {
                 .build();
     }
     @GetMapping(value = "/account/{accountId}")
-    public ApiResponse<List<DishResponse>> findDishesByAccountId(@PathVariable String accountId){
+    public ApiResponse<List<DishResponse>> findDishesByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<DishResponse>>builder()
-                .result(dishService.getDishesByAccountId(Long.parseLong(accountId)))
+                .result(dishService.getDishesByAccountId(accountId))
                 .build();
     }
     @GetMapping(value = "/category/{categoryCode}")
@@ -38,9 +38,9 @@ public class DishController {
                 .build();
     }
     @PutMapping(value = "/{dishId}")
-    public ApiResponse<DishResponse> updateDishById(@PathVariable String dishId, @RequestBody DishUpdateRequest request){
+    public ApiResponse<DishResponse> updateDishById(@PathVariable Long dishId, @RequestBody DishUpdateRequest request){
         return ApiResponse.<DishResponse>builder()
-                .result(dishService.updateDish(Long.parseLong(dishId),request))
+                .result(dishService.updateDish(dishId,request))
                 .build();
     }
 }
