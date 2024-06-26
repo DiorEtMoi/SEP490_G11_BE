@@ -1,6 +1,7 @@
 package com.restaurent.manager.service;
 
 import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
+import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
 import com.restaurent.manager.entity.TableRestaurant;
 
@@ -13,4 +14,5 @@ public interface ITableRestaurantService {
     TableRestaurantResponse updateTableByTableId(Long tableId, TableRestaurantRequest request);
     TableRestaurant findById(Long id);
     void deleteTableById(Long tableId);
+    void updateTables(List<TableRestaurantUpdateRequest> tables);
 }
