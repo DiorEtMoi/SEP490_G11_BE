@@ -20,6 +20,9 @@ import com.restaurent.manager.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,7 +77,7 @@ public class DishService implements IDishService {
     }
 
     @Override
-    public List<DishResponse> getDishesByAccountIdAndStatus(Long accountId, boolean status) {
-        return dishRepository.findByAccount_IdAndStatus(accountId,status).stream().map(dishMapper::toDishResponse).toList();
+    public List<DishResponse> getDishesByAccountIdAndStatus(Long accountId, boolean status,Pageable pageable) {
+        return dishRepository.findByAccount_IdAndStatus(accountId,status,pageable).stream().map(dishMapper::toDishResponse).toList();
     }
 }

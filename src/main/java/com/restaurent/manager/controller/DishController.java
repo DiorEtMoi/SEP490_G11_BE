@@ -6,8 +6,11 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.DishResponse;
 import com.restaurent.manager.service.IDishService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,9 +47,11 @@ public class DishController {
                 .build();
     }
     @GetMapping(value = "/account/{accountId}/{status}")
-    public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long accountId, @PathVariable boolean status){
+    public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long accountId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<List<DishResponse>>builder()
-                .result(dishService.getDishesByAccountIdAndStatus(accountId,status))
+                .result(dishService.getDishesByAccountIdAndStatus(accountId,status,pageable))
                 .build();
     }
 }
