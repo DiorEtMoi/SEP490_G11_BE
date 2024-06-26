@@ -11,4 +11,5 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     // Các phương thức tùy chỉnh nếu cần
     List<Dish> findByAccount_Id(Long accountId);
     List<Dish> findByDishCategory_Id(Long categoryId);
+    List<Dish> findByAccount_IdAndStatus(Long accountId, boolean status);
 }

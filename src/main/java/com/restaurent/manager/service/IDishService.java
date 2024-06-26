@@ -13,4 +13,5 @@ public interface IDishService {
     DishResponse updateDish(Long dishId, DishUpdateRequest request);
     Dish findByDishId(Long DishId);
     List<DishResponse> findDishesByCategoryCode(String categoryCode);
+    List<DishResponse> getDishesByAccountIdAndStatus(Long accountId,boolean status);
 }

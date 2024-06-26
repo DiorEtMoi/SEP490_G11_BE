@@ -43,4 +43,10 @@ public class DishController {
                 .result(dishService.updateDish(dishId,request))
                 .build();
     }
+    @GetMapping(value = "/account/{accountId}/status")
+    public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long accountId, @RequestParam("status") boolean status){
+        return ApiResponse.<List<DishResponse>>builder()
+                .result(dishService.getDishesByAccountIdAndStatus(accountId,status))
+                .build();
+    }
 }

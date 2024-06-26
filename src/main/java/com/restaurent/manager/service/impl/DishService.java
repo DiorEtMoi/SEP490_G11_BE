@@ -55,6 +55,7 @@ public class DishService implements IDishService {
         dishMapper.updateDish(dish,request);
         dish.setDishCategory(dishCategoryService.findById(request.getDishCategoryId()));
         dish.setUnit(unitService.findById(request.getUnitId()));
+        dish.setCode(SlugUtils.toSlug(dish.getName()));
         dishRepository.save(dish);
         return dishMapper.toDishResponse(dish);
     }
@@ -70,5 +71,10 @@ public class DishService implements IDishService {
     public List<DishResponse> findDishesByCategoryCode(String categoryCode) {
         DishCategory category = dishCategoryService.findByCode(categoryCode);
         return dishRepository.findByDishCategory_Id(category.getId()).stream().map(dishMapper::toDishResponse).toList();
+    }
+
+    @Override
+    public List<DishResponse> getDishesByAccountIdAndStatus(Long accountId, boolean status) {
+        return dishRepository.findByAccount_IdAndStatus(accountId,status).stream().map(dishMapper::toDishResponse).toList();
     }
 }

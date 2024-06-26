@@ -32,6 +32,8 @@ public class Order {
     cascade = CascadeType.ALL,
     orphanRemoval = true)
     Set<DishOrder> dishOrders;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Restaurant restaurant;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
