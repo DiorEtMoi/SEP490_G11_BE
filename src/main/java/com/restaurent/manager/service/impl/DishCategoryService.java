@@ -10,6 +10,7 @@ import com.restaurent.manager.mapper.DishCategoryMapper;
 import com.restaurent.manager.repository.DishCategoryRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IDishCategoryService;
+import com.restaurent.manager.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class DishCategoryService implements IDishCategoryService {
             throw new AppException(ErrorCode.DISH_CATEGORY_EXIST);
         }
         DishCategory dishCategory = dishCategoryMapper.toDishCategory(request);
+        dishCategory.setCode(SlugUtils.toSlug(dishCategory.getName()));
         Account account = accountService.findAccountByID(request.getAccountId());
         dishCategory.setAccount(account);
         return dishCategoryMapper.toDishCategoryResponse(
@@ -42,5 +44,19 @@ public class DishCategoryService implements IDishCategoryService {
     public List<DishCategoryResponse> getAllDishCategoryByAccountId(Long accountId) {
         return dishCategoryRepository.findByAccount_Id(accountId).stream().map(dishCategoryMapper::toDishCategoryResponse)
                 .toList();
+    }
+
+    @Override
+    public DishCategory findById(Long id) {
+        return dishCategoryRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+    }
+
+    @Override
+    public DishCategory findByCode(String code) {
+        return dishCategoryRepository.findByCode(code).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
     }
 }

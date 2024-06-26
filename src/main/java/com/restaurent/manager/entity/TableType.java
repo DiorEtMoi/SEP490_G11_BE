@@ -16,4 +16,6 @@ public class TableType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String name;
+    String imageUrl;
+    int numberChairs;
 }

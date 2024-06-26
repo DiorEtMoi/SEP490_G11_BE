@@ -16,6 +16,7 @@ public class DishCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
+    String code;
     String description;
     @OneToMany(mappedBy = "dishCategory",
     cascade = CascadeType.ALL

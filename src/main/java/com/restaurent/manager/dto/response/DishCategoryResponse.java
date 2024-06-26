@@ -11,5 +11,6 @@ import lombok.experimental.FieldDefaults;
 public class DishCategoryResponse {
     Long id;
     String name;
+    String code;
     String description;
 }

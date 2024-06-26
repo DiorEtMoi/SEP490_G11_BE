@@ -1,6 +1,7 @@
 package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
+import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
 import com.restaurent.manager.service.ITableRestaurantService;
@@ -50,6 +51,13 @@ public class TableRestaurantController {
         tableRestaurantService.deleteTableById(tableRestaurantId);
         return ApiResponse.<Void>builder()
                 .message("Delete success")
+                .build();
+    }
+    @PutMapping(value = "/update")
+    public ApiResponse<Void> updateTables(@RequestBody List<TableRestaurantUpdateRequest> restaurantUpdateRequests){
+        tableRestaurantService.updateTables(restaurantUpdateRequests);
+        return ApiResponse.<Void>builder()
+                .message("Update success")
                 .build();
     }
 }

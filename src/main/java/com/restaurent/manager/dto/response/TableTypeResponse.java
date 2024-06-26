@@ -9,5 +9,6 @@ import lombok.experimental.FieldDefaults;
 public class TableTypeResponse {
     Long id;
     String name;
+    String imageUrl;
     int numberChairs;
 }

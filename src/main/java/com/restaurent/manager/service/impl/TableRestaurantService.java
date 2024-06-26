@@ -1,6 +1,7 @@
 package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
+import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
 import com.restaurent.manager.entity.TableRestaurant;
 import com.restaurent.manager.exception.AppException;
@@ -93,5 +94,12 @@ public class TableRestaurantService implements ITableRestaurantService {
     public void deleteTableById(Long tableId) {
         TableRestaurant tableRestaurant = findById(tableId);
         tableRestaurantRepository.delete(tableRestaurant);
+    }
+
+    @Override
+    public void updateTables(List<TableRestaurantUpdateRequest> tables) {
+        for (TableRestaurantUpdateRequest tableRestaurant : tables){
+            updateTableByTableId(tableRestaurant.getId(),tableRestaurantMapper.toTableRestaurantRequest(tableRestaurant));
+        }
     }
 }

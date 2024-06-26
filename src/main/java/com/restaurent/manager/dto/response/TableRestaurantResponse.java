@@ -9,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 public class TableRestaurantResponse {
     Long id;
     String name;
-    int numberChairs;
     TableTypeResponse tableType;
     float positionX;
     float positionY;
