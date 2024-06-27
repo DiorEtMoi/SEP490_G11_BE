@@ -9,5 +9,4 @@ import lombok.experimental.FieldDefaults;
 public class DishOrderRequest {
     Long dishId;
     int quantity;
-    boolean status;
 }

@@ -1,7 +1,9 @@
 package com.restaurent.manager.entity;
 
+import com.restaurent.manager.enums.DISH_ORDER_STATE;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
@@ -17,7 +19,8 @@ public class DishOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     Order order;
     int quantity;
-    boolean status;
+    @Enumerated(EnumType.STRING)
+    DISH_ORDER_STATE status;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -10,5 +10,5 @@ import lombok.experimental.FieldDefaults;
 public class DishOrderResponse {
     DishResponse dish;
     int quantity;
-    boolean status;
+    String status;
 }

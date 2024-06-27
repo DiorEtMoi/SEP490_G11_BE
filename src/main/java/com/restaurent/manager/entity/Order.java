@@ -28,9 +28,8 @@ public class Order {
     LocalDate orderDate;
     @OneToOne(mappedBy = "order")
     Bill bill;
-    @OneToMany(mappedBy = "order",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true)
+    @OneToMany(mappedBy = "order"
+    )
     Set<DishOrder> dishOrders;
     @ManyToOne(fetch = FetchType.LAZY)
     Restaurant restaurant;
