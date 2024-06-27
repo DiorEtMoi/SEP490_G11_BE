@@ -48,7 +48,6 @@ public class DishController {
     }
     @GetMapping(value = "/account/{accountId}/{status}")
     public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long accountId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
-
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<List<DishResponse>>builder()
                 .result(dishService.getDishesByAccountIdAndStatus(accountId,status,pageable))
