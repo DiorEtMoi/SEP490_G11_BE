@@ -34,16 +34,16 @@ public class CustomerController {
                 .build();
     }
 
-    @GetMapping("getDetail")
+    @GetMapping("getDetail{id}")
     public ApiResponse<CustomerResponse> getCustomerDetail(@RequestParam long id) {
         return ApiResponse.<CustomerResponse>builder()
                 .result(customerService.getCustomerById(id))
                 .build();
     }
 
-    @GetMapping("/rankingCustomer")
-    public List<CustomerResponse> getCustomersOrderByTotalPoint() {
-        return customerService.getCustomersOrderByTotalPoint();
+    @GetMapping("/rankingCustomer{restaurantID}")
+    public List<CustomerResponse> getCustomersOrderByTotalPoint(@RequestParam long id) {
+        return customerService.getCustomersOrderByTotalPoint(id);
     }
 
 

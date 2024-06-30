@@ -11,7 +11,7 @@ public interface IComboService {
 
     List<ComboResponse> getAllCombos();
 
-    ComboResponse updateCombo(ComboUpdateRequest request);
+    ComboResponse updateCombo(Long comboId,ComboUpdateRequest request);
 
     ComboResponse getComboById(Long id);
 }

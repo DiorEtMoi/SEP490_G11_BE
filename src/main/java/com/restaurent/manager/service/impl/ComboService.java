@@ -62,8 +62,8 @@ public class ComboService implements IComboService {
     }
 
     @Override
-    public ComboResponse updateCombo(ComboUpdateRequest request) {
-        Combo combo = comboRepository.findById(request.getId())
+    public ComboResponse updateCombo(Long comboId, ComboUpdateRequest request) {
+        Combo combo = comboRepository.findById(comboId)
                 .orElseThrow(() -> new AppException(ErrorCode.COMBO_NOT_EXISTED));
 
         combo.setComboName(request.getComboName());
