@@ -4,7 +4,9 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
+import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.IntrospectRequest;
+import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.IntrospectResponse;
 import com.restaurent.manager.entity.InvalidToken;
 import com.restaurent.manager.exception.AppException;
@@ -58,6 +60,7 @@ public class AuthenticationService implements IAuthenticationService {
         log.info(e.getMessage());
       }
     }
+
 
     private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());

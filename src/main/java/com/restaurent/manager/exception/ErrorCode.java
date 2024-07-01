@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatusCode;
 public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(500, "Uncategorized error", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_KEY(400, "Uncategorized error", HttpStatus.BAD_REQUEST),
-    USER_EXISTED(400, "Phone number or email is exist in system", HttpStatus.BAD_REQUEST),
+    USER_EXISTED(400, "user already exist in system", HttpStatus.BAD_REQUEST),
     EMAIL_EXIST(400, "Email existed", HttpStatus.BAD_REQUEST),
     PHONENUMBER_EXIST(400, "Phone number existed", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(400, "Username must be at least {min} characters", HttpStatus.BAD_REQUEST),
@@ -41,7 +41,8 @@ public enum ErrorCode {
     TABLE_NAME_EXISTED(400,"Table name is existed",HttpStatus.BAD_REQUEST),
     TABLE_TYPE_NULL(400,"Table type can not null field",HttpStatus.BAD_REQUEST),
     AREA_NULL(400,"Area can not null field",HttpStatus.BAD_REQUEST),
-    NAME_NULL(400,"name can not null",HttpStatus.BAD_REQUEST);
+    NAME_NULL(400,"name can not null",HttpStatus.BAD_REQUEST),
+    EMPLOYEE_NOT_EXIST(404,"Employee not exist",HttpStatus.BAD_REQUEST);
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

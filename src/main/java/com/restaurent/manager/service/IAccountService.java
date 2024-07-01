@@ -10,13 +10,14 @@ import com.restaurent.manager.entity.Account;
 
 import java.util.List;
 
-public interface IAccountService {
+public interface IAccountService{
     AccountResponse register(AccountRequest req);
     List<AccountResponse> getAccountsManager();
     VerifyResponse verifyAccount(VerifyAccount req);
-    AuthenticationResponse authenticated(AuthenticationRequest req);
     String regenerateOtp(VerifyAccount req);
     Account findAccountByID(Long id);
     AccountResponse getAccountById(Long id);
+    Account findAccountByPhoneNumber(String phoneNumber);
+    AuthenticationResponse authenticated(AuthenticationRequest req);
 
 }

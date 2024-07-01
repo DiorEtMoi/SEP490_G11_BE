@@ -1,7 +1,10 @@
 package com.restaurent.manager.service;
 
+import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+import com.restaurent.manager.dto.request.employee.EmployeeLoginRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateRequest;
+import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.EmployeeResponse;
 import com.restaurent.manager.entity.Employee;
 
@@ -14,4 +17,5 @@ public interface IEmployeeService {
     EmployeeResponse findEmployeeByIdConvertDTO(Long id);
     void deleteEmployee(Long id);
     List<EmployeeResponse> findEmployeesByAccountId(Long accountId);
+    AuthenticationResponse authenticated(EmployeeLoginRequest request);
 }
