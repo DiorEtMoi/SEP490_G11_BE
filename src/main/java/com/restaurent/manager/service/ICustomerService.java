@@ -13,5 +13,5 @@ public interface ICustomerService {
 
     CustomerResponse getCustomerById(Long id); // New method declaration
 
-    List<CustomerResponse> getCustomersOrderByTotalPoint();
+    List<CustomerResponse> getCustomersOrderByTotalPoint(Long id);
 }

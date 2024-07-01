@@ -81,8 +81,9 @@ public class CustomerService implements ICustomerService {
         return customerMapper.toCustomerResponse(customer);
     }
 
-    public List<CustomerResponse> getCustomersOrderByTotalPoint() {
-        List<Customer> customers = customerRepository.findAllOrderByTotalPointDesc();
+    @Override
+    public List<CustomerResponse> getCustomersOrderByTotalPoint(Long restaurantId) {
+        List<Customer> customers = customerRepository.findAllOrderByTotalPointDesc(restaurantId);
         return customers.stream()
                 .map(customerMapper::toCustomerResponse)
                 .collect(Collectors.toList());
