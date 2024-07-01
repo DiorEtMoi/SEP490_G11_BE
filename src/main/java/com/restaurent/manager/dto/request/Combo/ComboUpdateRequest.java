@@ -16,7 +16,6 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ComboUpdateRequest {
 
-    Long id;
 
     @Valid
     @NotNull(message = "INVALID_COMBO_NAME")
