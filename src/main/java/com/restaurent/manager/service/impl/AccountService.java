@@ -19,6 +19,7 @@ import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.RoleRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IEmailService;
+import com.restaurent.manager.service.ITokenGenerate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -41,7 +42,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @RequiredArgsConstructor
 @Slf4j
-public class AccountService implements IAccountService {
+public class AccountService implements IAccountService, ITokenGenerate<Account> {
     @NonFinal
     @Value("${jwt.signerKey}")
     private String signerKey;
@@ -143,6 +144,13 @@ public class AccountService implements IAccountService {
         );
     }
 
+    @Override
+    public Account findAccountByPhoneNumber(String phoneNumber) {
+        return accountRepository.findByPhoneNumber(phoneNumber).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+    }
+    @Override
     public String generateToken(Account user){
         String restaurantId = "";
         if(user.getRestaurant() != null){
@@ -171,6 +179,7 @@ public class AccountService implements IAccountService {
         }
         return token.serialize();
     }
+    @Override
     public String buildScope(Account user){
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(user.getRole() != null){
@@ -181,5 +190,8 @@ public class AccountService implements IAccountService {
         }
         return stringJoiner.toString();
     }
+
+
+
 
 }
