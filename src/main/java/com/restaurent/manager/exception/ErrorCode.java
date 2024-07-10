@@ -42,8 +42,10 @@ public enum ErrorCode {
     TABLE_TYPE_NULL(400,"Table type can not null field",HttpStatus.BAD_REQUEST),
     AREA_NULL(400,"Area can not null field",HttpStatus.BAD_REQUEST),
     NAME_NULL(400,"name can not null",HttpStatus.BAD_REQUEST),
-    EMPLOYEE_NOT_EXIST(404,"Employee not exist",HttpStatus.BAD_REQUEST);
+    EMPLOYEE_NOT_EXIST(404,"Employee not exist",HttpStatus.BAD_REQUEST),
+    CUSTOMER_NOT_EXIST(404,"Customer not exist",HttpStatus.BAD_REQUEST)
     ;
+
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;

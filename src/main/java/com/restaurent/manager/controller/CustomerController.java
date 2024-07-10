@@ -45,6 +45,12 @@ public class CustomerController {
     public List<CustomerResponse> getCustomersOrderByTotalPoint(@RequestParam long id) {
         return customerService.getCustomersOrderByTotalPoint(id);
     }
+    @GetMapping(value = "/{phoneNumber}")
+    public ApiResponse<CustomerResponse> findCustomerByPhoneNumber(@PathVariable String phoneNumber){
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.findCustomerByPhoneNumber(phoneNumber))
+                .build();
+    }
 
 
 }
