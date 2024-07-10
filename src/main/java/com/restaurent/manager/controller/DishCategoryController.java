@@ -33,4 +33,17 @@ public class DishCategoryController {
                 .result(dishCategoryService.createDishCategory(request))
                 .build();
     }
+    @DeleteMapping(value = "/{dishCategoryId}")
+    public ApiResponse<Void> deleteDishCategoryById(@PathVariable Long dishCategoryId){
+        dishCategoryService.deleteCategoryById(dishCategoryId);
+        return ApiResponse.<Void>builder()
+                .message("Delete success")
+                .build();
+    }
+    @PutMapping(value = "/{dishCategoryId}")
+    public ApiResponse<DishCategoryResponse> updateDishCategoryById(@PathVariable Long dishCategoryId, @RequestBody DishCategoryRequest request){
+        return ApiResponse.<DishCategoryResponse>builder()
+                .result(dishCategoryService.updateDishCategoryById(request,dishCategoryId))
+                .build();
+    }
 }

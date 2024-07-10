@@ -11,4 +11,6 @@ public interface IDishCategoryService {
     List<DishCategoryResponse> getAllDishCategoryByAccountId(Long accountId);
     DishCategory findById(Long id);
     DishCategory findByCode(String code);
+    void deleteCategoryById(Long id);
+    DishCategoryResponse updateDishCategoryById(DishCategoryRequest request, Long id);
 }

@@ -59,4 +59,18 @@ public class DishCategoryService implements IDishCategoryService {
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
     }
+
+    @Override
+    public void deleteCategoryById(Long id) {
+        DishCategory category = findById(id);
+        dishCategoryRepository.delete(category);
+    }
+
+    @Override
+    public DishCategoryResponse updateDishCategoryById(DishCategoryRequest request, Long id) {
+        DishCategory dishCategory = findById(id);
+        dishCategoryMapper.updateDishCategory(dishCategory,request);
+        dishCategoryRepository.save(dishCategory);
+        return dishCategoryMapper.toDishCategoryResponse(dishCategory);
+    }
 }

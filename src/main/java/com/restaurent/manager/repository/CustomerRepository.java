@@ -13,4 +13,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query("SELECT c FROM Customer c WHERE c.restaurant.id = :restaurantId ORDER BY c.totalPoint DESC")
     List<Customer> findAllOrderByTotalPointDesc(Long restaurantId);
+    Optional<Customer> findByPhoneNumber(String phoneNumber);
 }
