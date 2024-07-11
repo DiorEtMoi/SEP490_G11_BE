@@ -34,21 +34,21 @@ public class CustomerController {
                 .build();
     }
 
-    @GetMapping("getDetail{id}")
-    public ApiResponse<CustomerResponse> getCustomerDetail(@RequestParam long id) {
+    @GetMapping("getDetail/{id}")
+    public ApiResponse<CustomerResponse> getCustomerDetail(@PathVariable long id) {
         return ApiResponse.<CustomerResponse>builder()
                 .result(customerService.getCustomerById(id))
                 .build();
     }
 
-    @GetMapping("/rankingCustomer{restaurantID}")
-    public List<CustomerResponse> getCustomersOrderByTotalPoint(@RequestParam long id) {
-        return customerService.getCustomersOrderByTotalPoint(id);
+    @GetMapping("/rankingCustomer/{restaurantID}")
+    public List<CustomerResponse> getCustomersOrderByTotalPoint(@PathVariable long restaurantID) {
+        return customerService.getCustomersOrderByTotalPoint(restaurantID);
     }
     @GetMapping(value = "/{phoneNumber}")
     public ApiResponse<CustomerResponse> findCustomerByPhoneNumber(@PathVariable String phoneNumber){
         return ApiResponse.<CustomerResponse>builder()
-                .result(customerService.findCustomerByPhoneNumber(phoneNumber))
+                .result(customerService.findCustomerResponseByPhoneNumber(phoneNumber))
                 .build();
     }
 
