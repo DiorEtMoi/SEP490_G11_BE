@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/order")
 @FieldDefaults(makeFinal = true)
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
