@@ -30,15 +30,15 @@ public class ComboController {
         return comboService.getAllCombos();
     }
 
-    @PutMapping("update{comboId}")
-    public ApiResponse<ComboResponse> updateCombo(@PathVariable String comboId, @Valid @RequestBody ComboUpdateRequest comboUpdateRequest){
+    @PutMapping("update/{comboId}")
+    public ApiResponse<ComboResponse> updateCombo(@PathVariable Long comboId, @Valid @RequestBody ComboUpdateRequest comboUpdateRequest){
         return ApiResponse.<ComboResponse>builder()
-                .result(comboService.updateCombo(Long.parseLong(comboId), comboUpdateRequest))
+                .result(comboService.updateCombo(comboId, comboUpdateRequest))
                 .build();
     }
 
-    @GetMapping("/getDetail{comboId}")
-    public ApiResponse<ComboResponse> getComboDetail(@RequestParam long comboId){
+    @GetMapping("/getDetail/{comboId}")
+    public ApiResponse<ComboResponse> getComboDetail(@PathVariable Long comboId){
         return ApiResponse.<ComboResponse>builder()
                 .result(comboService.getComboById(comboId))
                 .build();

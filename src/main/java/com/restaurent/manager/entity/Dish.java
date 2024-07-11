@@ -19,11 +19,11 @@ public class Dish {
     float weight;
     String description;
     double price;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     DishCategory dishCategory;
     String imageUrl;
     boolean status;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Unit unit;
     @OneToMany(mappedBy = "dish")
     Set<DishOrder> dishOrders;
