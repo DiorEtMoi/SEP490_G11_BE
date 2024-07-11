@@ -3,6 +3,7 @@ package com.restaurent.manager.service;
 import com.restaurent.manager.dto.request.Combo.ComboRequest;
 import com.restaurent.manager.dto.request.Combo.ComboUpdateRequest;
 import com.restaurent.manager.dto.response.Combo.ComboResponse;
+import com.restaurent.manager.entity.Combo;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface IComboService {
     ComboResponse updateCombo(Long comboId,ComboUpdateRequest request);
 
     ComboResponse getComboById(Long id);
+    Combo findComboById(Long id);
 }

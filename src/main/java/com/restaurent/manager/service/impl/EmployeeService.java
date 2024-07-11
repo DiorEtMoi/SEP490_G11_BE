@@ -76,6 +76,8 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
     public EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request) {
         Employee employee = findEmployeeById(employeeId);
         employeeMapper.updateRestaurant(employee,request);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employee.setRole(roleRepository.findById(request.getRoleId()).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         ));

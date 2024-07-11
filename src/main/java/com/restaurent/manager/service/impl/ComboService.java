@@ -85,9 +85,15 @@ public class ComboService implements IComboService {
     }
 
     public ComboResponse getComboById(Long id){
-        Combo combo = comboRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.COMBO_NOT_EXISTED));
+        Combo combo = findComboById(id);
         return comboMapper.toComboResponse(combo);
+    }
+
+    @Override
+    public Combo findComboById(Long id) {
+        return comboRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.COMBO_NOT_EXISTED)
+        );
     }
 
 

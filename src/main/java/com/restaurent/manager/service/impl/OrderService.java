@@ -39,6 +39,7 @@ public class OrderService implements IOrderService {
     IDishService dishService;
     DishOrderMapper dishOrderMapper;
     DishOrderRepository dishOrderRepository;
+    IComboService comboService;
     @Override
     public OrderResponse createOrder(OrderRequest request) {
         TableRestaurant tableRestaurant = tableRestaurantService.findById(request.getTableId());
@@ -59,7 +60,11 @@ public class OrderService implements IOrderService {
         Set<DishOrder> dishOrders = order.getDishOrders();
         for (DishOrderRequest request : requestList){
                 DishOrder dishOrder = dishOrderMapper.toDishOrder(request);
-                dishOrder.setDish(dishService.findByDishId(request.getDishId()));
+                if(request.getDishId() != null){
+                    dishOrder.setDish(dishService.findByDishId(request.getDishId()));
+                }else{
+                    dishOrder.setCombo(comboService.findComboById(request.getComboId()));
+                }
                 dishOrder.setOrder(order);
                 dishOrder.setStatus(DISH_ORDER_STATE.WAITING);
                 dishOrders.add(dishOrderRepository.save(dishOrder));

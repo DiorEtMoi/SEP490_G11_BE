@@ -18,6 +18,8 @@ public class DishOrder {
     Dish dish;
     @ManyToOne(fetch = FetchType.LAZY)
     Order order;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Combo combo;
     int quantity;
     @Enumerated(EnumType.STRING)
     DISH_ORDER_STATE status;
