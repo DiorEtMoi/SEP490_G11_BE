@@ -154,6 +154,7 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
                 .claim("scope",buildScope(employee))
                 .claim("restaurantId",employee.getRestaurant().getId())
                 .claim("employeeId",employee.getId())
+                .claim("accountId",employee.getRestaurant().getAccount().getId())
                 .jwtID(UUID.randomUUID().toString())
                 .build();
         Payload payload = new Payload(claims.toJSONObject());
