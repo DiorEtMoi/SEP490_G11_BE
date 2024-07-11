@@ -10,6 +10,7 @@ import com.restaurent.manager.service.IOrderService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -21,6 +22,7 @@ import java.util.List;
 @FieldDefaults(makeFinal = true)
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
     IOrderService orderService;
     @PostMapping(value = "/create")
@@ -31,9 +33,19 @@ public class OrderController {
     }
     @MessageMapping("/addDishes")
     @SendTo("/topic/order")
-    public ApiResponse<List<DishOrderResponse>> addDishToOrder(@Payload DishOrderAddRequest request){
+    public ApiResponse<Void> addDishToOrder(@Payload DishOrderAddRequest request){
+        log.info(request.toString());
+        orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
+        return ApiResponse.<Void>builder()
+                .message("Order Success")
+                .build();
+    }
+    @PutMapping("/order/add-dishes")
+    public ApiResponse<List<DishOrderResponse>> addDishes(@RequestBody DishOrderAddRequest request){
+        log.info(request.toString());
+        orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
         return ApiResponse.<List<DishOrderResponse>>builder()
-                .result(orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests()))
+                .message("Order success")
                 .build();
     }
     @GetMapping(value = "/{orderId}")

@@ -29,7 +29,7 @@ public class Order {
     LocalDate orderDate;
     @OneToOne(mappedBy = "order")
     Bill bill;
-    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY,cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "order",fetch = FetchType.EAGER,cascade = CascadeType.ALL
     )
     Set<DishOrder> dishOrders = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)

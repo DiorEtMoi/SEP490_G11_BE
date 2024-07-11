@@ -14,7 +14,7 @@ public class DishOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Dish dish;
     @ManyToOne(fetch = FetchType.LAZY)
     Order order;

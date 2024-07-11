@@ -56,7 +56,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<DishOrderResponse> addDishToOrder(Long orderId, List<DishOrderRequest> requestList) {
+    public void addDishToOrder(Long orderId, List<DishOrderRequest> requestList) {
         Order order = findOrderById(orderId);
         Set<DishOrder> dishOrders = order.getDishOrders();
         for (DishOrderRequest request : requestList){
@@ -72,7 +72,6 @@ public class OrderService implements IOrderService {
             }
         order.setDishOrders(dishOrders);
         orderRepository.save(order);
-        return dishOrderRepository.findDishOrderByOrder_Id(orderId).stream().map(dishOrderMapper::toDishOrderResponse).toList();
     }
 
     @Override
