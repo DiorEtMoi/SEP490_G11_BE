@@ -8,5 +8,6 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DishOrderRequest {
     Long dishId;
+    Long comboId;
     int quantity;
 }
