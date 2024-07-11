@@ -43,5 +43,9 @@ public class OrderController {
                 .result(orderService.findDishByOrderId(orderId))
                 .build();
     }
-
+    @MessageMapping("/order.message")
+    @SendTo("/topic/order")
+    public String sendMessage(@Payload String message){
+        return message;
+    }
 }
