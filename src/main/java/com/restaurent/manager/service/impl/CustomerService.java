@@ -90,11 +90,18 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public CustomerResponse findCustomerByPhoneNumber(String phoneNumber) {
+    public CustomerResponse findCustomerResponseByPhoneNumber(String phoneNumber) {
         Customer customer = customerRepository.findByPhoneNumber(phoneNumber).orElseThrow(
                 () -> new AppException(ErrorCode.CUSTOMER_NOT_EXIST)
         );
         return customerMapper.toCustomerResponse(customer);
+    }
+    @Override
+    public Customer findCustomerByPhoneNumber(String phoneNumber) {
+        Customer customer = customerRepository.findByPhoneNumber(phoneNumber).orElseThrow(
+                () -> new AppException(ErrorCode.CUSTOMER_NOT_EXIST)
+        );
+        return customer;
     }
 
 }
