@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -28,9 +29,9 @@ public class Order {
     LocalDate orderDate;
     @OneToOne(mappedBy = "order")
     Bill bill;
-    @OneToMany(mappedBy = "order"
+    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY,cascade = CascadeType.ALL
     )
-    Set<DishOrder> dishOrders;
+    Set<DishOrder> dishOrders = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     Restaurant restaurant;
     @Override
