@@ -29,7 +29,7 @@ public class OrderController {
                 .result(orderService.createOrder(request))
                 .build();
     }
-    @MessageMapping("/order.addDishes")
+    @MessageMapping("/addDishes")
     @SendTo("/topic/order")
     public ApiResponse<List<DishOrderResponse>> addDishToOrder(@Payload DishOrderAddRequest request){
         return ApiResponse.<List<DishOrderResponse>>builder()
@@ -42,7 +42,7 @@ public class OrderController {
                 .result(orderService.findDishByOrderId(orderId))
                 .build();
     }
-    @MessageMapping("/order.message")
+    @MessageMapping("/message")
     @SendTo("/topic/order")
     public String sendMessage(@Payload String message){
         return message;
