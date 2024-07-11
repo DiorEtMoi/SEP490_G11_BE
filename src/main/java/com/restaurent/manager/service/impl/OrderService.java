@@ -2,12 +2,10 @@ package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import com.restaurent.manager.dto.request.order.OrderRequest;
+import com.restaurent.manager.dto.response.CustomerResponse;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.dto.response.order.OrderResponse;
-import com.restaurent.manager.entity.Dish;
-import com.restaurent.manager.entity.DishOrder;
-import com.restaurent.manager.entity.Order;
-import com.restaurent.manager.entity.TableRestaurant;
+import com.restaurent.manager.entity.*;
 import com.restaurent.manager.enums.DISH_ORDER_STATE;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
@@ -40,10 +38,13 @@ public class OrderService implements IOrderService {
     DishOrderMapper dishOrderMapper;
     DishOrderRepository dishOrderRepository;
     IComboService comboService;
+    ICustomerService customerService;
     @Override
     public OrderResponse createOrder(OrderRequest request) {
         TableRestaurant tableRestaurant = tableRestaurantService.findById(request.getTableId());
         Order order = new Order();
+        Customer customer = customerService.findCustomerByPhoneNumber(request.getCustomerResponse().getPhoneNumber());
+        order.setCustomer(customer);
         order.setRestaurant(restaurantService.getRestaurantById(request.getRestaurantId()));
         order.setTableRestaurant(tableRestaurant);
         order.setEmployee(employeeService.findEmployeeById(request.getEmployeeId()));
