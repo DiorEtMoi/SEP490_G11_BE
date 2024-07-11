@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.request.order.DishOrderAddRequest;
 import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import com.restaurent.manager.dto.request.order.OrderRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
@@ -9,6 +10,9 @@ import com.restaurent.manager.service.IOrderService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,10 +30,11 @@ public class OrderController {
                 .result(orderService.createOrder(request))
                 .build();
     }
-    @PutMapping(value = "/{orderId}")
-    public ApiResponse<List<DishOrderResponse>> addDishToOrder(@RequestBody List<DishOrderRequest> requestList, @PathVariable Long orderId){
+    @MessageMapping("/order.addDishes")
+    @SendTo("/topic/order")
+    public ApiResponse<List<DishOrderResponse>> addDishToOrder(@Payload DishOrderAddRequest request){
         return ApiResponse.<List<DishOrderResponse>>builder()
-                .result(orderService.addDishToOrder(orderId,requestList))
+                .result(orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests()))
                 .build();
     }
     @GetMapping(value = "/{orderId}")
@@ -38,4 +43,5 @@ public class OrderController {
                 .result(orderService.findDishByOrderId(orderId))
                 .build();
     }
+
 }
