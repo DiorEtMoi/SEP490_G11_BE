@@ -90,5 +90,8 @@ public class OrderService implements IOrderService {
         );
     }
 
-
+    @Override
+    public List<Order> findOrderByRestaurantId(Long restaurantId) {
+        return orderRepository.findOrderByRestaurant_Id(restaurantId);
+    }
 }

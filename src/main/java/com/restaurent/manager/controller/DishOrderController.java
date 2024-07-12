@@ -38,5 +38,10 @@ public class DishOrderController {
                 .result(dishOrderService.findDishOrderByOrderIdAndStatus(orderId,state))
                 .build();
     }
-
+    @GetMapping(value = "/restaurant/{restaurantId}/state/{state}")
+    public ApiResponse<List<DishOrderResponse>> findDishOrderByRestaurantIdAndState(@PathVariable Long restaurantId,@PathVariable DISH_ORDER_STATE state){
+        return ApiResponse.<List<DishOrderResponse>>builder()
+                .result(dishOrderService.findDishOrderByRestaurantIdAndState(restaurantId,state))
+                .build();
+    }
 }
