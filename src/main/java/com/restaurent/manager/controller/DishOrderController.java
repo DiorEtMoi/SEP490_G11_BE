@@ -10,6 +10,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -24,4 +26,17 @@ public class DishOrderController {
                 .result(dishOrderService.changeStatusDishOrderById(dishOrderId,status))
                 .build();
     }
+    @GetMapping(value = "/{orderId}")
+    public ApiResponse<List<DishOrderResponse>> findDishOrderByOrderId(@PathVariable Long orderId){
+        return ApiResponse.<List<DishOrderResponse>>builder()
+                .result(dishOrderService.findDishOrderByOrderId(orderId))
+                .build();
+    }
+    @GetMapping(value = "/{orderId}/state/{state}")
+    public ApiResponse<List<DishOrderResponse>> findDishOrderByOrderIdAndState(@PathVariable Long orderId,@PathVariable DISH_ORDER_STATE state){
+        return ApiResponse.<List<DishOrderResponse>>builder()
+                .result(dishOrderService.findDishOrderByOrderIdAndStatus(orderId,state))
+                .build();
+    }
+
 }
