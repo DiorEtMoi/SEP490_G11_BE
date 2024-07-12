@@ -14,5 +14,5 @@ public interface IOrderService {
     List<DishOrderResponse> addDishToOrder(Long orderId, List<DishOrderRequest> requestList);
     List<DishOrderResponse> findDishByOrderId(Long orderId);
     Order findOrderById(Long orderId);
-//    OrderResponse findOrderByRestaurantId(Long restaurantId);
+    List<Order> findOrderByRestaurantId(Long restaurantId);
 }
