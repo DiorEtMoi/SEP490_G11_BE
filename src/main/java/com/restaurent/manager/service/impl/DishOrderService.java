@@ -60,7 +60,7 @@ public class DishOrderService implements IDishOrderService {
 
         if(!orders.isEmpty()){
             for (Order order: orders){
-                orderDishes = dishOrderRepository.findDishOrderByOrder_IdAndStatus(order.getId(),DISH_ORDER_STATE.WAITING);
+                orderDishes = dishOrderRepository.findDishOrderByOrder_IdAndStatus(order.getId(),state);
                 if(!orderDishes.isEmpty()){
                     dishOrders.addAll(orderDishes);
                 }
