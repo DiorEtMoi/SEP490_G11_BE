@@ -13,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -33,5 +35,10 @@ public class DishOrderService implements IDishOrderService {
         return dishOrderRepository.findById(dishOrderId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
+    }
+
+    @Override
+    public List<DishOrder> findDishOrderByOrderId(Long orderId) {
+        return null;
     }
 }
