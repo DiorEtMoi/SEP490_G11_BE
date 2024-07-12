@@ -20,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,9 +57,10 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void addDishToOrder(Long orderId, List<DishOrderRequest> requestList) {
+    public List<DishOrderResponse> addDishToOrder(Long orderId, List<DishOrderRequest> requestList) {
         Order order = findOrderById(orderId);
         Set<DishOrder> dishOrders = order.getDishOrders();
+        List<DishOrderResponse> results = new ArrayList<>();
         for (DishOrderRequest request : requestList){
                 DishOrder dishOrder = dishOrderMapper.toDishOrder(request);
                 if(request.getDishId() != null){
@@ -68,10 +70,12 @@ public class OrderService implements IOrderService {
                 }
                 dishOrder.setOrder(order);
                 dishOrder.setStatus(DISH_ORDER_STATE.WAITING);
+                results.add(dishOrderMapper.toDishOrderResponse(dishOrder));
                 dishOrders.add(dishOrderRepository.save(dishOrder));
             }
         order.setDishOrders(dishOrders);
         orderRepository.save(order);
+        return results;
     }
 
     @Override
@@ -85,4 +89,6 @@ public class OrderService implements IOrderService {
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
     }
+
+
 }

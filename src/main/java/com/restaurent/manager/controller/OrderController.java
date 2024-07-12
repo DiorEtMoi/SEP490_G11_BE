@@ -33,11 +33,10 @@ public class OrderController {
     }
     @MessageMapping("/addDishes")
     @SendTo("/topic/order")
-    public ApiResponse<Void> addDishToOrder(@Payload DishOrderAddRequest request){
+    public ApiResponse<List<DishOrderResponse>> addDishToOrder(@Payload DishOrderAddRequest request){
         log.info(request.toString());
-        orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
-        return ApiResponse.<Void>builder()
-                .message("Order Success")
+        return ApiResponse.<List<DishOrderResponse>>builder()
+                .result(orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests()))
                 .build();
     }
     @PutMapping("/order/add-dishes")
