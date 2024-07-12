@@ -38,7 +38,12 @@ public class DishOrderService implements IDishOrderService {
     }
 
     @Override
-    public List<DishOrder> findDishOrderByOrderId(Long orderId) {
-        return null;
+    public List<DishOrderResponse> findDishOrderByOrderId(Long orderId) {
+        return dishOrderRepository.findDishOrderByOrder_Id(orderId).stream().map(dishOrderMapper::toDishOrderResponse).toList();
+    }
+
+    @Override
+    public List<DishOrderResponse> findDishOrderByOrderIdAndStatus(Long orderId, DISH_ORDER_STATE state) {
+        return dishOrderRepository.findDishOrderByOrder_IdAndStatus(orderId,state).stream().map(dishOrderMapper::toDishOrderResponse).toList();
     }
 }
