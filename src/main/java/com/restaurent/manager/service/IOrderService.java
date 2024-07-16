@@ -15,4 +15,5 @@ public interface IOrderService {
     List<DishOrderResponse> findDishByOrderId(Long orderId);
     Order findOrderById(Long orderId);
     List<Order> findOrderByRestaurantId(Long restaurantId);
+    OrderResponse findOrderByTableId(Long tableId);
 }

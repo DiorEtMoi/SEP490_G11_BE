@@ -58,4 +58,10 @@ public class OrderController {
     public String sendMessage(@Payload String message){
         return message;
     }
+    @GetMapping(value = "/api/order/table/{tableId}")
+    public ApiResponse<OrderResponse> findOrderByTableId(@PathVariable Long tableId){
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.findOrderByTableId(tableId))
+                .build();
+    }
 }
