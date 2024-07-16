@@ -3,6 +3,7 @@ package com.restaurent.manager.service.impl;
 import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
 import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
+import com.restaurent.manager.entity.Order;
 import com.restaurent.manager.entity.TableRestaurant;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
@@ -104,5 +105,10 @@ public class TableRestaurantService implements ITableRestaurantService {
             tableRestaurant.setPositionY(tableRestaurantResponse.getPositionY());
             tableRestaurantRepository.save(tableRestaurant);
         }
+    }
+
+    @Override
+    public Order findOrderByTableId(Long tableId) {
+        return null;
     }
 }
