@@ -98,7 +98,7 @@ public class OrderService implements IOrderService {
     @Override
     public OrderResponse findOrderByTableId(Long tableId) {
         TableRestaurant tableRestaurant = tableRestaurantService.findById(tableId);
-        if(tableRestaurant != null){
+        if(tableRestaurant.getOrderCurrent() != null){
             Order order = findOrderById(tableRestaurant.getOrderCurrent());
             return orderMapper.toOrderResponse(order);
         }
