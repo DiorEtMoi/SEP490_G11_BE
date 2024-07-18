@@ -1,7 +1,6 @@
 package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.order.DishOrderAddRequest;
-import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import com.restaurent.manager.dto.request.order.OrderRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
@@ -62,6 +61,12 @@ public class OrderController {
     public ApiResponse<OrderResponse> findOrderByTableId(@PathVariable Long tableId){
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.findOrderByTableId(tableId))
+                .build();
+    }
+    @GetMapping(value = "/api/order/{orderId}")
+    public ApiResponse<OrderResponse> findOrderById(@PathVariable Long orderId){
+        return ApiResponse.<OrderResponse>builder()
+                .result(orderService.findOrderAndConvertDTOByOrderId(orderId))
                 .build();
     }
 }
