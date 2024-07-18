@@ -104,4 +104,16 @@ public class OrderService implements IOrderService {
         }
         return null;
     }
+
+    @Override
+    public OrderResponse findOrderAndConvertDTOByOrderId(Long orderId) {
+        Order order = findOrderById(orderId);
+        OrderResponse orderResponse = orderMapper.toOrderResponse(order);
+        double totalMoney = 0L;
+        for (DishOrder dishOrder : order.getDishOrders()){
+            totalMoney += dishOrder.getDish().getPrice() * dishOrder.getQuantity();
+        }
+        orderResponse.setTotalMoney(totalMoney);
+        return orderResponse;
+    }
 }
