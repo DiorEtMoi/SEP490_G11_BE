@@ -37,8 +37,15 @@ public class DishOrderService implements IDishOrderService {
 
     @Override
     public List<DishOrderResponse> findDishOrderWaitingByAndRestaurantId(Long restaurantId) {
-        List<DishOrderResponse> dishOrderResponses = findDishOrderByRestaurantIdAndState(restaurantId,DISH_ORDER_STATE.WAITING);
-        dishOrderResponses.addAll(findDishOrderByRestaurantIdAndState(restaurantId,DISH_ORDER_STATE.PREPARE));
+        List<DishOrderResponse> dishOrderResponses = new ArrayList<>();
+        List<DishOrderResponse> waitingOrder = findDishOrderByRestaurantIdAndState(restaurantId,DISH_ORDER_STATE.WAITING);
+        List<DishOrderResponse> prepareOrder = findDishOrderByRestaurantIdAndState(restaurantId,DISH_ORDER_STATE.PREPARE);
+        if(waitingOrder != null){
+            dishOrderResponses.addAll(waitingOrder);
+        }
+        if(prepareOrder != null){
+            dishOrderResponses.addAll(prepareOrder);
+        }
         return dishOrderResponses;
     }
 
