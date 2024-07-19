@@ -21,7 +21,7 @@ import java.util.List;
 public class DishOrderController {
     IDishOrderService dishOrderService;
     @PutMapping(value = "/{dishOrderId}")
-    public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@PathVariable Long dishOrderId,@RequestBody DISH_ORDER_STATE status){
+    public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@PathVariable Long dishOrderId,@RequestParam(name = "status") DISH_ORDER_STATE status){
         return ApiResponse.<DishOrderResponse>builder()
                 .result(dishOrderService.changeStatusDishOrderById(dishOrderId,status))
                 .build();
