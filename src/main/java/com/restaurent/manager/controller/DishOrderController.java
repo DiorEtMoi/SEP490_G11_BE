@@ -23,11 +23,11 @@ import java.util.List;
 public class DishOrderController {
     IDishOrderService dishOrderService;
     @MessageMapping("/dish-order/change-status")
-    @PutMapping(value = "/{dishOrderId}")
+    @PutMapping()
     @SendTo(value = "/topic/dish-order")
-    public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@PathVariable Long dishOrderId,@RequestParam(name = "status") DISH_ORDER_STATE status){
+    public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@RequestBody DishOrderResponse request){
         return ApiResponse.<DishOrderResponse>builder()
-                .result(dishOrderService.changeStatusDishOrderById(dishOrderId,status))
+                .result(dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus())))
                 .build();
     }
     @GetMapping(value = "/{orderId}")
