@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,9 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class DishOrderController {
     IDishOrderService dishOrderService;
+    @MessageMapping("/dish-order/change-status")
     @PutMapping(value = "/{dishOrderId}")
+    @SendTo(value = "/topic/dish-order")
     public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@PathVariable Long dishOrderId,@RequestParam(name = "status") DISH_ORDER_STATE status){
         return ApiResponse.<DishOrderResponse>builder()
                 .result(dishOrderService.changeStatusDishOrderById(dishOrderId,status))
