@@ -18,9 +18,9 @@ public class DishOrder {
     Long id;
     @ManyToOne(fetch = FetchType.EAGER)
     Dish dish;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Order order;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Combo combo;
     int quantity;
     @Enumerated(EnumType.STRING)
