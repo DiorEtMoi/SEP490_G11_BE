@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface IDishOrderService {
     DishOrderResponse changeStatusDishOrderById(Long id, DISH_ORDER_STATE status);
+    List<DishOrderResponse> findDishOrderWaitingByAndRestaurantId(Long restaurantId);
     DishOrder findById(Long dishOrderId);
     List<DishOrderResponse> findDishOrderByOrderId(Long orderId);
     List<DishOrderResponse> findDishOrderByOrderIdAndStatus(Long orderId,DISH_ORDER_STATE state);

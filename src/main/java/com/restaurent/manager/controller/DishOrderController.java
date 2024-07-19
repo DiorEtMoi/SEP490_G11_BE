@@ -44,4 +44,10 @@ public class DishOrderController {
                 .result(dishOrderService.findDishOrderByRestaurantIdAndState(restaurantId,state))
                 .build();
     }
+    @GetMapping(value = "/restaurant/{restaurantId}")
+    public ApiResponse<List<DishOrderResponse>> findDishOrderWaitingByRestaurantId(@PathVariable Long restaurantId){
+        return ApiResponse.<List<DishOrderResponse>>builder()
+                .result(dishOrderService.findDishOrderWaitingByAndRestaurantId(restaurantId))
+                .build();
+    }
 }

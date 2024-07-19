@@ -70,6 +70,7 @@ public class OrderService implements IOrderService {
                 }
                 dishOrder.setOrder(order);
                 dishOrder.setStatus(DISH_ORDER_STATE.WAITING);
+                dishOrder.setOrderDate(LocalDate.now());
                 results.add(dishOrderMapper.toDishOrderResponse(dishOrder));
                 dishOrders.add(dishOrderRepository.save(dishOrder));
             }

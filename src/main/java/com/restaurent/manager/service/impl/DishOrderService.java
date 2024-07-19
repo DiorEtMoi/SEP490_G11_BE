@@ -36,6 +36,13 @@ public class DishOrderService implements IDishOrderService {
     }
 
     @Override
+    public List<DishOrderResponse> findDishOrderWaitingByAndRestaurantId(Long restaurantId) {
+        List<DishOrderResponse> dishOrderResponses = findDishOrderByRestaurantIdAndState(restaurantId,DISH_ORDER_STATE.WAITING);
+        dishOrderResponses.addAll(findDishOrderByRestaurantIdAndState(restaurantId,DISH_ORDER_STATE.PREPARE));
+        return dishOrderResponses;
+    }
+
+    @Override
     public DishOrder findById(Long dishOrderId) {
         return dishOrderRepository.findById(dishOrderId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
