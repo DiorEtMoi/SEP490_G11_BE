@@ -25,10 +25,8 @@ public class DishOrderController {
     IDishOrderService dishOrderService;
     @MessageMapping("/table/{tableId}/change-status")
     @SendTo(value = "/topic/dish-order")
-    public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@RequestBody DishOrderResponse request){
-        return ApiResponse.<DishOrderResponse>builder()
-                .result(dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus())))
-                .build();
+    public DishOrderResponse updateStatusDishOrderById(@RequestBody DishOrderResponse request){
+        return dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus()));
     }
     @GetMapping(value = "/{orderId}")
     public ApiResponse<List<DishOrderResponse>> findDishOrderByOrderId(@PathVariable Long orderId){
