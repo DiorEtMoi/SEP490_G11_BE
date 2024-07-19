@@ -22,7 +22,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class DishOrderController {
     IDishOrderService dishOrderService;
-    @MessageMapping("/dish-order/change-status")
+    @MessageMapping("/change-status")
     @PutMapping()
     @SendTo(value = "/topic/dish-order")
     public ApiResponse<DishOrderResponse> updateStatusDishOrderById(@RequestBody DishOrderResponse request){
