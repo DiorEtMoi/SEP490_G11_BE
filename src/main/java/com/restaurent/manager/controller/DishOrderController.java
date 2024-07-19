@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,10 +24,13 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class DishOrderController {
     IDishOrderService dishOrderService;
-    @MessageMapping("/table/{tableId}/change-status")
-    @SendTo(value = "/topic/dish-order")
+    private SimpMessagingTemplate messagingTemplate;
+    @MessageMapping("/change-status")
     public DishOrderResponse updateStatusDishOrderById(@RequestBody DishOrderResponse request){
-        return dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus()));
+        DishOrderResponse response = dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus()));
+        String roomId = "" + request.getOrder().getTableRestaurant().getId();
+        messagingTemplate.convertAndSend("/topic/table/" + roomId, response);
+        return response;
     }
     @GetMapping(value = "/{orderId}")
     public ApiResponse<List<DishOrderResponse>> findDishOrderByOrderId(@PathVariable Long orderId){
