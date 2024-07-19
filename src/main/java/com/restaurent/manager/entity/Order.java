@@ -22,7 +22,7 @@ public class Order {
     Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     Employee employee;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Customer customer;
     @ManyToOne(fetch = FetchType.EAGER)
     TableRestaurant tableRestaurant;
