@@ -24,7 +24,7 @@ public class Order {
     Employee employee;
     @ManyToOne(fetch = FetchType.LAZY)
     Customer customer;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     TableRestaurant tableRestaurant;
     LocalDate orderDate;
     @OneToOne(mappedBy = "order")
