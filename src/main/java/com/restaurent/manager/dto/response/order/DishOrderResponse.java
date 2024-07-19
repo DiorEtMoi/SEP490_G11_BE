@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DishOrderResponse {
+    Long id;
     DishResponse dish;
     OrderResponse order;
     int quantity;
