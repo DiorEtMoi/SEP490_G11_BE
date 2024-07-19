@@ -71,8 +71,9 @@ public class OrderService implements IOrderService {
                 dishOrder.setOrder(order);
                 dishOrder.setStatus(DISH_ORDER_STATE.WAITING);
                 dishOrder.setOrderDate(LocalDate.now());
-                results.add(dishOrderMapper.toDishOrderResponse(dishOrder));
-                dishOrders.add(dishOrderRepository.save(dishOrder));
+                DishOrder saved = dishOrderRepository.save(dishOrder);
+                results.add(dishOrderMapper.toDishOrderResponse(saved));
+                dishOrders.add(saved);
             }
         order.setDishOrders(dishOrders);
         orderRepository.save(order);
