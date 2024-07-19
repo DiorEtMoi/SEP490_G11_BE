@@ -17,14 +17,14 @@ public class TableRestaurant {
     Long id;
     String name;
     Long orderCurrent;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     TableType tableType;
     @OneToMany(mappedBy = "tableRestaurant",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     Set<Order> orders;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Area area;
     float positionX;
     float positionY;
