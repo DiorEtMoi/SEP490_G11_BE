@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -23,6 +25,7 @@ public class DishOrder {
     int quantity;
     @Enumerated(EnumType.STRING)
     DISH_ORDER_STATE status;
+    LocalDate orderDate;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
