@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
 @Slf4j
 public class OrderController {
     IOrderService orderService;
+    SimpMessagingTemplate messagingTemplate;
     @PostMapping(value = "/create")
     public ApiResponse<OrderResponse> createNewOrder(@RequestBody OrderRequest request){
         return ApiResponse.<OrderResponse>builder()
@@ -31,10 +33,11 @@ public class OrderController {
                 .build();
     }
     @MessageMapping("/addDishes")
-    @SendTo("/topic/order")
-    public List<DishOrderResponse> addDishToOrder(@Payload DishOrderAddRequest request){
+    public void addDishToOrder(@Payload DishOrderAddRequest request){
         log.info(request.toString());
-        return orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
+        String roomId = "" + request.getRestaurantId();
+        List<DishOrderResponse> responses = orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
+        messagingTemplate.convertAndSend("/topic/restaurant/" + roomId,responses);
     }
     @PutMapping("/order/add-dishes")
     public ApiResponse<List<DishOrderResponse>> addDishes(@RequestBody DishOrderAddRequest request){
@@ -67,4 +70,5 @@ public class OrderController {
                 .result(orderService.findOrderAndConvertDTOByOrderId(orderId))
                 .build();
     }
+
 }

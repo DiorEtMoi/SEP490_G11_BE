@@ -16,4 +16,5 @@ public interface ITableRestaurantService {
     void deleteTableById(Long tableId);
     void updateTables(List<TableRestaurantResponse> tables);
     Order findOrderByTableId(Long tableId);
+    TableRestaurantResponse findTableRestaurantByIdToResponse(Long id);
 }

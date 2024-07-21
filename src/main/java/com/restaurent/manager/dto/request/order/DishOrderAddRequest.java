@@ -11,4 +11,5 @@ import java.util.List;
 public class DishOrderAddRequest {
    List<DishOrderRequest> dishOrderRequests;
    Long orderId;
+   Long restaurantId;
 }

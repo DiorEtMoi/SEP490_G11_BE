@@ -63,13 +63,6 @@ public class AccountController {
                 .result(accountService.regenerateOtp(email))
                 .build();
     }
-    @GetMapping(value = "/myInfo")
-    public String getMyInfo(){
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("Username : " + authentication.getName());
-        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
-        return "";
-    }
     @GetMapping("/{accountId}")
     public ApiResponse<AccountResponse> getAccountById(@PathVariable Long accountId){
         return  ApiResponse.<AccountResponse>builder()

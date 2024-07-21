@@ -32,7 +32,7 @@ public class Order {
     @OneToMany(mappedBy = "order",fetch = FetchType.EAGER,cascade = CascadeType.ALL
     )
     Set<DishOrder> dishOrders = new HashSet<>();
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     Restaurant restaurant;
     @Override
     public boolean equals(Object o) {
