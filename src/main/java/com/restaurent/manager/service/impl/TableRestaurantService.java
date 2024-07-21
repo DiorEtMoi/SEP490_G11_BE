@@ -111,4 +111,9 @@ public class TableRestaurantService implements ITableRestaurantService {
     public Order findOrderByTableId(Long tableId) {
         return null;
     }
+
+    @Override
+    public TableRestaurantResponse findTableRestaurantByIdToResponse(Long id) {
+        return tableRestaurantMapper.toTableRestaurantResponse(findById(id));
+    }
 }

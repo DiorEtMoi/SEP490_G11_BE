@@ -4,12 +4,17 @@ import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
 import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
+import com.restaurent.manager.entity.TableRestaurant;
+import com.restaurent.manager.mapper.TableRestaurantMapper;
 import com.restaurent.manager.service.ITableRestaurantService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +27,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class TableRestaurantController {
     ITableRestaurantService tableRestaurantService;
+    SimpMessagingTemplate messagingTemplate;
     @PostMapping(value = "/create")
     public ApiResponse<TableRestaurantResponse> createTable(@RequestBody @Valid TableRestaurantRequest request){
         return ApiResponse.<TableRestaurantResponse>builder()
@@ -59,5 +65,11 @@ public class TableRestaurantController {
         return ApiResponse.<Void>builder()
                 .message("Update success")
                 .build();
+    }
+    @MessageMapping("/restaurant/{restaurantId}/table/{tableId}/status-table")
+    public void notifyStatusTable(@DestinationVariable Long tableId,@DestinationVariable Long restaurantId){
+        TableRestaurantResponse response = tableRestaurantService.findTableRestaurantByIdToResponse(tableId);
+        String roomId = "" + restaurantId;
+        messagingTemplate.convertAndSend("/topic/restaurant/" + roomId,response);
     }
 }
