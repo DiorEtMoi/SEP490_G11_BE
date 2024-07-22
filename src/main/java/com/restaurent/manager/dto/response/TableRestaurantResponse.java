@@ -15,4 +15,5 @@ public class TableRestaurantResponse {
     float positionX;
     float positionY;
     Long orderCurrent;
+    int numberChairs;
 }
