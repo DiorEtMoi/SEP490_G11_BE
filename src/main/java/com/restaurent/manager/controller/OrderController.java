@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -32,10 +33,10 @@ public class OrderController {
                 .result(orderService.createOrder(request))
                 .build();
     }
-    @MessageMapping("/addDishes")
-    public void addDishToOrder(@Payload DishOrderAddRequest request){
+    @MessageMapping("/restaurant/{restaurantId}/addDishes")
+    public void addDishToOrder(@DestinationVariable Long restaurantId, @Payload DishOrderAddRequest request){
         log.info(request.toString());
-        String roomId = "" + request.getRestaurantId();
+        String roomId = "" + restaurantId;
         List<DishOrderResponse> responses = orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
         messagingTemplate.convertAndSend("/topic/order/restaurant/" + roomId,responses);
     }
