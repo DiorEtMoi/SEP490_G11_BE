@@ -21,4 +21,7 @@ public class RestaurantResponse {
     private PackageResponse restaurantPackage;
     private LocalDateTime expiryDate;
     private String token;
+    private String BANK_ID;
+    private String ACCOUNT_NO;
+    private String ACCOUNT_NAME;
 }
