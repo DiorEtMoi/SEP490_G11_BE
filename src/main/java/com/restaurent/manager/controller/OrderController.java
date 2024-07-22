@@ -37,7 +37,7 @@ public class OrderController {
         log.info(request.toString());
         String roomId = "" + request.getRestaurantId();
         List<DishOrderResponse> responses = orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
-        messagingTemplate.convertAndSend("/topic/restaurant/" + roomId,responses);
+        messagingTemplate.convertAndSend("/topic/order/restaurant/" + roomId,responses);
     }
     @PutMapping("/order/add-dishes")
     public ApiResponse<List<DishOrderResponse>> addDishes(@RequestBody DishOrderAddRequest request){
