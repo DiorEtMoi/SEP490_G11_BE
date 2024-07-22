@@ -1,6 +1,7 @@
 package com.restaurent.manager.mapper;
 
 import com.restaurent.manager.dto.request.restaurant.RestaurantManagerUpdateRequest;
+import com.restaurent.manager.dto.request.restaurant.RestaurantPaymentRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.RestaurantResponse;
@@ -15,4 +16,6 @@ public interface RestaurantMapper {
 
     void updateRestaurant(@MappingTarget Restaurant restaurant, RestaurantUpdateRequest request);
     void updateRestaurant(@MappingTarget Restaurant restaurant, RestaurantManagerUpdateRequest request);
+    void updateRestaurant(@MappingTarget Restaurant restaurant, RestaurantPaymentRequest request);
+
 }
