@@ -17,6 +17,7 @@ public class TableRestaurant {
     Long id;
     String name;
     Long orderCurrent;
+    int numberChairs;
     @ManyToOne(fetch = FetchType.EAGER)
     TableType tableType;
     @OneToMany(mappedBy = "tableRestaurant",
