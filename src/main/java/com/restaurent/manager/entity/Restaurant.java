@@ -46,6 +46,9 @@ public class Restaurant {
     private Set<Area> areas;
     private double moneyToPoint;
     private double pointToMoney;
+    private String BANK_ID;
+    private String ACCOUNT_NO;
+    private String ACCOUNT_NAME;
     public void addEmployee(Employee employee){
         this.employees.add(employee);
         employee.setRestaurant(this);

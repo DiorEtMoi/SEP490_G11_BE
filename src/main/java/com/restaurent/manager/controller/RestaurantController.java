@@ -1,6 +1,7 @@
 package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.restaurant.RestaurantManagerUpdateRequest;
+import com.restaurent.manager.dto.request.restaurant.RestaurantPaymentRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
@@ -44,6 +45,12 @@ public class RestaurantController {
     }
     @PutMapping("/manager/{accountId}")
     public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable Long accountId,@RequestBody RestaurantManagerUpdateRequest request){
+        return ApiResponse.<RestaurantResponse>builder()
+                .result(restaurantService.updateRestaurant(accountId,request))
+                .build();
+    }
+    @PutMapping("/manager/payment/{accountId}")
+    public ApiResponse<RestaurantResponse> updateRestaurantPayment(@PathVariable Long accountId,@RequestBody RestaurantPaymentRequest request){
         return ApiResponse.<RestaurantResponse>builder()
                 .result(restaurantService.updateRestaurant(accountId,request))
                 .build();
