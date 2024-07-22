@@ -11,7 +11,4 @@ import lombok.experimental.FieldDefaults;
 public class TableTypeRequest {
     @NotNull(message = "FIELD_EMPTY")
     String name;
-    String imageUrl;
-    @Min(value = 4,message = "NUMBER_CHAIRS_TOO_FEW")
-    int numberChairs;
 }
