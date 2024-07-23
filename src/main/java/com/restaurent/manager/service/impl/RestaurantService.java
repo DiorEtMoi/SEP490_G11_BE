@@ -48,6 +48,8 @@ public class RestaurantService implements IRestaurantService {
         restaurant.setAccount(account);
         restaurant.setRestaurantPackage(packageService.findByPackName("Trial"));
         restaurant.setExpiryDate(LocalDateTime.now().plusDays(7));
+        restaurant.setMoneyToPoint(100000);
+        restaurant.setPointToMoney(1000);
         account.setRestaurant(restaurant);
         Restaurant restaurantSaved = restaurantRepository.save(restaurant);
         RestaurantResponse restaurantResponse = restaurantMapper.toRestaurantResponse(restaurantSaved);
