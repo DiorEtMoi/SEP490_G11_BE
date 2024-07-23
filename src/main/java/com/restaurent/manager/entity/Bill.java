@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -19,7 +20,7 @@ public class Bill {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     Order order;
     double total;
-    LocalDate dateCreated;
+    LocalDateTime dateCreated;
     @Enumerated(EnumType.STRING)
     MethodPayment methodPayment;
 }

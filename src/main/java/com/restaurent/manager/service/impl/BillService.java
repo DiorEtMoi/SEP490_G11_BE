@@ -16,6 +16,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -34,6 +38,7 @@ public class BillService implements IBillService {
         tableRestaurantRepository.save(tableRestaurant);
         Bill bill = billMapper.toBill(request);
         bill.setOrder(order);
+        bill.setDateCreated(LocalDateTime.now());
         return billMapper.toBillResponse(billRepository.save(bill));
     }
 }
