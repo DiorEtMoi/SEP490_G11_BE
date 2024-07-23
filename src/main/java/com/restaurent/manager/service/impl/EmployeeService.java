@@ -136,9 +136,6 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(employee.getRole() != null){
             stringJoiner.add(employee.getRole().getName());
-            if(employee.getRestaurant() != null && employee.getRestaurant().getExpiryDate().isAfter(LocalDateTime.now())){
-                employee.getRestaurant().getRestaurantPackage().getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
-            }
         }
         return stringJoiner.toString();
     }

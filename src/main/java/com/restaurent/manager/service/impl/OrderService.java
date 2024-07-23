@@ -113,7 +113,9 @@ public class OrderService implements IOrderService {
         OrderResponse orderResponse = orderMapper.toOrderResponse(order);
         double totalMoney = 0L;
         for (DishOrder dishOrder : order.getDishOrders()){
-            totalMoney += dishOrder.getDish().getPrice() * dishOrder.getQuantity();
+            if(dishOrder.getStatus() != DISH_ORDER_STATE.DECLINE){
+                totalMoney += dishOrder.getDish().getPrice() * dishOrder.getQuantity();
+            }
         }
         orderResponse.setTotalMoney(totalMoney);
         return orderResponse;
