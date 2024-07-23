@@ -14,11 +14,13 @@ import com.restaurent.manager.service.ITableRestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -40,5 +42,12 @@ public class BillService implements IBillService {
         bill.setOrder(order);
         bill.setDateCreated(LocalDateTime.now());
         return billMapper.toBillResponse(billRepository.save(bill));
+    }
+
+    @Override
+    public List<BillResponse> getBillsByRestaurantId(Long restaurantId,Pageable pageable) {
+        return billRepository.findByOrder_Restaurant_Id(restaurantId,pageable).stream().map(
+                billMapper::toBillResponse
+        ).toList();
     }
 }
