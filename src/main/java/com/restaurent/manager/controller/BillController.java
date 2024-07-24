@@ -3,6 +3,7 @@ package com.restaurent.manager.controller;
 import com.restaurent.manager.dto.request.BillRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.BillResponse;
+import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.service.IBillService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,13 @@ public class BillController {
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<List<BillResponse>>builder()
                 .result(billService.getBillsByRestaurantId(restaurantId,pageable))
+                .build();
+    }
+    @GetMapping(value = "/{billId}")
+    public ApiResponse<List<DishOrderResponse>> getDetailBillByBillId(@PathVariable Long billId,@RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
+        return ApiResponse.<List<DishOrderResponse>>builder()
+                .result(billService.getDetailBillByBillId(billId,pageable))
                 .build();
     }
 }
