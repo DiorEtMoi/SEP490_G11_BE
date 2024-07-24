@@ -61,4 +61,11 @@ public class RestaurantController {
                 .result(restaurantService.getRestaurantByAccountId(accountID))
                 .build();
     }
+    @PostMapping(value = "/{restaurantId}/pack/require-money")
+    public ApiResponse<Double> getRequireMoneyToUpdatePackForRestaurant(@PathVariable Long restaurantId,@RequestBody RestaurantUpdateRequest request){
+        return ApiResponse.<Double>builder()
+                .result(restaurantService.getMoneyToUpdatePackForRestaurant(restaurantId,request))
+                .build();
+    }
+
 }

@@ -46,6 +46,7 @@ public class Restaurant {
     private Set<Area> areas;
     private double moneyToPoint;
     private double pointToMoney;
+    private int monthsRegister;
     private String BANK_ID;
     private String ACCOUNT_NO;
     private String ACCOUNT_NAME;

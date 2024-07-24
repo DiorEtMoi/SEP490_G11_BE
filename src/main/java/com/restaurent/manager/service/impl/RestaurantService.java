@@ -6,6 +6,7 @@ import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.RestaurantResponse;
 import com.restaurent.manager.entity.Account;
+import com.restaurent.manager.entity.Package;
 import com.restaurent.manager.entity.Restaurant;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
@@ -20,7 +21,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -48,6 +51,7 @@ public class RestaurantService implements IRestaurantService {
         restaurant.setAccount(account);
         restaurant.setRestaurantPackage(packageService.findByPackName("Trial"));
         restaurant.setExpiryDate(LocalDateTime.now().plusDays(7));
+        restaurant.setMonthsRegister(1);
         restaurant.setMoneyToPoint(100000);
         restaurant.setPointToMoney(1000);
         account.setRestaurant(restaurant);
@@ -66,7 +70,7 @@ public class RestaurantService implements IRestaurantService {
     public RestaurantResponse updateRestaurant(Long restaurantId,RestaurantUpdateRequest request) {
         Restaurant restaurant = getRestaurantById(restaurantId);
         restaurant.setRestaurantPackage(packageService.findPackById(request.getPackId()));
-        restaurant.setExpiryDate(LocalDateTime.now().plusDays(request.getDays()));
+        restaurant.setExpiryDate(LocalDateTime.now().plusMonths(request.getMonths()));
         restaurantMapper.updateRestaurant(restaurant,request);
         return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
     }
@@ -101,5 +105,35 @@ public class RestaurantService implements IRestaurantService {
         return restaurantMapper.toRestaurantResponse(
                 restaurantRepository.findByAccount_Id(accountId)
         );
+    }
+
+    @Override
+    public double getMoneyToUpdatePackForRestaurant(Long restaurantId, RestaurantUpdateRequest request) {
+        Restaurant restaurant = getRestaurantById(restaurantId);
+        double remainMoney;
+        double requireMoney;
+        long dayLeft = ChronoUnit.DAYS.between(LocalDateTime.now(), restaurant.getExpiryDate());
+        Package pack = packageService.findPackById(request.getPackId());
+        if(dayLeft > 0){
+            if(restaurant.getMonthsRegister() >= 12){
+                // calculate the money remain by year
+                remainMoney = (restaurant.getRestaurantPackage().getPricePerYear() / 365) * dayLeft;
+            }else{
+                // calculate the money remain by month
+                remainMoney = (restaurant.getRestaurantPackage().getPricePerMonth() / LocalDate.now().lengthOfMonth()) * dayLeft;
+            }
+            if(request.getMonths() >= 12){
+                requireMoney = (((double) request.getMonths() / 12) * pack.getPricePerYear()) - remainMoney;
+            }else{
+                requireMoney = (request.getMonths() * pack.getPricePerMonth()) - remainMoney;
+            }
+        }else{
+            if(request.getMonths() >= 12){
+                requireMoney = (((double) request.getMonths() / 12) * pack.getPricePerYear()) ;
+            }else{
+                requireMoney = request.getMonths() * pack.getPricePerMonth();
+            }
+        }
+        return requireMoney;
     }
 }
