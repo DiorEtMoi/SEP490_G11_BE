@@ -2,7 +2,6 @@ package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import com.restaurent.manager.dto.request.order.OrderRequest;
-import com.restaurent.manager.dto.response.CustomerResponse;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.dto.response.order.OrderResponse;
 import com.restaurent.manager.entity.*;
@@ -17,11 +16,12 @@ import com.restaurent.manager.repository.TableRestaurantRepository;
 import com.restaurent.manager.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -70,7 +70,7 @@ public class OrderService implements IOrderService {
                 }
                 dishOrder.setOrder(order);
                 dishOrder.setStatus(DISH_ORDER_STATE.WAITING);
-                dishOrder.setOrderDate(LocalDate.now());
+                dishOrder.setOrderDate(LocalDateTime.now());
                 DishOrder saved = dishOrderRepository.save(dishOrder);
                 results.add(dishOrderMapper.toDishOrderResponse(saved));
                 dishOrders.add(saved);
@@ -83,6 +83,11 @@ public class OrderService implements IOrderService {
     @Override
     public List<DishOrderResponse> findDishByOrderId(Long orderId) {
         return dishOrderRepository.findDishOrderByOrder_Id(orderId).stream().map(dishOrderMapper::toDishOrderResponse).toList();
+    }
+
+    @Override
+    public List<DishOrderResponse> findDishByOrderId(Long orderId, Pageable pageable) {
+        return  dishOrderRepository.findDishOrderByOrder_Id(orderId,pageable).stream().map(dishOrderMapper::toDishOrderResponse).toList();
     }
 
     @Override

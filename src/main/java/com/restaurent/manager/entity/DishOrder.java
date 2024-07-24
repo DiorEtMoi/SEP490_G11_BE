@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -25,7 +26,7 @@ public class DishOrder {
     int quantity;
     @Enumerated(EnumType.STRING)
     DISH_ORDER_STATE status;
-    LocalDate orderDate;
+    LocalDateTime orderDate;
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

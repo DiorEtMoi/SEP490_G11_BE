@@ -2,9 +2,12 @@ package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.BillRequest;
 import com.restaurent.manager.dto.response.BillResponse;
+import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.entity.Bill;
 import com.restaurent.manager.entity.Order;
 import com.restaurent.manager.entity.TableRestaurant;
+import com.restaurent.manager.exception.AppException;
+import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.BillMapper;
 import com.restaurent.manager.repository.BillRepository;
 import com.restaurent.manager.repository.TableRestaurantRepository;
@@ -49,5 +52,16 @@ public class BillService implements IBillService {
         return billRepository.findByOrder_Restaurant_Id(restaurantId,pageable).stream().map(
                 billMapper::toBillResponse
         ).toList();
+    }
+
+    @Override
+    public List<DishOrderResponse> getDetailBillByBillId(Long billId,Pageable pageable) {
+        Bill bill = findBillById(billId);
+        return orderService.findDishByOrderId(bill.getOrder().getId(),pageable);
+    }
+
+    @Override
+    public Bill findBillById(Long billId) {
+        return billRepository.findById(billId).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST));
     }
 }
