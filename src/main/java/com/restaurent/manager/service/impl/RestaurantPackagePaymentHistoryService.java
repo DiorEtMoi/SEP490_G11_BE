@@ -1,6 +1,7 @@
 package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.RestaurantPackagePaymentHistoryRequest;
+import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.entity.RestaurantPackagePaymentHistory;
 import com.restaurent.manager.mapper.RestaurantPackageHistoryMapper;
 import com.restaurent.manager.repository.RestaurantPackagePaymentHistoryRepository;
@@ -25,6 +26,10 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
 
     @Override
     public void createRestaurantPackagePaymentHistory(RestaurantPackagePaymentHistoryRequest request) {
+        restaurantService.updateRestaurant(request.getRestaurantId(), RestaurantUpdateRequest.builder()
+                        .months(request.getMonths())
+                        .packId(request.getPackageId())
+                .build());
         RestaurantPackagePaymentHistory restaurantPackagePaymentHistory = mapper.toRestaurantPackagePaymentHistory(request);
         packageService.findPackById(request.getPackageId());
         restaurantService.getRestaurantById(request.getRestaurantId());
