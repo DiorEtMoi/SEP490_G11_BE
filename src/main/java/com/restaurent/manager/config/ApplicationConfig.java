@@ -9,6 +9,7 @@ import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.PackageRepository;
 import com.restaurent.manager.repository.RoleRepository;
+import com.restaurent.manager.repository.TableTypeRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,9 +27,18 @@ import java.util.List;
 public class ApplicationConfig {
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
+    TableTypeRepository tableTypeRepository;
     @Bean
     ApplicationRunner applicationRunner(AccountRepository repository){
         return args -> {
+//            if(tableTypeRepository.findByName("Bàn tròn").isEmpty()){
+//
+//            }
+//            if(tableTypeRepository.findByName("Bàn vuông").isEmpty()){
+//
+//            }if(tableTypeRepository.findByName("Bàn chữ nhật").isEmpty()){
+//
+//            }
             if(roleRepository.findByName(RoleSystem.ADMIN.name()).isEmpty()){
                 roleRepository.save(Role.builder()
                         .name(RoleSystem.ADMIN.name())
@@ -46,7 +56,6 @@ public class ApplicationConfig {
                         ))
                         .password(passwordEncoder.encode("admin"))
                         .build();
-
                 repository.save(user);
             }
         };
