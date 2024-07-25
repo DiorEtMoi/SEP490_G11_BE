@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @FieldDefaults(makeFinal = true)
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
         RestaurantPackagePaymentHistory restaurantPackagePaymentHistory = mapper.toRestaurantPackagePaymentHistory(request);
         packageService.findPackById(request.getPackageId());
         restaurantService.getRestaurantById(request.getRestaurantId());
+        restaurantPackagePaymentHistory.setDateCreated(LocalDateTime.now());
         restaurantPackagePaymentHistoryRepository.save(restaurantPackagePaymentHistory);
     }
 }
