@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @FieldDefaults(makeFinal = true)
@@ -29,5 +30,11 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
         restaurantService.getRestaurantById(request.getRestaurantId());
         restaurantPackagePaymentHistory.setDateCreated(LocalDateTime.now());
         restaurantPackagePaymentHistoryRepository.save(restaurantPackagePaymentHistory);
+    }
+
+    @Override
+    public Long getNewId() {
+        List<RestaurantPackagePaymentHistory> all = restaurantPackagePaymentHistoryRepository.findAll();
+        return all.isEmpty() ? 1L : all.getLast().getId();
     }
 }

@@ -4,4 +4,5 @@ import com.restaurent.manager.dto.request.RestaurantPackagePaymentHistoryRequest
 
 public interface IRestaurantPackagePaymentHistoryService {
 void createRestaurantPackagePaymentHistory(RestaurantPackagePaymentHistoryRequest request);
+Long getNewId();
 }

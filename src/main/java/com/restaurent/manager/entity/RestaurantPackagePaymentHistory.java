@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RestaurantPackagePaymentHistory {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     Long packageId;
     Long restaurantId;
