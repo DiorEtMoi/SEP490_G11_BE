@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -67,7 +68,8 @@ public class BillService implements IBillService {
 
     @Override
     public double getProfitRestaurantByIdAndDate(Long resId,LocalDateTime date) {
-        List<Bill> bills = billRepository.findByDateCreated(resId,date);
+        Date sqlDate = Date.valueOf(date.toLocalDate());
+        List<Bill> bills = billRepository.findByDateCreated(resId,sqlDate);
         double results = 0;
         if(!bills.isEmpty()){
             for (Bill bill : bills){
