@@ -55,10 +55,8 @@ public class StatisticService  implements IStatisticService{
     public List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInCurrentMonth(Long restaurantId) {
         List<StatisticTableResponse> responses = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now();
-        YearMonth yearMonth = YearMonth.of(now.getYear(), now.getMonth());
-
-        int maxDay = yearMonth.lengthOfMonth();
-        for (int i = 0; i < maxDay; i++) {
+        int currentDay = now.getDayOfMonth();
+        for (int i = 0; i < currentDay; i++) {
             LocalDate localDate = now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i).toLocalDate();
             responses.add(StatisticTableResponse.builder()
                             .time(localDate)
@@ -73,9 +71,8 @@ public class StatisticService  implements IStatisticService{
     public List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInLastMonth(Long restaurantId) {
         List<StatisticTableResponse> responses = new ArrayList<>();
         LocalDateTime now = LocalDateTime.now().minusMonths(1);
-        YearMonth yearMonth = YearMonth.of(now.getYear(), now.getMonth());
-        int maxDay = yearMonth.lengthOfMonth();
-        for (int i = 0; i < maxDay; i++) {
+        int currentDay = now.getDayOfMonth();
+        for (int i = 0; i < currentDay; i++) {
             responses.add(StatisticTableResponse.builder()
                     .time(now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i).toLocalDate())
                     .profit(billService.getProfitRestaurantByIdAndDate(restaurantId,now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i)))
