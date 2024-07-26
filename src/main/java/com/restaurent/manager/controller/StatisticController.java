@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.request.StatisticTableResponse;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.StatisticResponse;
 import com.restaurent.manager.service.IStatisticService;
@@ -8,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ import java.time.temporal.TemporalAdjusters;
 public class StatisticController {
     IStatisticService statisticService;
     @GetMapping(value = "/manager/restaurant/{restaurantId}")
-    public ApiResponse<StatisticResponse> getStatisticRestaurantByIdInDay(@PathVariable Long restaurantId, @RequestParam(name = "day",defaultValue = "1") int day){
+    public ApiResponse<StatisticResponse> getStatisticRestaurantByIdInDay(@PathVariable Long restaurantId, @RequestParam(name = "day",defaultValue = "1") String day){
         return ApiResponse.<StatisticResponse>builder()
                 .result(statisticService.getStatisticRestaurantById(restaurantId,day))
                 .build();
@@ -36,10 +37,23 @@ public class StatisticController {
     }
     @GetMapping(value = "/manager/restaurant/{restaurantId}/last-month")
     public ApiResponse<StatisticResponse> getStatisticRestaurantByIdInLastMonth(@PathVariable Long restaurantId){
-        LocalDateTime endDate = LocalDateTime.now();
-        LocalDateTime startDate = endDate.minusMonths(1);
+        LocalDateTime today = LocalDateTime.now().minusMonths(1);
+        LocalDateTime startDate = today.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDateTime endDate = today.with(TemporalAdjusters.lastDayOfMonth());
         return ApiResponse.<StatisticResponse>builder()
                 .result(statisticService.getStatisticByRestaurantIdBetweenStartDayToEndDay(restaurantId,startDate,endDate))
+                .build();
+    }
+    @GetMapping(value = "/manager/restaurant/{restaurantId}/current-month/table")
+    public ApiResponse<List<StatisticTableResponse>> getTableStatisticRestaurantByIdInCurrentMonth(@PathVariable Long restaurantId){
+        return ApiResponse.<List<StatisticTableResponse>>builder()
+                .result(statisticService.getDetailStatisticRestaurantEachOfDayInCurrentMonth(restaurantId))
+                .build();
+    }
+    @GetMapping(value = "/manager/restaurant/{restaurantId}/last-month/table")
+    public ApiResponse<List<StatisticTableResponse>> getTableStatisticRestaurantByIdInLastMonth(@PathVariable Long restaurantId){
+        return ApiResponse.<List<StatisticTableResponse>>builder()
+                .result(statisticService.getDetailStatisticRestaurantEachOfDayInLastMonth(restaurantId))
                 .build();
     }
 }

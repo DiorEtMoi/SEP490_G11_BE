@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("select c from Customer  c where c.restaurant.id = :restaurantId and DATE (c.dateCreated) = CURRENT_DATE")
     List<Customer> findCustomerByRestaurant_IdInToday(Long restaurantId);
     @Query("select c from Customer c where c.restaurant.id = :restaurantId and DATE (c.dateCreated) = :date")
-    List<Customer> findCustomerByRestaurant_IdInYesterday(Long restaurantId, LocalDateTime date);
+    List<Customer> findCustomerByRestaurant_IdInYesterday(Long restaurantId, Date date);
     @Query("select c from Customer c where c.restaurant.id = :restaurantId and c.dateCreated between :startDate and :endDate")
     List<Customer> findCustomerByRestaurantIdInStartDateAndEndDate(@Param("restaurantId") Long restaurantId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
 
