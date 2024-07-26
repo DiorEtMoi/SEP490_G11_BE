@@ -29,4 +29,5 @@ public class TableRestaurant {
     Area area;
     float positionX;
     float positionY;
+    boolean hidden;
 }

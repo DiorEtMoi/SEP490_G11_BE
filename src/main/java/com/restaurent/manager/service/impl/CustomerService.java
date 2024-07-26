@@ -15,6 +15,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,6 +42,7 @@ public class CustomerService implements ICustomerService {
 
             Customer customer = customerMapper.toCustomer(customerRequest);
             customer.setRestaurant(restaurant); // Set the Restaurant for the Customer
+            customer.setDateCreated(LocalDateTime.now());
             Customer savedCustomer = customerRepository.save(customer);
             return customerMapper.toCustomerResponse(savedCustomer);
         }

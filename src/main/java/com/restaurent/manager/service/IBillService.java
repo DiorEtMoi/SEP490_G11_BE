@@ -6,6 +6,8 @@ import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.entity.Bill;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IBillService {
@@ -13,4 +15,6 @@ public interface IBillService {
     List<BillResponse> getBillsByRestaurantId(Long restaurantId,Pageable pageable);
     List<DishOrderResponse> getDetailBillByBillId(Long billId,Pageable pageable);
     Bill findBillById(Long billId);
+    double getProfitRestaurantByIdAndDate(Long resId,LocalDateTime date);
+    double getProfitRestaurantByIdAndDateBetween(Long resId, LocalDateTime start, LocalDateTime end);
 }

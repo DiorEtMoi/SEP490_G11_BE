@@ -35,6 +35,7 @@ public class TableRestaurantService implements ITableRestaurantService {
             throw new AppException(ErrorCode.TABLE_NAME_EXISTED);
         }
         TableRestaurant tableRestaurant = tableRestaurantMapper.toTableRestaurant(request);
+        tableRestaurant.setHidden(false);
         tableRestaurant.setTableType(tableTypeRepository.findById(request.getTableTypeId()).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         ));
@@ -46,7 +47,7 @@ public class TableRestaurantService implements ITableRestaurantService {
 
     @Override
     public List<TableRestaurantResponse> getTableByAreaId(Long areaId) {
-        return tableRestaurantRepository.findByArea_Id(areaId).stream().map(tableRestaurantMapper::toTableRestaurantResponse).toList();
+        return tableRestaurantRepository.findByArea_IdAndHidden(areaId,false).stream().map(tableRestaurantMapper::toTableRestaurantResponse).toList();
     }
 
     @Override
@@ -94,7 +95,7 @@ public class TableRestaurantService implements ITableRestaurantService {
     @Override
     public void deleteTableById(Long tableId) {
         TableRestaurant tableRestaurant = findById(tableId);
-        tableRestaurantRepository.delete(tableRestaurant);
+        tableRestaurant.setHidden(true);
     }
 
     @Override
