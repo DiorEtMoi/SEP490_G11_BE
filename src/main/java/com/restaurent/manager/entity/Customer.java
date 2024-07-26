@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -26,9 +27,5 @@ public class Customer {
             orphanRemoval = true
     )
     Set<Order> orders;
-
-    public void addOrder(Order order){
-        this.orders.add(order);
-        order.setCustomer(this);
-    }
+    LocalDateTime dateCreated;
 }

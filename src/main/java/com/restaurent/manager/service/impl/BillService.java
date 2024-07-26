@@ -64,4 +64,30 @@ public class BillService implements IBillService {
     public Bill findBillById(Long billId) {
         return billRepository.findById(billId).orElseThrow(() -> new AppException(ErrorCode.NOT_EXIST));
     }
+
+    @Override
+    public double getProfitRestaurantByIdAndDate(Long resId,LocalDateTime date) {
+        List<Bill> bills = billRepository.findByDateCreated(resId,date);
+        double results = 0;
+        if(!bills.isEmpty()){
+            for (Bill bill : bills){
+                results += bill.getTotal();
+            }
+            return results;
+        }
+        return 0;
+    }
+
+    @Override
+    public double getProfitRestaurantByIdAndDateBetween(Long resId, LocalDateTime start, LocalDateTime end) {
+        List<Bill> bills = billRepository.findByDateCreatedBetween(resId, start, end);
+        double results = 0;
+        if(!bills.isEmpty()){
+            for (Bill bill : bills){
+                results += bill.getTotal();
+            }
+            return results;
+        }
+        return 0;
+    }
 }
