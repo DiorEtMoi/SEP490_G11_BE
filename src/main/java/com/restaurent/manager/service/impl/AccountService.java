@@ -19,6 +19,7 @@ import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.RoleRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IEmailService;
+import com.restaurent.manager.service.IRoleService;
 import com.restaurent.manager.service.ITokenGenerate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     AccountMapper accountMapper;
     RoleRepository roleRepository;
     IEmailService emailService;
+    IRoleService roleService;
 
     @Override
     public AccountResponse register(AccountRequest req) {
@@ -70,8 +72,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         account.setStatus(false);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());
-        Role role = roleRepository.findByName(RoleSystem.MANAGER.name()).orElseThrow(() -> new AppException(ErrorCode.UNCATEGORIZED_EXCEPTION)
-        );
+        Role role = roleService.findByRoleName(RoleSystem.MANAGER.name());
         role.assignAccount(account);
         Account saved = accountRepository.save(account);
         String body = "Your OTP is : " + otp;
