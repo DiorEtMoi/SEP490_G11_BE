@@ -75,7 +75,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         role.assignAccount(account);
         Account saved = accountRepository.save(account);
         String body = "Your OTP is : " + otp;
-//        emailService.sendEmail(account.getEmail(),body,"Verify account ");
+        emailService.sendEmail(account.getEmail(),body,"Verify account ");
         return accountMapper.toAccountResponse(saved);
     }
 
