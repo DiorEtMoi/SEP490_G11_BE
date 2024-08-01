@@ -23,6 +23,7 @@ public class EmailService implements IEmailService {
     @Override
     public void sendEmail(String email, String body, String subject) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        simpleMailMessage.setFrom("VietKitchen");
         simpleMailMessage.setTo(email);
         simpleMailMessage.setText(body);
         simpleMailMessage.setSubject(subject);
