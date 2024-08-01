@@ -155,8 +155,10 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     @Override
     public String generateToken(Account user){
         String restaurantId = "";
+        String packName = "";
         if(user.getRestaurant() != null && !user.getRole().getName().equals(RoleSystem.ADMIN.name())){
             restaurantId = user.getRestaurant().getId().toString();
+            packName = user.getRestaurant().getRestaurantPackage().getPackName();
         }
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
                 .issuer(user.getUsername())
@@ -169,9 +171,10 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
                 .claim("email",user.getEmail())
                 .claim("restaurantId",restaurantId)
                 .claim("accountId",user.getId())
-                .claim("packName",user.getRestaurant().getRestaurantPackage().getPackName())
+                .claim("packName", packName)
                 .jwtID(UUID.randomUUID().toString())
                 .build();
+
         Payload payload = new Payload(claims.toJSONObject());
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
         JWSObject token = new JWSObject(header,payload);
