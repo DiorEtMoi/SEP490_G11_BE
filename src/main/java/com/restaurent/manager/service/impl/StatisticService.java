@@ -31,11 +31,13 @@ public class StatisticService  implements IStatisticService{
                     .numbersCustomer(customerRepository.findCustomerByRestaurant_IdInToday(restaurantId).size())
                     .numbersBill(billRepository.findByDateCreated(restaurantId,Date.valueOf(LocalDateTime.now().toLocalDate())).size())
                     .profit(billService.getProfitRestaurantByIdAndDate(restaurantId,LocalDateTime.now()))
+                    .vat(billService.getVatValueForRestaurantCurrent(restaurantId, LocalDateTime.now()))
                     .build();
             case "-1" -> StatisticResponse.builder()
                     .numbersCustomer(customerRepository.findCustomerByRestaurant_IdInYesterday(restaurantId, Date.valueOf(LocalDateTime.now().minusDays(1).toLocalDate())).size())
                     .numbersBill(billRepository.findByDateCreated(restaurantId,Date.valueOf(LocalDateTime.now().minusDays(1).toLocalDate())).size())
                     .profit(billService.getProfitRestaurantByIdAndDate(restaurantId,LocalDateTime.now().minusDays(1)))
+                    .vat(billService.getVatValueForRestaurantCurrent(restaurantId, LocalDateTime.now().minusDays(1)))
                     .build();
             default -> null;
         };
@@ -47,6 +49,7 @@ public class StatisticService  implements IStatisticService{
                 .numbersCustomer(customerRepository.findCustomerByRestaurantIdInStartDateAndEndDate(restaurantId, start, end).size())
                 .numbersBill(billRepository.findByDateCreatedBetween(restaurantId, start, end).size())
                 .profit(billService.getProfitRestaurantByIdAndDateBetween(restaurantId, start, end))
+                .vat(billService.getVatValueForRestaurantBetween(restaurantId, start, end))
                 .build();
     }
 
