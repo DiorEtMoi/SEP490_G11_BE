@@ -12,4 +12,5 @@ public class StatisticResponse {
     int numbersCustomer;
     int numbersBill;
     double profit;
+    double vat;
 }
