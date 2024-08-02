@@ -18,4 +18,5 @@ public interface IBillService {
     Bill findBillById(Long billId);
     double getProfitRestaurantByIdAndDate(Long resId, LocalDateTime date);
     double getProfitRestaurantByIdAndDateBetween(Long resId, LocalDateTime start, LocalDateTime end);
+    double getVatValueForRestaurant(Long resId,LocalDateTime start, LocalDateTime end);
 }

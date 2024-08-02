@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.response.BillResponse;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.entity.Bill;
 import com.restaurent.manager.entity.Order;
+import com.restaurent.manager.entity.Restaurant;
 import com.restaurent.manager.entity.TableRestaurant;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
@@ -13,6 +14,7 @@ import com.restaurent.manager.repository.BillRepository;
 import com.restaurent.manager.repository.TableRestaurantRepository;
 import com.restaurent.manager.service.IBillService;
 import com.restaurent.manager.service.IOrderService;
+import com.restaurent.manager.service.IRestaurantService;
 import com.restaurent.manager.service.ITableRestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -36,6 +38,7 @@ public class BillService implements IBillService {
     BillRepository billRepository;
     ITableRestaurantService tableRestaurantService;
     TableRestaurantRepository tableRestaurantRepository;
+    IRestaurantService restaurantService;
     @Override
     public BillResponse createBill(Long orderId, BillRequest request) {
         Order order = orderService.findOrderById(orderId);
@@ -89,6 +92,20 @@ public class BillService implements IBillService {
                 results += bill.getTotal();
             }
             return results;
+        }
+        return 0;
+    }
+
+    @Override
+    public double getVatValueForRestaurant(Long resId, LocalDateTime start, LocalDateTime end) {
+        List<Bill> bills = billRepository.findByDateCreatedBetween(resId, start, end);
+        Restaurant restaurant = restaurantService.getRestaurantById(resId);
+        double res = 0;
+        if(!bills.isEmpty() && restaurant.getVat().getTaxValue() != 0){
+            for (Bill bill : bills){
+                res += bill.getTotal() * (restaurant.getVat().getTaxValue() / 110);
+            }
+            return res;
         }
         return 0;
     }

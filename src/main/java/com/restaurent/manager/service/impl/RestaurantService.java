@@ -142,6 +142,7 @@ public class RestaurantService implements IRestaurantService {
     public void updateRestaurantVatById(Long restaurantId, boolean status) {
         Restaurant restaurant = getRestaurantById(restaurantId);
         restaurant.setVatActive(status);
+        restaurantRepository.save(restaurant);
     }
 
 
