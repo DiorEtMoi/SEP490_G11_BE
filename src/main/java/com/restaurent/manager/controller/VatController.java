@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.request.TaxRequest;
 import com.restaurent.manager.dto.request.VatRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.entity.Vat;
@@ -29,5 +30,10 @@ public class VatController {
                 .result(vatService.updateVatInformation(vatId,request))
                 .build();
     }
-
+    @PutMapping(value = "/{vatId}/tax")
+    public ApiResponse<Vat> updateTax(@PathVariable Long vatId, @RequestBody @Valid TaxRequest request){
+        return ApiResponse.<Vat>builder()
+                .result(vatService.updateTax(vatId,request))
+                .build();
+    }
 }

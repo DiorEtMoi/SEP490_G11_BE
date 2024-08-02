@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.request.TaxRequest;
 import com.restaurent.manager.dto.request.VatRequest;
 import com.restaurent.manager.entity.Restaurant;
 import com.restaurent.manager.entity.Vat;
@@ -54,5 +55,13 @@ public class VatService implements IVatService {
         return vatRepository.findById(vatId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
+    }
+
+    @Override
+    public Vat updateTax(Long vatId, TaxRequest request) {
+        Vat vat = findById(vatId);
+        vat.setTaxValue(request.getTaxValue());
+        vat.setTaxName(request.getTaxName());
+        return vatRepository.save(vat);
     }
 }
