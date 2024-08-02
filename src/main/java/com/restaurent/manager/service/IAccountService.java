@@ -14,7 +14,7 @@ public interface IAccountService{
     AccountResponse register(AccountRequest req);
     List<AccountResponse> getAccountsManager();
     VerifyResponse verifyAccount(VerifyAccount req);
-    String regenerateOtp(VerifyAccount req);
+    String regenerateOtp(String email);
     Account findAccountByID(Long id);
     AccountResponse getAccountById(Long id);
     Account findAccountByPhoneNumber(String phoneNumber);
