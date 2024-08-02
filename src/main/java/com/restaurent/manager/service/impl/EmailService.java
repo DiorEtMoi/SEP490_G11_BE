@@ -31,7 +31,7 @@ public class EmailService implements IEmailService {
         try {
             javaMailSender.send(simpleMailMessage);
         }catch (MailException e){
-           throw new RuntimeException(e.getMessage());
+           throw new AppException(ErrorCode.EMAIL_NOT_EXIST);
         }
     }
 

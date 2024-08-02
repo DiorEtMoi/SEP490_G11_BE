@@ -50,7 +50,6 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
 
     AccountRepository accountRepository;
     AccountMapper accountMapper;
-    RoleRepository roleRepository;
     IEmailService emailService;
     IRoleService roleService;
 
@@ -113,10 +112,29 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         if(!authenticated){
             throw new AppException(ErrorCode.PASSWORD_INCORRECT);
         }
-        String token = generateToken(account);
+        String otp = emailService.generateCode(6);
+        account.setOtp(otp);
+        String body = "Your OTP is : " + otp;
+        emailService.sendEmail(account.getEmail(),body,"Verify Account");
+        accountRepository.save(account);
         return AuthenticationResponse.builder()
                 .authenticated(true)
-                .token(token)
+                .build();
+    }
+
+    @Override
+    public AuthenticationResponse verifyOtp(VerifyAccount req) {
+        Account account = accountRepository.findByEmail(req.getEmail()).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
+        );
+        if(req.getOtp().equals(account.getOtp())){
+            return AuthenticationResponse.builder()
+                    .authenticated(true)
+                    .token(generateToken(account))
+                    .build();
+        }
+        return AuthenticationResponse.builder()
+                .authenticated(false)
                 .build();
     }
 

@@ -69,4 +69,10 @@ public class AccountController {
                 .result(accountService.getAccountById(accountId))
                 .build();
     }
+    @PostMapping(value = "/verify/otp")
+    public ApiResponse<AuthenticationResponse> verifyOtp(@RequestBody VerifyAccount req){
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(accountService.verifyOtp(req))
+                .build();
+    }
 }
