@@ -116,11 +116,15 @@ public class OrderService implements IOrderService {
     public OrderResponse findOrderAndConvertDTOByOrderId(Long orderId) {
         Order order = findOrderById(orderId);
         OrderResponse orderResponse = orderMapper.toOrderResponse(order);
+        Restaurant restaurant = restaurantService.getRestaurantById(order.getRestaurant().getId());
         double totalMoney = 0L;
         for (DishOrder dishOrder : order.getDishOrders()){
             if(dishOrder.getStatus() != DISH_ORDER_STATE.DECLINE){
                 totalMoney += dishOrder.getDish().getPrice() * dishOrder.getQuantity();
             }
+        }
+        if(restaurant.isVatActive()){
+            totalMoney += (totalMoney * (restaurant.getVat().getTaxValue() / 100));
         }
         orderResponse.setTotalMoney(totalMoney);
         return orderResponse;

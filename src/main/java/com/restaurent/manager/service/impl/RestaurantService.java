@@ -54,6 +54,7 @@ public class RestaurantService implements IRestaurantService {
         restaurant.setMonthsRegister(1);
         restaurant.setMoneyToPoint(100000);
         restaurant.setPointToMoney(1000);
+        restaurant.setVatActive(false);
         account.setRestaurant(restaurant);
         Restaurant restaurantSaved = restaurantRepository.save(restaurant);
         RestaurantResponse restaurantResponse = restaurantMapper.toRestaurantResponse(restaurantSaved);
@@ -136,4 +137,12 @@ public class RestaurantService implements IRestaurantService {
         }
         return requireMoney;
     }
+
+    @Override
+    public void updateRestaurantVatById(Long restaurantId, boolean status) {
+        Restaurant restaurant = getRestaurantById(restaurantId);
+        restaurant.setVatActive(status);
+    }
+
+
 }

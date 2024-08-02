@@ -50,6 +50,10 @@ public class Restaurant {
     private String BANK_ID;
     private String ACCOUNT_NO;
     private String ACCOUNT_NAME;
+    private boolean isVatActive;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vat_id", referencedColumnName = "id")
+    private Vat vat;
     public void addEmployee(Employee employee){
         this.employees.add(employee);
         employee.setRestaurant(this);

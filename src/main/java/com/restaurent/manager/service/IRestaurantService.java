@@ -22,7 +22,5 @@ Restaurant getRestaurantById(Long id);
 RestaurantResponse getRestaurantByAccountId(Long accountId);
 
 double getMoneyToUpdatePackForRestaurant(Long restaurantId,RestaurantUpdateRequest request);
-
-
-
+void updateRestaurantVatById(Long restaurantId,boolean status);
 }
