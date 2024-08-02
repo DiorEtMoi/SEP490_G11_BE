@@ -1,9 +1,6 @@
 package com.restaurent.manager.service.impl;
 
-import com.restaurent.manager.dto.request.restaurant.RestaurantManagerUpdateRequest;
-import com.restaurent.manager.dto.request.restaurant.RestaurantPaymentRequest;
-import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
-import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
+import com.restaurent.manager.dto.request.restaurant.*;
 import com.restaurent.manager.dto.response.RestaurantResponse;
 import com.restaurent.manager.entity.Account;
 import com.restaurent.manager.entity.Package;
@@ -144,6 +141,14 @@ public class RestaurantService implements IRestaurantService {
         Restaurant restaurant = getRestaurantById(restaurantId);
         restaurant.setVatActive(status);
         restaurantRepository.save(restaurant);
+    }
+
+    @Override
+    public RestaurantResponse updatePointForRestaurant(Long restaurantId, PointsRequest request) {
+        Restaurant restaurant = getRestaurantById(restaurantId);
+        restaurant.setMoneyToPoint(request.getMoneyToPoint());
+        restaurant.setPointToMoney(request.getPointToMoney());
+        return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
     }
 
 
