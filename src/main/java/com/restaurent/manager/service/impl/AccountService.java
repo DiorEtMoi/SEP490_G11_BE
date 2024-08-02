@@ -139,8 +139,8 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     }
 
     @Override
-    public String regenerateOtp(VerifyAccount req) {
-        Account account = accountRepository.findByEmailAndStatus(req.getEmail(), false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+    public String regenerateOtp(String email) {
+        Account account = accountRepository.findByEmailAndStatus(email, false).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         String otp = emailService.generateCode(6);
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());
