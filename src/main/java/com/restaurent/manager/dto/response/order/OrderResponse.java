@@ -17,4 +17,5 @@ public class OrderResponse {
     TableRestaurantResponse tableRestaurant;
     CustomerResponse customer;
     double totalMoney;
+    int totalDish;
 }
