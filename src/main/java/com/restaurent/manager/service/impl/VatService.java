@@ -6,6 +6,7 @@ import com.restaurent.manager.entity.Vat;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.VatMapper;
+import com.restaurent.manager.repository.RestaurantRepository;
 import com.restaurent.manager.repository.VatRepository;
 import com.restaurent.manager.service.IRestaurantService;
 import com.restaurent.manager.service.IVatService;
@@ -28,13 +29,16 @@ public class VatService implements IVatService {
     @Value("${vat-name-default}")
     String taxName;
     IRestaurantService restaurantService;
+    RestaurantRepository repository;
     @Override
     public Vat createVat(Long restaurantId,VatRequest request) {
         Restaurant restaurant = restaurantService.getRestaurantById(restaurantId);
         Vat vat = vatMapper.toVat(request);
         vat.setTaxValue(taxValue);
         vat.setTaxName(taxName);
+        restaurant.setVatActive(true);
         restaurant.setVat(vat);
+        repository.save(restaurant);
         return vatRepository.save(vat);
     }
 
