@@ -39,6 +39,7 @@ public class BillService implements IBillService {
     ITableRestaurantService tableRestaurantService;
     TableRestaurantRepository tableRestaurantRepository;
     IRestaurantService restaurantService;
+
     @Override
     public BillResponse createBill(Long orderId, BillRequest request) {
         Order order = orderService.findOrderById(orderId);
@@ -52,16 +53,16 @@ public class BillService implements IBillService {
     }
 
     @Override
-    public List<BillResponse> getBillsByRestaurantId(Long restaurantId,Pageable pageable) {
-        return billRepository.findByOrder_Restaurant_Id(restaurantId,pageable).stream().map(
+    public List<BillResponse> getBillsByRestaurantId(Long restaurantId, Pageable pageable) {
+        return billRepository.findByOrder_Restaurant_Id(restaurantId, pageable).stream().map(
                 billMapper::toBillResponse
         ).toList();
     }
 
     @Override
-    public List<DishOrderResponse> getDetailBillByBillId(Long billId,Pageable pageable) {
+    public List<DishOrderResponse> getDetailBillByBillId(Long billId, Pageable pageable) {
         Bill bill = findBillById(billId);
-        return orderService.findDishByOrderId(bill.getOrder().getId(),pageable);
+        return orderService.findDishByOrderId(bill.getOrder().getId(), pageable);
     }
 
     @Override
@@ -70,15 +71,15 @@ public class BillService implements IBillService {
     }
 
     @Override
-    public double getProfitRestaurantByIdAndDate(Long resId,LocalDateTime date) {
+    public double getProfitRestaurantByIdAndDate(Long resId, LocalDateTime date) {
         Date sqlDate = Date.valueOf(date.toLocalDate());
-        List<Bill> bills = billRepository.findByDateCreated(resId,sqlDate);
+        List<Bill> bills = billRepository.findByDateCreated(resId, sqlDate);
         double results = 0;
-        if(!bills.isEmpty()){
-            for (Bill bill : bills){
+        if (!bills.isEmpty()) {
+            for (Bill bill : bills) {
                 results += bill.getTotal();
             }
-            return results;
+            return Math.round(results);
         }
         return 0;
     }
@@ -87,26 +88,45 @@ public class BillService implements IBillService {
     public double getProfitRestaurantByIdAndDateBetween(Long resId, LocalDateTime start, LocalDateTime end) {
         List<Bill> bills = billRepository.findByDateCreatedBetween(resId, start, end);
         double results = 0;
-        if(!bills.isEmpty()){
-            for (Bill bill : bills){
+        if (!bills.isEmpty()) {
+            for (Bill bill : bills) {
                 results += bill.getTotal();
             }
-            return results;
+            return Math.round(results);
         }
         return 0;
     }
 
     @Override
-    public double getVatValueForRestaurant(Long resId, LocalDateTime start, LocalDateTime end) {
-        List<Bill> bills = billRepository.findByDateCreatedBetween(resId, start, end);
+    public double getVatValueForRestaurantCurrent(Long resId, LocalDateTime date) {
+        Date sqlDate = Date.valueOf(date.toLocalDate());
+        List<Bill> bills = billRepository.findByDateCreated(resId, sqlDate);
         Restaurant restaurant = restaurantService.getRestaurantById(resId);
         double res = 0;
-        if(!bills.isEmpty() && restaurant.getVat().getTaxValue() != 0){
-            for (Bill bill : bills){
+        if (!bills.isEmpty() && restaurant.getVat().getTaxValue() != 0) {
+            for (Bill bill : bills) {
                 res += bill.getTotal() * (restaurant.getVat().getTaxValue() / 110);
             }
-            return res;
+            return Math.round(res);
         }
         return 0;
     }
+
+    @Override
+    public double getVatValueForRestaurantBetween(Long resId, LocalDateTime start, LocalDateTime end) {
+        List<Bill> bills = billRepository.findByDateCreatedBetween(resId, start, end);
+        Restaurant restaurant = restaurantService.getRestaurantById(resId);
+        double res = 0;
+        if (!bills.isEmpty() && restaurant.getVat().getTaxValue() != 0) {
+            for (Bill bill : bills) {
+                res += bill.getTotal() * (restaurant.getVat().getTaxValue() / 110);
+            }
+            return Math.round(res);
+        }
+        return 0;
+    }
+
 }
+
+
+
