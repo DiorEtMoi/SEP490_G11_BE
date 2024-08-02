@@ -1,9 +1,6 @@
 package com.restaurent.manager.controller;
 
-import com.restaurent.manager.dto.request.restaurant.RestaurantManagerUpdateRequest;
-import com.restaurent.manager.dto.request.restaurant.RestaurantPaymentRequest;
-import com.restaurent.manager.dto.request.restaurant.RestaurantRequest;
-import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
+import com.restaurent.manager.dto.request.restaurant.*;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.RestaurantResponse;
 import com.restaurent.manager.service.IRestaurantService;
@@ -75,5 +72,10 @@ public class RestaurantController {
                 .message("Update success")
                 .build();
     }
-
+    @PutMapping(value = "/{restaurantId}/point")
+    public ApiResponse<RestaurantResponse> updatePointForRestaurant(@PathVariable Long restaurantId, @RequestBody @Valid PointsRequest request){
+        return ApiResponse.<RestaurantResponse>builder()
+                .result(restaurantService.updatePointForRestaurant(restaurantId,request))
+                .build();
+    }
 }
