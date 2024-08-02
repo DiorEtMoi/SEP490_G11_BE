@@ -103,9 +103,10 @@ public class RestaurantService implements IRestaurantService {
 
     @Override
     public RestaurantResponse getRestaurantByAccountId(Long accountId) {
-        return restaurantMapper.toRestaurantResponse(
-                restaurantRepository.findByAccount_Id(accountId)
-        );
+        Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
+        RestaurantResponse response = restaurantMapper.toRestaurantResponse(restaurant);
+        response.setVatActive(restaurant.isVatActive());
+        return response;
     }
 
     @Override
