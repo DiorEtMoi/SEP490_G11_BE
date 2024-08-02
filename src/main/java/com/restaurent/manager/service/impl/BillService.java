@@ -3,19 +3,14 @@ package com.restaurent.manager.service.impl;
 import com.restaurent.manager.dto.request.BillRequest;
 import com.restaurent.manager.dto.response.BillResponse;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
-import com.restaurent.manager.entity.Bill;
-import com.restaurent.manager.entity.Order;
-import com.restaurent.manager.entity.Restaurant;
-import com.restaurent.manager.entity.TableRestaurant;
+import com.restaurent.manager.entity.*;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.BillMapper;
 import com.restaurent.manager.repository.BillRepository;
+import com.restaurent.manager.repository.CustomerRepository;
 import com.restaurent.manager.repository.TableRestaurantRepository;
-import com.restaurent.manager.service.IBillService;
-import com.restaurent.manager.service.IOrderService;
-import com.restaurent.manager.service.IRestaurantService;
-import com.restaurent.manager.service.ITableRestaurantService;
+import com.restaurent.manager.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -39,16 +34,23 @@ public class BillService implements IBillService {
     ITableRestaurantService tableRestaurantService;
     TableRestaurantRepository tableRestaurantRepository;
     IRestaurantService restaurantService;
-
+    CustomerRepository customerRepository;
     @Override
     public BillResponse createBill(Long orderId, BillRequest request) {
         Order order = orderService.findOrderById(orderId);
+        Customer customer = order.getCustomer();
         TableRestaurant tableRestaurant = tableRestaurantService.findById(order.getTableRestaurant().getId());
         tableRestaurant.setOrderCurrent(null);
         tableRestaurantRepository.save(tableRestaurant);
+        // handle change bill request to bill
         Bill bill = billMapper.toBill(request);
         bill.setOrder(order);
         bill.setDateCreated(LocalDateTime.now());
+        // handle adding point for customer
+        Restaurant restaurant = order.getRestaurant();
+        float currentPoint = (float) (customer.getCurrentPoint() + (request.getTotal() / restaurant.getMoneyToPoint()));
+        customer.setCurrentPoint(Math.round(currentPoint));
+        customerRepository.save(customer);
         return billMapper.toBillResponse(billRepository.save(bill));
     }
 

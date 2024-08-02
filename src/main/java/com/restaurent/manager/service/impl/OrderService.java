@@ -118,15 +118,18 @@ public class OrderService implements IOrderService {
         OrderResponse orderResponse = orderMapper.toOrderResponse(order);
         Restaurant restaurant = restaurantService.getRestaurantById(order.getRestaurant().getId());
         double totalMoney = 0;
+        int count = 0;
         for (DishOrder dishOrder : order.getDishOrders()){
             if(dishOrder.getStatus() != DISH_ORDER_STATE.DECLINE){
                 totalMoney +=  (dishOrder.getDish().getPrice() * dishOrder.getQuantity());
+                count++;
             }
         }
         if(restaurant.isVatActive()){
             totalMoney += (totalMoney * (restaurant.getVat().getTaxValue() / 100));
         }
         orderResponse.setTotalMoney(Math.round(totalMoney));
+        orderResponse.setTotalDish(count);
         return orderResponse;
     }
 }
