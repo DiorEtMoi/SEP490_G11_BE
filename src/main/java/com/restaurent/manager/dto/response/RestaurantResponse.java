@@ -1,6 +1,7 @@
 package com.restaurent.manager.dto.response;
 
 import com.restaurent.manager.dto.response.Pack.PackageResponse;
+import com.restaurent.manager.entity.Vat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,5 @@ public class RestaurantResponse {
     private String BANK_ID;
     private String ACCOUNT_NO;
     private String ACCOUNT_NAME;
+    private Vat vat;
 }

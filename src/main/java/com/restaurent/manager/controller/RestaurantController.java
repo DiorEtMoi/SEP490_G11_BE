@@ -13,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -65,6 +66,13 @@ public class RestaurantController {
     public ApiResponse<Double> getRequireMoneyToUpdatePackForRestaurant(@PathVariable Long restaurantId,@RequestBody RestaurantUpdateRequest request){
         return ApiResponse.<Double>builder()
                 .result(restaurantService.getMoneyToUpdatePackForRestaurant(restaurantId,request))
+                .build();
+    }
+    @PutMapping(value = "/{restaurant}/vat/{status}")
+    public ApiResponse<Void> updateVatStatusForRestaurantById(@PathVariable Long restaurant,@PathVariable boolean status){
+        restaurantService.updateRestaurantVatById(restaurant,status);
+        return ApiResponse.<Void>builder()
+                .message("Update success")
                 .build();
     }
 

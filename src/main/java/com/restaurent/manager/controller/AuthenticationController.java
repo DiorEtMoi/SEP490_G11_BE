@@ -46,5 +46,4 @@ public class AuthenticationController {
                 .result(employeeService.authenticated(request))
                 .build();
     }
-
 }
