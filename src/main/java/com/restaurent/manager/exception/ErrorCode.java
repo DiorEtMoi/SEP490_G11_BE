@@ -45,7 +45,8 @@ public enum ErrorCode {
     EMPLOYEE_NOT_EXIST(404,"Employee not exist",HttpStatus.BAD_REQUEST),
     CUSTOMER_NOT_EXIST(404,"Customer not exist",HttpStatus.BAD_REQUEST),
     INVALID_VAT_CODE(400,"Invalid vat code", HttpStatus.BAD_REQUEST),
-    NOT_EMPTY(400,"Field can not empty",HttpStatus.BAD_REQUEST)
+    NOT_EMPTY(400,"Field can not empty",HttpStatus.BAD_REQUEST),
+    EMAIL_NOT_EXIST(400, "Email not exist",HttpStatus.BAD_REQUEST)
     ;
 
 

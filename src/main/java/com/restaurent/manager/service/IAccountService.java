@@ -19,5 +19,6 @@ public interface IAccountService{
     AccountResponse getAccountById(Long id);
     Account findAccountByPhoneNumber(String phoneNumber);
     AuthenticationResponse authenticated(AuthenticationRequest req);
+    AuthenticationResponse verifyOtp(VerifyAccount req);
 
 }

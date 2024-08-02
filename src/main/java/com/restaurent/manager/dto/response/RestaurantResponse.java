@@ -26,4 +26,5 @@ public class RestaurantResponse {
     private String ACCOUNT_NO;
     private String ACCOUNT_NAME;
     private Vat vat;
+    private boolean isVatActive;
 }
