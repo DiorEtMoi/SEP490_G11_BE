@@ -71,6 +71,7 @@ public class PackageService implements IPackageService {
             pack.setPermissions(new HashSet<>(permissions));
             permissions.forEach(permission -> permission.getPackages().add(pack));
         }
+        packageRepository.save(pack);
         return packageMapper.toPackResponse(pack);
     }
 
