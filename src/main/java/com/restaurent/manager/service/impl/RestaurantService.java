@@ -101,8 +101,11 @@ public class RestaurantService implements IRestaurantService {
     @Override
     public RestaurantResponse getRestaurantByAccountId(Long accountId) {
         Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
-        RestaurantResponse response = restaurantMapper.toRestaurantResponse(restaurant);
-        response.setVatActive(restaurant.isVatActive());
+        RestaurantResponse response = null;
+        if(restaurant != null){
+            response = restaurantMapper.toRestaurantResponse(restaurant);
+            response.setVatActive(restaurant.isVatActive());
+        }
         return response;
     }
 
@@ -116,24 +119,33 @@ public class RestaurantService implements IRestaurantService {
         if(dayLeft > 0){
             if(restaurant.getMonthsRegister() >= 12){
                 // calculate the money remain by year
+                log.info("Price pack per year : " + restaurant.getRestaurantPackage().getPricePerYear());
                 remainMoney = (restaurant.getRestaurantPackage().getPricePerYear() / 365) * dayLeft;
+                log.info("Remain money by year " + remainMoney + "in day left " + dayLeft);
             }else{
                 // calculate the money remain by month
+                log.info("Price pack per month : " + restaurant.getRestaurantPackage().getPricePerMonth());
                 remainMoney = (restaurant.getRestaurantPackage().getPricePerMonth() / LocalDate.now().lengthOfMonth()) * dayLeft;
+                log.info("Remain money by month " + remainMoney + " in day left " + dayLeft);
             }
+            remainMoney = Math.round(remainMoney);
             if(request.getMonths() >= 12){
                 requireMoney = (((double) request.getMonths() / 12) * pack.getPricePerYear()) - remainMoney;
+                log.info("Require money by year : " + requireMoney);
             }else{
                 requireMoney = (request.getMonths() * pack.getPricePerMonth()) - remainMoney;
+                log.info("Require money by month : " + requireMoney);
             }
         }else{
             if(request.getMonths() >= 12){
                 requireMoney = (((double) request.getMonths() / 12) * pack.getPricePerYear()) ;
+                log.info("Require money by year dont have remain : " + requireMoney);
             }else{
                 requireMoney = request.getMonths() * pack.getPricePerMonth();
+                log.info("Require money by month dont have remain : " + requireMoney);
             }
         }
-        return requireMoney;
+        return Math.round(requireMoney);
     }
 
     @Override
