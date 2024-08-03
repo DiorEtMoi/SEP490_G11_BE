@@ -135,7 +135,7 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
     public String buildScope(Employee employee) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(employee.getRole() != null){
-            stringJoiner.add(employee.getRole().getName());
+            stringJoiner.add("ROLE_" + employee.getRole().getName());
         }
         return stringJoiner.toString();
     }

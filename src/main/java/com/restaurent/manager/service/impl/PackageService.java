@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Slf4j
@@ -37,6 +38,7 @@ public class PackageService implements IPackageService {
     @Override
     public PackageResponse create(PackageRequest request) {
         Package pack = packageMapper.toPackage(request);
+        pack.setPackName(request.getPackName().toUpperCase(Locale.ROOT));
         List<Permission> permissions = permissionRepository.findAllById(request.getPermissions());
         if(!permissions.isEmpty()){
             pack.setPermissions(new HashSet<>(permissions));

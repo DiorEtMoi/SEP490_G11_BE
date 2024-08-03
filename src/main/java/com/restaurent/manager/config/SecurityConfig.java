@@ -1,13 +1,18 @@
 package com.restaurent.manager.config;
 
 
+import com.restaurent.manager.enums.RoleSystem;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -24,13 +29,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig{
     private final String[] PUBLIC_ENDPOINT = {"/api/account/verify/otp","/websocket/**","/api/identify/employee/login","/api/account","/api/account/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/swagger-ui/index.html","/api/identify/*","/oauth2/**,/login/oauth2/code/google"};
+    private final String[] PRIVATE_ENDPOINT_ADMIN = {"/api/permission/**", "/api/package/**"};
+    @NonFinal
+    @Value("${allow-origin}")
+    private String allowOrigin;
     CustomJwtDecoder customJwtDecoder;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(PUBLIC_ENDPOINT).permitAll()
+                        .requestMatchers(PRIVATE_ENDPOINT_ADMIN).hasRole(RoleSystem.ADMIN.name())
                         .anyRequest().authenticated());
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
                         jwtConfigurer.decoder(customJwtDecoder)
@@ -47,7 +58,7 @@ public class SecurityConfig{
             @Override
             public void addCorsMappings(CorsRegistry registry){
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000")
+                        .allowedOrigins(allowOrigin)
                         .allowedMethods(HttpMethod.POST.name(),
                                 HttpMethod.GET.name(),
                                 HttpMethod.PUT.name(),

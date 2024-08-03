@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -48,6 +49,14 @@ public class GlobalHandleException {
     @ExceptionHandler(value = AuthenticationException.class)
     public ResponseEntity<ApiResponse> handleAuthenticationException(AuthenticationException e){
         ErrorCode errorCode = ErrorCode.INVALID_TOKEN;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.builder()
+                .code(errorCode.getStatusCode().value())
+                .message(errorCode.getMessage())
+                .build());
+    }
+    @ExceptionHandler(value = AuthorizationDeniedException.class)
+    public ResponseEntity<ApiResponse> handleAuthorizeDenied(AuthenticationException e){
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.builder()
                 .code(errorCode.getStatusCode().value())
                 .message(errorCode.getMessage())

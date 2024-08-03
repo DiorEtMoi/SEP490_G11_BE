@@ -207,7 +207,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     public String buildScope(Account user){
         StringJoiner stringJoiner = new StringJoiner(" ");
         if(user.getRole() != null){
-            stringJoiner.add(user.getRole().getName());
+            stringJoiner.add("ROLE_" + user.getRole().getName());
             if(user.getRestaurant() != null){
                 user.getRestaurant().getRestaurantPackage().getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
             }
