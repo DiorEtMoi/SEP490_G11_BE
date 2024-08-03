@@ -56,7 +56,7 @@ public class RoleService implements IRoleService {
     @Override
     public Role findByRoleName(String name) {
         return roleRepository.findByName(name).orElseThrow(
-                () -> new AppException(ErrorCode.PACKAGE_NOT_EXIST)
+                () -> new AppException(ErrorCode.ROLE_NOT_EXISTED)
         );
     }
 }

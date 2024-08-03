@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class PermissionController {
                 .result(permissionService.getPermissions())
                 .build();
     }
+
     @PutMapping(value = "/{permissionId}")
     public ApiResponse<PermissionResponse> updatePermission(@PathVariable Long permissionId,@RequestBody PermissionRequest request){
         return ApiResponse.<PermissionResponse>builder()
