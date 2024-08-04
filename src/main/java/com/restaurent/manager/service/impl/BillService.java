@@ -128,6 +128,45 @@ public class BillService implements IBillService {
         return 0;
     }
 
+    @Override
+    public double getTotalValueByTimeAndCurrentForRestaurant(Long restaurantId, String startTime, String endTime) {
+        double res = 0;
+        List<Bill> bills = billRepository.findByTimeBetweenAndCurrentDate(restaurantId,startTime,endTime);
+        if(!bills.isEmpty()){
+            for (Bill b : bills){
+                res += b.getTotal();
+            }
+            return Math.round(res);
+        }
+        return 0;
+    }
+
+    @Override
+    public double getTotalValueByTimeAndCurrentWeekForRestaurant(Long restaurantId, String startTime, String endTime) {
+        double res = 0;
+        List<Bill> bills = billRepository.findByTimeBetweenAndCurrentWeek(restaurantId,startTime,endTime);
+        if(!bills.isEmpty()){
+            for (Bill b : bills){
+                res += b.getTotal();
+            }
+            return Math.round(res);
+        }
+        return 0;
+    }
+
+    @Override
+    public double getTotalValueByTimeAndCurrentMonthForRestaurant(Long restaurantId, String startTime, String endTime) {
+        double res = 0;
+        List<Bill> bills = billRepository.findByTimeBetweenAndCurrentMonth(restaurantId,startTime,endTime);
+        if(!bills.isEmpty()){
+            for (Bill b : bills){
+                res += b.getTotal();
+            }
+            return Math.round(res);
+        }
+        return 0;
+    }
+
 }
 
 

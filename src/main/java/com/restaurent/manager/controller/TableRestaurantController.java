@@ -72,4 +72,10 @@ public class TableRestaurantController {
         String roomId = "" + restaurantId;
         messagingTemplate.convertAndSend("/topic/restaurant/" + roomId,response);
     }
+    @GetMapping("/chef/area/{areaId}")
+    public ApiResponse<List<TableRestaurantResponse>> getTableHaveOrderByAreaId(@PathVariable Long areaId){
+        return ApiResponse.<List<TableRestaurantResponse>>builder()
+                .result(tableRestaurantService.getTableByAreaIdHaveOrder(areaId))
+                .build();
+    }
 }

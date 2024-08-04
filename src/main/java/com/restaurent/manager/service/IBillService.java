@@ -20,4 +20,8 @@ public interface IBillService {
     double getProfitRestaurantByIdAndDateBetween(Long resId, LocalDateTime start, LocalDateTime end);
     double getVatValueForRestaurantCurrent(Long resId,LocalDateTime date);
     double getVatValueForRestaurantBetween(Long resId,LocalDateTime start, LocalDateTime end);
+    double getTotalValueByTimeAndCurrentForRestaurant(Long restaurantId, String startTime, String endTime);
+    double getTotalValueByTimeAndCurrentWeekForRestaurant(Long restaurantId, String startTime, String endTime);
+    double getTotalValueByTimeAndCurrentMonthForRestaurant(Long restaurantId, String startTime, String endTime);
+
 }

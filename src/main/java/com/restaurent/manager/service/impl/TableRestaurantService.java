@@ -117,4 +117,18 @@ public class TableRestaurantService implements ITableRestaurantService {
     public TableRestaurantResponse findTableRestaurantByIdToResponse(Long id) {
         return tableRestaurantMapper.toTableRestaurantResponse(findById(id));
     }
+
+    @Override
+    public List<TableRestaurantResponse> getTableByAreaIdHaveOrder(Long areaId) {
+        List<TableRestaurantResponse> res = new ArrayList<>();
+        List<TableRestaurant> tableRestaurants = tableRestaurantRepository.findByArea_IdAndHidden(areaId,false);
+        if(!tableRestaurants.isEmpty()){
+            tableRestaurants.forEach((item) -> {
+                if(item.getOrderCurrent() != null){
+                    res.add(tableRestaurantMapper.toTableRestaurantResponse(item));
+                }
+            });
+        }
+        return res;
+    }
 }

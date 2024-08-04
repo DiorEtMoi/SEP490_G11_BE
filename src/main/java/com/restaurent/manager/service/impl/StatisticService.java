@@ -1,6 +1,7 @@
 package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.StatisticTableResponse;
+import com.restaurent.manager.dto.response.StatisticChartValueManager;
 import com.restaurent.manager.dto.response.StatisticResponse;
 import com.restaurent.manager.repository.BillRepository;
 import com.restaurent.manager.repository.CustomerRepository;
@@ -8,6 +9,7 @@ import com.restaurent.manager.service.IBillService;
 import com.restaurent.manager.service.IStatisticService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -20,6 +22,7 @@ import java.util.List;
 @Service
 @FieldDefaults(makeFinal = true)
 @RequiredArgsConstructor
+@Slf4j
 public class StatisticService  implements IStatisticService{
     CustomerRepository customerRepository;
     BillRepository billRepository;
@@ -81,5 +84,24 @@ public class StatisticService  implements IStatisticService{
                     .build());
         }
         return responses;
+    }
+    @Override
+    public List<StatisticChartValueManager> getValueByTimeAndCurrentDateForRestaurant(Long restaurantId) {
+        List<StatisticChartValueManager> res = new ArrayList<>();
+        String[] timeArr = {"00:00","01:00","02:00","03:00","04:00","05:00","06:00","07:00","08:00","09:00","10:00","11:00","12:00","13:00","14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00"};
+        for (int i = 0; i < timeArr.length; i++) {
+            if(i == 0){
+                res.add(StatisticChartValueManager.builder()
+                        .time(timeArr[i])
+                        .value(billService.getTotalValueByTimeAndCurrentForRestaurant(restaurantId,timeArr[timeArr.length - 1],timeArr[i]))
+                        .build());
+            }else{
+                res.add(StatisticChartValueManager.builder()
+                        .time(timeArr[i])
+                        .value(billService.getTotalValueByTimeAndCurrentForRestaurant(restaurantId,timeArr[i - 1],timeArr[i]))
+                        .build());
+            }
+        }
+        return res;
     }
 }

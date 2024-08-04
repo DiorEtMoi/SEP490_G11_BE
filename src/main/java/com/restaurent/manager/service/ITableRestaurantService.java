@@ -17,4 +17,5 @@ public interface ITableRestaurantService {
     void updateTables(List<TableRestaurantResponse> tables);
     Order findOrderByTableId(Long tableId);
     TableRestaurantResponse findTableRestaurantByIdToResponse(Long id);
+    List<TableRestaurantResponse> getTableByAreaIdHaveOrder(Long areaId);
 }

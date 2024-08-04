@@ -2,6 +2,7 @@ package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.StatisticTableResponse;
 import com.restaurent.manager.dto.response.ApiResponse;
+import com.restaurent.manager.dto.response.StatisticChartValueManager;
 import com.restaurent.manager.dto.response.StatisticResponse;
 import com.restaurent.manager.service.IStatisticService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -54,6 +55,12 @@ public class StatisticController {
     public ApiResponse<List<StatisticTableResponse>> getTableStatisticRestaurantByIdInLastMonth(@PathVariable Long restaurantId){
         return ApiResponse.<List<StatisticTableResponse>>builder()
                 .result(statisticService.getDetailStatisticRestaurantEachOfDayInLastMonth(restaurantId))
+                .build();
+    }
+    @GetMapping(value = "/manager/restaurant/{restaurantId}/time")
+    public ApiResponse<List<StatisticChartValueManager>> getTotalValueByTimeForRestaurant(@PathVariable Long restaurantId){
+        return ApiResponse.<List<StatisticChartValueManager>>builder()
+                .result(statisticService.getValueByTimeAndCurrentDateForRestaurant(restaurantId))
                 .build();
     }
 }
