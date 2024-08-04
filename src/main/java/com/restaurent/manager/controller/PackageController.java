@@ -4,6 +4,7 @@ import com.restaurent.manager.dto.request.PackageRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.Pack.PackUpgradeResponse;
 import com.restaurent.manager.dto.response.Pack.PackageResponse;
+import com.restaurent.manager.mapper.PackageMapper;
 import com.restaurent.manager.service.IPackageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
@@ -21,6 +22,8 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class PackageController {
     IPackageService packageService;
+    PackageMapper packageMapper;
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @PostMapping
     public ApiResponse<PackageResponse> create(@RequestBody PackageRequest req){
         return ApiResponse.<PackageResponse>builder()
@@ -34,6 +37,7 @@ public class PackageController {
                 .result(packageService.getPacks())
                 .build();
     }
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping("/{packId}/permission/{permissionId}")
     public ApiResponse<PackageResponse> addPermission(@PathVariable String packId, @PathVariable String permissionId ){
             Long pId = Long.parseLong(packId);
@@ -42,16 +46,24 @@ public class PackageController {
                     .result(packageService.addPermission(perId,pId))
                     .build();
     }
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping("/{packId}")
     public ApiResponse<PackageResponse> updatePackage(@PathVariable Long packId,@RequestBody PackageRequest request){
         return ApiResponse.<PackageResponse>builder()
                 .result(packageService.updatePackage(packId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasAnyRole('ADMIN','MANAGER')")
     @GetMapping(value = "/restaurant/{restaurantId}")
     public ApiResponse<PackUpgradeResponse> findPacksUpgradeForRestaurant(@PathVariable Long restaurantId){
         return ApiResponse.<PackUpgradeResponse>builder()
                 .result(packageService.findPacksToUpgradeForRestaurant(restaurantId))
+                .build();
+    }
+    @GetMapping(value = "/{packId}")
+    public ApiResponse<PackageResponse> findPackById(@PathVariable Long packId){
+        return ApiResponse.<PackageResponse>builder()
+                .result(packageMapper.toPackResponse(packageService.findPackById(packId)))
                 .build();
     }
 

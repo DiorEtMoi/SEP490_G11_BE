@@ -49,7 +49,11 @@ public class PackageService implements IPackageService {
 
     @Override
     public List<PackageResponse> getPacks() {
-        return packageRepository.findAll().stream().map(packageMapper::toPackResponse).toList();
+        List<PackageResponse> res = packageRepository.findAll().stream().map(packageMapper::toPackResponse).toList();
+        res.forEach((item) -> {
+            item.setTotal(restaurantRepository.countByRestaurantPackage_Id(item.getId()));
+        });
+        return res;
     }
 
     @Override

@@ -12,4 +12,5 @@ List<Restaurant> findByRestaurantPackageIdIsNotNullAndExpiryDateBefore(LocalDate
 Restaurant findByAccount_Id(Long accountID);
 boolean existsByRestaurantName(String restaurantName);
 boolean existsByAccount_Id(Long accountId);
+int countByRestaurantPackage_Id(Long id);
 }
