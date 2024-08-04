@@ -55,6 +55,7 @@ public class RestaurantController {
                 .result(restaurantService.updateRestaurant(accountId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasAnyRole('ADMIN','WAITER')")
     @GetMapping("/account/{accountID}")
     public ApiResponse<RestaurantResponse> getRestaurantByAccountId(@PathVariable Long accountID){
         return ApiResponse.<RestaurantResponse>builder()
