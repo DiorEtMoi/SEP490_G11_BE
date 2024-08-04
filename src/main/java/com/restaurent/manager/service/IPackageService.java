@@ -15,4 +15,5 @@ public interface IPackageService {
     Package findPackById(Long id);
     Package findByPackName(String name);
     PackUpgradeResponse findPacksToUpgradeForRestaurant(Long restaurantId);
+    List<PackageResponse> getPacksView();
 }

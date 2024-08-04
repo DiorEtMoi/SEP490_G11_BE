@@ -30,6 +30,12 @@ public class PackageController {
                 .result(packageService.create(req))
                 .build();
     }
+    @GetMapping(value = "/view")
+    public ApiResponse<List<PackageResponse>> getPacksView(){
+        return ApiResponse.<List<PackageResponse>>builder()
+                .result(packageService.getPacksView())
+                .build();
+    }
     @GetMapping
     public ApiResponse<List<PackageResponse>> getRoles(){
         return ApiResponse.<List<PackageResponse>>

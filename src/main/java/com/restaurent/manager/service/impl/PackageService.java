@@ -118,4 +118,9 @@ public class PackageService implements IPackageService {
                 .packages(packages)
                 .build();
     }
+
+    @Override
+    public List<PackageResponse> getPacksView() {
+        return packageRepository.findAll().stream().map(packageMapper::toPackResponse).toList();
+    }
 }
