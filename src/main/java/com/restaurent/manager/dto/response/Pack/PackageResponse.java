@@ -18,4 +18,5 @@ public class PackageResponse {
    private Set<PermissionResponse> permissions;
    private double pricePerMonth;
    private double pricePerYear;
+   private int total;
 }
