@@ -47,7 +47,10 @@ public enum ErrorCode {
     INVALID_VAT_CODE(400,"Invalid vat code", HttpStatus.BAD_REQUEST),
     NOT_EMPTY(400,"Field can not empty",HttpStatus.BAD_REQUEST),
     EMAIL_NOT_EXIST(400, "Email not exist",HttpStatus.BAD_REQUEST),
-    INVALID_TAX_VALUE(400,"Tax value must be between {min} to {max}",HttpStatus.BAD_REQUEST)
+    INVALID_TAX_VALUE(400,"Tax value must be between {min} to {max}",HttpStatus.BAD_REQUEST),
+    MAX_AREA(400,"Bạn đã đạt giới hạn khu vực, vui lòng nâng cấp gói để có thể thêm", HttpStatus.BAD_REQUEST),
+    RESTAURANT_ID_NULL(400,"restaurant id can be not null", HttpStatus.BAD_REQUEST),
+    MAX_TABLE(400, "Bạn không thể tạo thêm bàn vì đã vượt qua giới hạn cho phép của gói, nâng cấp gói để tạo bàn.", HttpStatus.BAD_REQUEST);
     ;
 
 

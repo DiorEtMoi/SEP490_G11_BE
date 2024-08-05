@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,24 +21,30 @@ import java.util.List;
 public class UnitController {
 
     IUnitService unitService;
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('UNIT')")
     @GetMapping(value = "/account/{accountId}")
     public ApiResponse<List<UnitResponse>> getUnitsByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<UnitResponse>>builder()
                 .result(unitService.getUnitsByAccountId(accountId))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('UNIT')")
+
     @PostMapping(value = "/create")
     public ApiResponse<UnitResponse> createUnit(@RequestBody UnitRequest request){
         return ApiResponse.<UnitResponse>builder()
                 .result(unitService.createUnit(request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('UNIT')")
+
     @PutMapping(value = "/{unitId}")
     public ApiResponse<UnitResponse> updateUnit(@PathVariable Long unitId,@RequestBody UnitRequest request){
         return ApiResponse.<UnitResponse>builder()
                 .result(unitService.updateUnit(unitId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('UNIT')")
     @DeleteMapping(value = "/{unitId}")
     public ApiResponse<Void> deleteUnitById(@PathVariable Long unitId){
         unitService.deleteUnitById(unitId);

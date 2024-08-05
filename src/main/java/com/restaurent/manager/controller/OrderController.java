@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +28,14 @@ import java.util.List;
 public class OrderController {
     IOrderService orderService;
     SimpMessagingTemplate messagingTemplate;
+    @PreAuthorize(value = "hasRole('WAITER')")
     @PostMapping(value = "/create")
     public ApiResponse<OrderResponse> createNewOrder(@RequestBody OrderRequest request){
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.createOrder(request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('WAITER')")
     @MessageMapping("/restaurant/{restaurantId}/addDishes")
     public void addDishToOrder(@DestinationVariable Long restaurantId, @Payload DishOrderAddRequest request){
         log.info(request.toString());
@@ -40,6 +43,7 @@ public class OrderController {
         List<DishOrderResponse> responses = orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
         messagingTemplate.convertAndSend("/topic/order/restaurant/" + roomId,responses);
     }
+    @PreAuthorize(value = "hasRole('WAITER')")
     @PutMapping("/order/add-dishes")
     public ApiResponse<List<DishOrderResponse>> addDishes(@RequestBody DishOrderAddRequest request){
         log.info(request.toString());
@@ -59,17 +63,18 @@ public class OrderController {
     public String sendMessage(@Payload String message){
         return message;
     }
+    @PreAuthorize(value = "hasAnyRole('WAITER', 'CHEF')")
     @GetMapping(value = "/api/order/table/{tableId}")
     public ApiResponse<OrderResponse> findOrderByTableId(@PathVariable Long tableId){
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.findOrderByTableId(tableId))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('WAITER')")
     @GetMapping(value = "/api/order/{orderId}")
     public ApiResponse<OrderResponse> findOrderById(@PathVariable Long orderId){
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.findOrderAndConvertDTOByOrderId(orderId))
                 .build();
     }
-
 }

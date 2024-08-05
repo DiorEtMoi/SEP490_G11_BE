@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +20,14 @@ import java.util.List;
 @RequestMapping(value = "/api/area")
 public class AreaController {
     IAreaService areaService;
+
     @GetMapping(value = "/{restaurantId}")
     public ApiResponse<List<AreaResponse>> getAreasByRestaurantId(@PathVariable Long restaurantId){
         return ApiResponse.<List<AreaResponse>>builder()
                 .result(areaService.getAreasByRestaurantId(restaurantId))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('AREA')")
     @PostMapping(value = "/create")
     public ApiResponse<AreaResponse> createArea(@RequestBody AreaRequest request){
         return ApiResponse.<AreaResponse>builder()

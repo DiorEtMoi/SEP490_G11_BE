@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,18 +22,22 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class DishCategoryController {
     IDishCategoryService dishCategoryService;
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CATEGORY')")
     @GetMapping(value = "/{accountId}")
     public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<DishCategoryResponse>>builder()
                 .result(dishCategoryService.getAllDishCategoryByAccountId(accountId))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")
+
     @PostMapping(value = "/create")
     public  ApiResponse<DishCategoryResponse> createDishCategory(@RequestBody DishCategoryRequest request){
         return ApiResponse.<DishCategoryResponse>builder()
                 .result(dishCategoryService.createDishCategory(request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")
     @DeleteMapping(value = "/{dishCategoryId}")
     public ApiResponse<Void> deleteDishCategoryById(@PathVariable Long dishCategoryId){
         dishCategoryService.deleteCategoryById(dishCategoryId);
@@ -40,6 +45,7 @@ public class DishCategoryController {
                 .message("Delete success")
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")
     @PutMapping(value = "/{dishCategoryId}")
     public ApiResponse<DishCategoryResponse> updateDishCategoryById(@PathVariable Long dishCategoryId, @RequestBody DishCategoryRequest request){
         return ApiResponse.<DishCategoryResponse>builder()
