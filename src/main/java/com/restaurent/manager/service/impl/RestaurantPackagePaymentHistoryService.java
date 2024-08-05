@@ -28,10 +28,6 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
 
     @Override
     public Long createRestaurantPackagePaymentHistory(RestaurantPackagePaymentHistoryRequest request) {
-        restaurantService.updateRestaurant(request.getRestaurantId(), RestaurantUpdateRequest.builder()
-                        .months(request.getMonths())
-                        .packId(request.getPackageId())
-                .build());
         RestaurantPackagePaymentHistory restaurantPackagePaymentHistory = mapper.toRestaurantPackagePaymentHistory(request);
         packageService.findPackById(request.getPackageId());
         restaurantService.getRestaurantById(request.getRestaurantId());
@@ -47,10 +43,14 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
     }
 
     @Override
-    public void updateRestaurantPackagePaymentHistory(Long id) {
+    public void updateRestaurantPackagePaymentHistory(Long id, RestaurantPackagePaymentHistoryRequest request) {
         RestaurantPackagePaymentHistory history = restaurantPackagePaymentHistoryRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
+        restaurantService.updateRestaurant(request.getRestaurantId(), RestaurantUpdateRequest.builder()
+                .months(request.getMonths())
+                .packId(request.getPackageId())
+                .build());
         history.setPaid(true);
         restaurantPackagePaymentHistoryRepository.save(history);
     }
