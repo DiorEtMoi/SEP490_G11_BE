@@ -35,6 +35,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
         RestaurantPackagePaymentHistory restaurantPackagePaymentHistory = mapper.toRestaurantPackagePaymentHistory(request);
         packageService.findPackById(request.getPackageId());
         restaurantService.getRestaurantById(request.getRestaurantId());
+        restaurantPackagePaymentHistory.setId(getNewId());
         restaurantPackagePaymentHistory.setDateCreated(LocalDateTime.now());
         return restaurantPackagePaymentHistoryRepository.save(restaurantPackagePaymentHistory).getId();
     }
@@ -42,7 +43,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
     @Override
     public Long getNewId() {
         List<RestaurantPackagePaymentHistory> all = restaurantPackagePaymentHistoryRepository.findAll();
-        return all.isEmpty() ? 1L : all.getLast().getId();
+        return all.isEmpty() ? 1L : all.getLast().getId() + 1;
     }
 
     @Override
