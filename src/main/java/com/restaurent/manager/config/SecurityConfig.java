@@ -32,10 +32,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableMethodSecurity
 public class SecurityConfig{
     private final String[] PUBLIC_ENDPOINT = {"/api/package/view","/api/account/verify/otp","/websocket/**","/api/identify/employee/login","/api/account","/api/account/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html","/swagger-ui/index.html","/api/identify/*","/oauth2/**,/login/oauth2/code/google"};
-    private final String[] PRIVATE_ENDPOINT_ADMIN = {"/api/permission/**", "/api/restaurant/admin/{restaurantId}"};
+    private final String[] PRIVATE_ENDPOINT_ADMIN = {"/api/role/**","/api/permission/**", "/api/restaurant/admin/{restaurantId}"};
     private final String[] RESTAURANT_MANAGER_ENDPOINT = {"/api/restaurant/init","/api/restaurant/manager/{accountId}","/api/restaurant/manager/payment/{accountId}", "/api/restaurant/{restaurantId}/pack/require-money", "/api/restaurant/{restaurant}/vat/{status}",
-    "/api/restaurant/{restaurantId}/point"
-    };
+    "/api/restaurant/{restaurantId}/point"};
+    private final String[] EMPLOYEE_MANAGER_ENDPOINT = {"/api/employee/**"};
     @NonFinal
     @Value("${allow-origin}")
     private String allowOrigin;
@@ -46,6 +46,7 @@ public class SecurityConfig{
                 request.requestMatchers(PUBLIC_ENDPOINT).permitAll()
                         .requestMatchers(PRIVATE_ENDPOINT_ADMIN).hasRole(RoleSystem.ADMIN.name())
                         .requestMatchers(RESTAURANT_MANAGER_ENDPOINT).hasRole(RoleSystem.MANAGER.name())
+                        .requestMatchers(EMPLOYEE_MANAGER_ENDPOINT).hasRole(RoleSystem.MANAGER.name())
                         .anyRequest().authenticated());
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwtConfigurer ->
                         jwtConfigurer.decoder(customJwtDecoder)

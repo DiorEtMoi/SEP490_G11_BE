@@ -20,7 +20,7 @@ public class Permission {
     private String description;
     @ManyToMany(mappedBy = "permissions",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Package> packages = new HashSet<>();
-
+    private int maximum;
     public void addPermissionToPackage(Package pack){
         pack.getPermissions().add(this);
         packages.add(pack);

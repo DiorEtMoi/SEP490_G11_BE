@@ -21,4 +21,6 @@ public class TableRestaurantRequest {
     Long areaId;
     float positionX;
     float positionY;
+    @NotNull(message = "RESTAURANT_ID_NULL")
+    Long restaurantId;
 }

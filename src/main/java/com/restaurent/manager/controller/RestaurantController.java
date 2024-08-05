@@ -37,18 +37,21 @@ public class RestaurantController {
                 .result(restaurantService.getRestaurants())
                 .build();
     }
+    @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping("/admin/{restaurantId}")
     public ApiResponse<RestaurantResponse> updateRestaurant(@PathVariable Long restaurantId ,@RequestBody @Valid RestaurantUpdateRequest request){
         return ApiResponse.<RestaurantResponse>builder()
                 .result(restaurantService.updateRestaurant(restaurantId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping("/manager/{accountId}")
     public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable Long accountId,@RequestBody RestaurantManagerUpdateRequest request){
         return ApiResponse.<RestaurantResponse>builder()
                 .result(restaurantService.updateRestaurant(accountId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping("/manager/payment/{accountId}")
     public ApiResponse<RestaurantResponse> updateRestaurantPayment(@PathVariable Long accountId,@RequestBody RestaurantPaymentRequest request){
         return ApiResponse.<RestaurantResponse>builder()
@@ -62,12 +65,14 @@ public class RestaurantController {
                 .result(restaurantService.getRestaurantByAccountId(accountID))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PostMapping(value = "/{restaurantId}/pack/require-money")
     public ApiResponse<Double> getRequireMoneyToUpdatePackForRestaurant(@PathVariable Long restaurantId,@RequestBody RestaurantUpdateRequest request){
         return ApiResponse.<Double>builder()
                 .result(restaurantService.getMoneyToUpdatePackForRestaurant(restaurantId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping(value = "/{restaurant}/vat/{status}")
     public ApiResponse<Void> updateVatStatusForRestaurantById(@PathVariable Long restaurant,@PathVariable boolean status){
         restaurantService.updateRestaurantVatById(restaurant,status);
@@ -75,6 +80,7 @@ public class RestaurantController {
                 .message("Update success")
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping(value = "/{restaurantId}/point")
     public ApiResponse<RestaurantResponse> updatePointForRestaurant(@PathVariable Long restaurantId, @RequestBody @Valid PointsRequest request){
         return ApiResponse.<RestaurantResponse>builder()

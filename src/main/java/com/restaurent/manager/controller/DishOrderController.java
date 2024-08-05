@@ -10,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +24,14 @@ import java.util.List;
 public class DishOrderController {
     IDishOrderService dishOrderService;
     SimpMessagingTemplate messagingTemplate;
+    @PreAuthorize(value = "hasRole('CHEF') and hasAuthority('STATUS_DISH')")
     @MessageMapping("/change-status")
     public void updateStatusDishOrderById(@RequestBody DishOrderResponse request){
         DishOrderResponse response = dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus()));
         String roomId = "" + request.getOrder().getTableRestaurant().getId();
         messagingTemplate.convertAndSend("/topic/table/" + roomId, response);
     }
+    @PreAuthorize(value = "hasRole('WAITER')")
     @GetMapping(value = "/{orderId}")
     public ApiResponse<List<DishOrderResponse>> findDishOrderByOrderId(@PathVariable Long orderId){
         return ApiResponse.<List<DishOrderResponse>>builder()
@@ -41,12 +44,14 @@ public class DishOrderController {
                 .result(dishOrderService.findDishOrderByOrderIdAndStatus(orderId,state))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('CHEF')")
     @GetMapping(value = "/restaurant/{restaurantId}/state/{state}")
     public ApiResponse<List<DishOrderResponse>> findDishOrderByRestaurantIdAndState(@PathVariable Long restaurantId,@PathVariable DISH_ORDER_STATE state){
         return ApiResponse.<List<DishOrderResponse>>builder()
                 .result(dishOrderService.findDishOrderByRestaurantIdAndState(restaurantId,state))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('CHEF')")
     @GetMapping(value = "/restaurant/{restaurantId}")
     public ApiResponse<List<DishOrderResponse>> findDishOrderWaitingByRestaurantId(@PathVariable Long restaurantId){
         return ApiResponse.<List<DishOrderResponse>>builder()

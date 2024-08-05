@@ -7,6 +7,7 @@ import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.UnitMapper;
 import com.restaurent.manager.repository.AccountRepository;
+import com.restaurent.manager.repository.DishRepository;
 import com.restaurent.manager.repository.UnitRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IUnitService;
@@ -25,6 +26,7 @@ public class UnitService implements IUnitService {
     UnitMapper unitMapper;
     UnitRepository unitRepository;
     AccountRepository accountRepository;
+    DishRepository dishRepository;
     @Override
     public UnitResponse createUnit(UnitRequest request) {
         Unit unit = unitMapper.toUnit(request);
@@ -54,7 +56,13 @@ public class UnitService implements IUnitService {
 
     @Override
     public void deleteUnitById(Long unitId) {
-        unitRepository.deleteById(unitId);
+        Unit unit = findById(unitId);
+        if(dishRepository.existsByUnit_Id(unitId)){
+            unit.setHidden(true);
+            unitRepository.save(unit);
+        }else{
+            unitRepository.deleteById(unitId);
+        }
     }
 
     @Override

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AreaRepository extends JpaRepository<Area,Long> {
     List<Area> findByRestaurant_Id(Long restaurantId);
+    int countByRestaurant_Id(Long restaurantId);
 }

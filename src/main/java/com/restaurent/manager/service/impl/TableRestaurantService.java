@@ -3,14 +3,15 @@ package com.restaurent.manager.service.impl;
 import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
 import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
-import com.restaurent.manager.entity.Order;
-import com.restaurent.manager.entity.TableRestaurant;
+import com.restaurent.manager.entity.*;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.TableRestaurantMapper;
 import com.restaurent.manager.repository.AreaRepository;
 import com.restaurent.manager.repository.TableRestaurantRepository;
 import com.restaurent.manager.repository.TableTypeRepository;
+import com.restaurent.manager.service.IAreaService;
+import com.restaurent.manager.service.IRestaurantService;
 import com.restaurent.manager.service.ITableRestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,10 +30,26 @@ public class TableRestaurantService implements ITableRestaurantService {
     AreaRepository areaRepository;
     TableTypeRepository tableTypeRepository;
     TableRestaurantRepository tableRestaurantRepository;
+    IRestaurantService restaurantService;
     @Override
     public TableRestaurantResponse createTable(TableRestaurantRequest request) {
         if(tableRestaurantRepository.existsByNameAndArea_Id(request.getName(),request.getAreaId())){
             throw new AppException(ErrorCode.TABLE_NAME_EXISTED);
+        }
+        List<Area> areas = areaRepository.findByRestaurant_Id(request.getRestaurantId());
+        Restaurant restaurant = restaurantService.getRestaurantById(request.getRestaurantId());
+        int totalTable = 0;
+        if(!areas.isEmpty()){
+            for (Area area : areas){
+                totalTable += area.getTableRestaurants().size();
+            }
+            for (Permission permission : restaurant.getRestaurantPackage().getPermissions()){
+                if(permission.getName().equals("TABLE_MAX")){
+                    if(totalTable  >= permission.getMaximum()){
+                        throw new AppException(ErrorCode.MAX_TABLE);
+                    }
+                }
+            }
         }
         TableRestaurant tableRestaurant = tableRestaurantMapper.toTableRestaurant(request);
         tableRestaurant.setHidden(false);
@@ -52,6 +69,21 @@ public class TableRestaurantService implements ITableRestaurantService {
 
     @Override
     public List<TableRestaurantResponse> createManyTable(int numbers, TableRestaurantRequest request) {
+        List<Area> areas = areaRepository.findByRestaurant_Id(request.getRestaurantId());
+        Restaurant restaurant = restaurantService.getRestaurantById(request.getRestaurantId());
+        int totalTable = 0;
+        if(!areas.isEmpty()){
+            for (Area area : areas){
+                totalTable += area.getTableRestaurants().size();
+            }
+            for (Permission permission : restaurant.getRestaurantPackage().getPermissions()){
+                if(permission.getName().equals("TABLE_MAX")){
+                    if(totalTable + numbers > permission.getMaximum()){
+                        throw new AppException(ErrorCode.MAX_TABLE);
+                    }
+                }
+            }
+        }
         List<TableRestaurantResponse> tableRestaurantResponses = new ArrayList<>();
         TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByNameStartingWithOrderByNameDesc(request.getName());
         if(tableRestaurant != null){
@@ -96,6 +128,7 @@ public class TableRestaurantService implements ITableRestaurantService {
     public void deleteTableById(Long tableId) {
         TableRestaurant tableRestaurant = findById(tableId);
         tableRestaurant.setHidden(true);
+        tableRestaurantRepository.save(tableRestaurant);
     }
 
     @Override

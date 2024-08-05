@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDateTime;
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DishOrderResponse {
@@ -13,4 +15,5 @@ public class DishOrderResponse {
     OrderResponse order;
     int quantity;
     String status;
+    LocalDateTime orderDate;
 }

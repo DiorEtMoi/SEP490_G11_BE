@@ -20,4 +20,5 @@ public class Unit {
     Set<Dish> dishes;
     @ManyToOne(fetch = FetchType.LAZY)
     Account account;
+    boolean hidden;
 }

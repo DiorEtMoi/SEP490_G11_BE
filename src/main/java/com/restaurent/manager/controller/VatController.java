@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,18 +19,21 @@ import org.springframework.web.bind.annotation.*;
 @FieldDefaults(makeFinal = true)
 public class VatController {
     IVatService vatService;
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PostMapping(value = "/restaurant/{restaurantId}/create")
     public ApiResponse<Vat> createVatForRestaurant(@PathVariable Long restaurantId, @RequestBody @Valid VatRequest request){
         return ApiResponse.<Vat>builder()
                 .result(vatService.createVat(restaurantId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping(value = "/{vatId}")
     public ApiResponse<Vat> updateVat(@PathVariable Long vatId, @RequestBody @Valid VatRequest request){
         return ApiResponse.<Vat>builder()
                 .result(vatService.updateVatInformation(vatId,request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping(value = "/{vatId}/tax")
     public ApiResponse<Vat> updateTax(@PathVariable Long vatId, @RequestBody @Valid TaxRequest request){
         return ApiResponse.<Vat>builder()
