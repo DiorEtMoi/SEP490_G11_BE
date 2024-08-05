@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class RestaurantPackagePaymentHistoryRequest {
-    Long id;
     Long packageId;
     Long restaurantId;
     double totalMoney;
