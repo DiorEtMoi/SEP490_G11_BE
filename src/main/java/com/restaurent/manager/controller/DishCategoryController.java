@@ -45,7 +45,7 @@ public class DishCategoryController {
                 .message("Delete success")
                 .build();
     }
-    @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")
+    @PreAuthorize(value = "hasAnyRole('MANAGER','WAITER') and hasAuthority('CATEGORY')")
     @PutMapping(value = "/{dishCategoryId}")
     public ApiResponse<DishCategoryResponse> updateDishCategoryById(@PathVariable Long dishCategoryId, @RequestBody DishCategoryRequest request){
         return ApiResponse.<DishCategoryResponse>builder()
