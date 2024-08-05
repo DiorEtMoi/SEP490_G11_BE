@@ -3,6 +3,8 @@ package com.restaurent.manager.service.impl;
 import com.restaurent.manager.dto.request.RestaurantPackagePaymentHistoryRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
 import com.restaurent.manager.entity.RestaurantPackagePaymentHistory;
+import com.restaurent.manager.exception.AppException;
+import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.RestaurantPackageHistoryMapper;
 import com.restaurent.manager.repository.RestaurantPackagePaymentHistoryRepository;
 import com.restaurent.manager.service.IPackageService;
@@ -25,7 +27,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
     RestaurantPackageHistoryMapper mapper;
 
     @Override
-    public void createRestaurantPackagePaymentHistory(RestaurantPackagePaymentHistoryRequest request) {
+    public Long createRestaurantPackagePaymentHistory(RestaurantPackagePaymentHistoryRequest request) {
         restaurantService.updateRestaurant(request.getRestaurantId(), RestaurantUpdateRequest.builder()
                         .months(request.getMonths())
                         .packId(request.getPackageId())
@@ -34,12 +36,21 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
         packageService.findPackById(request.getPackageId());
         restaurantService.getRestaurantById(request.getRestaurantId());
         restaurantPackagePaymentHistory.setDateCreated(LocalDateTime.now());
-        restaurantPackagePaymentHistoryRepository.save(restaurantPackagePaymentHistory);
+        return restaurantPackagePaymentHistoryRepository.save(restaurantPackagePaymentHistory).getId();
     }
 
     @Override
     public Long getNewId() {
         List<RestaurantPackagePaymentHistory> all = restaurantPackagePaymentHistoryRepository.findAll();
         return all.isEmpty() ? 1L : all.getLast().getId();
+    }
+
+    @Override
+    public void updateRestaurantPackagePaymentHistory(Long id) {
+        RestaurantPackagePaymentHistory history = restaurantPackagePaymentHistoryRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+        history.setPaid(true);
+        restaurantPackagePaymentHistoryRepository.save(history);
     }
 }

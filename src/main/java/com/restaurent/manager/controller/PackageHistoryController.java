@@ -6,6 +6,7 @@ import com.restaurent.manager.service.IRestaurantPackagePaymentHistoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,17 +16,25 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = "bearerAuth")
 public class PackageHistoryController {
     IRestaurantPackagePaymentHistoryService service;
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PostMapping(value = "/create")
-    public ApiResponse<Void> create(@RequestBody RestaurantPackagePaymentHistoryRequest request){
-        service.createRestaurantPackagePaymentHistory(request);
-        return ApiResponse.<Void>builder()
+    public ApiResponse<Long> create(@RequestBody RestaurantPackagePaymentHistoryRequest request){
+
+        return ApiResponse.<Long>builder()
                 .message("create success")
+                .result(service.createRestaurantPackagePaymentHistory(request))
                 .build();
     }
     @GetMapping(value = "/new-id")
     public ApiResponse<Long> getNewID(){
         return ApiResponse.<Long>builder()
                 .result(service.getNewId())
+                .build();
+    }
+    @PutMapping(value = "/{packHistoryId}/success")
+    public ApiResponse<Void> restaurantPaidPack(@PathVariable Long packHistoryId){
+        service.updateRestaurantPackagePaymentHistory(packHistoryId);
+        return ApiResponse.<Void>builder()
                 .build();
     }
 
