@@ -9,4 +9,5 @@ public class RestaurantPackagePaymentHistoryRequest {
     Long restaurantId;
     double totalMoney;
     int months;
+    Long accountId;
 }

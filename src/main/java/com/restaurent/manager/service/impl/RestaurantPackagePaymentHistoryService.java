@@ -8,6 +8,7 @@ import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.RestaurantPackageHistoryMapper;
 import com.restaurent.manager.repository.RestaurantPackagePaymentHistoryRepository;
+import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IPackageService;
 import com.restaurent.manager.service.IRestaurantPackagePaymentHistoryService;
 import com.restaurent.manager.service.IRestaurantService;
@@ -15,7 +16,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,7 +32,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
     IPackageService packageService;
     IRestaurantService restaurantService;
     RestaurantPackageHistoryMapper mapper;
-
+    AccountService accountService;
     @Override
     public Long createRestaurantPackagePaymentHistory(RestaurantPackagePaymentHistoryRequest request) {
         RestaurantPackagePaymentHistory restaurantPackagePaymentHistory = mapper.toRestaurantPackagePaymentHistory(request);
@@ -44,7 +50,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
     }
 
     @Override
-    public void updateRestaurantPackagePaymentHistory(Long id, RestaurantPackagePaymentHistoryRequest request) {
+    public String updateRestaurantPackagePaymentHistory(Long id, RestaurantPackagePaymentHistoryRequest request) {
         RestaurantPackagePaymentHistory history = restaurantPackagePaymentHistoryRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
@@ -53,11 +59,101 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
                 .packId(request.getPackageId())
                 .build());
         history.setPaid(true);
+        String token = accountService.generateToken(accountService.findAccountByID(request.getAccountId()));
         restaurantPackagePaymentHistoryRepository.save(history);
+        return token;
+    }
+
+    @Override
+    public List<StatisticAdminTable> getTotalValueByDate(String code) {
+        return switch (code) {
+            case "current-week" -> getProfitInCurrentWeek();
+            case "current-month" -> getProfitInCurrentMonth();
+            case "last-week" -> getProfitInLastWeek();
+            case "last-month" -> getProfitInLastMonth();
+            default -> null;
+        };
     }
 
     @Override
     public List<StatisticAdminTable> getProfitInCurrentMonth() {
-        return null;
+        List<StatisticAdminTable> res = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        int currentDay = now.getDayOfMonth();
+        for (int i = 0; i < currentDay; i++){
+            LocalDate localDate = now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i).toLocalDate();
+            res.add(StatisticAdminTable.builder()
+                            .day(localDate)
+                            .total(totalValueInDate(localDate))
+                    .build());
+        }
+        return res;
+    }
+
+    @Override
+    public List<StatisticAdminTable> getProfitInLastMonth() {
+        List<StatisticAdminTable> res = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now().minusMonths(1);
+        int currentDay = now.getDayOfMonth();
+        for (int i = 0; i < currentDay; i++){
+            LocalDate localDate = now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i).toLocalDate();
+            res.add(StatisticAdminTable.builder()
+                    .day(localDate)
+                    .total(totalValueInDate(localDate))
+                    .build());
+        }
+        return res;
+    }
+
+    @Override
+    public List<StatisticAdminTable> getProfitInCurrentWeek() {
+        List<StatisticAdminTable> res = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate startOfWeek = now.toLocalDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+
+        LocalDate currentDate = startOfWeek;
+        while (!currentDate.isAfter(endOfWeek)) {
+            res.add(StatisticAdminTable.builder()
+                    .day(currentDate)
+                    .total(totalValueInDate(currentDate))
+                    .build());
+            currentDate = currentDate.plusDays(1);
+        }
+        return res;
+    }
+
+    @Override
+    public List<StatisticAdminTable> getProfitInLastWeek() {
+        List<StatisticAdminTable> res = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDate startOfWeek = now.minusWeeks(1).toLocalDate().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+
+        LocalDate currentDate = startOfWeek;
+        while (!currentDate.isAfter(endOfWeek)) {
+            res.add(StatisticAdminTable.builder()
+                    .day(currentDate)
+                    .total(totalValueInDate(currentDate))
+                    .build());
+            currentDate = currentDate.plusDays(1);
+        }
+        return res;
+    }
+
+    @Override
+    public double totalValueInDate(LocalDate date) {
+        double res = 0;
+        Date sqlDate = Date.valueOf(date);
+        List<RestaurantPackagePaymentHistory> list = restaurantPackagePaymentHistoryRepository.findByDateCreated(sqlDate);
+       if(!list.isEmpty()){
+           for (RestaurantPackagePaymentHistory item : list){
+               if(item.isPaid()){
+                   res += item.getTotalMoney();
+               }
+           }
+           return Math.round(res);
+       }
+        return 0;
     }
 }
