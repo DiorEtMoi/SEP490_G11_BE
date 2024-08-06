@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -51,6 +52,7 @@ public class Restaurant {
     private String ACCOUNT_NO;
     private String ACCOUNT_NAME;
     private boolean isVatActive;
+    private LocalDate dateCreated;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vat_id", referencedColumnName = "id")
     private Vat vat;

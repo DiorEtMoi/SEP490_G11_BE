@@ -53,6 +53,7 @@ public class RestaurantService implements IRestaurantService {
         restaurant.setPointToMoney(1000);
         restaurant.setVatActive(false);
         account.setRestaurant(restaurant);
+        restaurant.setDateCreated(LocalDate.now());
         Restaurant restaurantSaved = restaurantRepository.save(restaurant);
         RestaurantResponse restaurantResponse = restaurantMapper.toRestaurantResponse(restaurantSaved);
         restaurantResponse.setToken(accountService.generateToken(account));
@@ -161,6 +162,11 @@ public class RestaurantService implements IRestaurantService {
         restaurant.setMoneyToPoint(request.getMoneyToPoint());
         restaurant.setPointToMoney(request.getPointToMoney());
         return restaurantMapper.toRestaurantResponse(restaurantRepository.save(restaurant));
+    }
+
+    @Override
+    public int countRestaurantByDateCreated(LocalDate date) {
+        return restaurantRepository.countByDateCreated(date);
     }
 
 
