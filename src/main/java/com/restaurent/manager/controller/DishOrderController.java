@@ -24,14 +24,13 @@ import java.util.List;
 public class DishOrderController {
     IDishOrderService dishOrderService;
     SimpMessagingTemplate messagingTemplate;
-    @PreAuthorize(value = "hasRole('CHEF') and hasAuthority('STATUS_DISH')")
     @MessageMapping("/change-status")
     public void updateStatusDishOrderById(@RequestBody DishOrderResponse request){
         DishOrderResponse response = dishOrderService.changeStatusDishOrderById(request.getId(), DISH_ORDER_STATE.valueOf(request.getStatus()));
         String roomId = "" + request.getOrder().getTableRestaurant().getId();
         messagingTemplate.convertAndSend("/topic/table/" + roomId, response);
     }
-    @PreAuthorize(value = "hasRole('WAITER')")
+    @PreAuthorize(value = "hasAnyRole('WAITER', 'CHEF')")
     @GetMapping(value = "/{orderId}")
     public ApiResponse<List<DishOrderResponse>> findDishOrderByOrderId(@PathVariable Long orderId){
         return ApiResponse.<List<DishOrderResponse>>builder()
