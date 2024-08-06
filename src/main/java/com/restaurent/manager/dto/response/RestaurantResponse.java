@@ -27,4 +27,6 @@ public class RestaurantResponse {
     private String ACCOUNT_NAME;
     private Vat vat;
     private boolean vatActive;
+    private double moneyToPoint;
+    private double pointToMoney;
 }

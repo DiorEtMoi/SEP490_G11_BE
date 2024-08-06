@@ -2,6 +2,7 @@ package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.RestaurantPackagePaymentHistoryRequest;
 import com.restaurent.manager.dto.request.restaurant.RestaurantUpdateRequest;
+import com.restaurent.manager.dto.response.StatisticAdminTable;
 import com.restaurent.manager.entity.RestaurantPackagePaymentHistory;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
@@ -53,5 +54,10 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
                 .build());
         history.setPaid(true);
         restaurantPackagePaymentHistoryRepository.save(history);
+    }
+
+    @Override
+    public List<StatisticAdminTable> getProfitInCurrentMonth() {
+        return null;
     }
 }
