@@ -13,4 +13,5 @@ import java.time.LocalDate;
 public class StatisticAdminTable {
     LocalDate day;
     double total;
+    int totalRestaurant;
 }

@@ -84,6 +84,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
             LocalDate localDate = now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i).toLocalDate();
             res.add(StatisticAdminTable.builder()
                             .day(localDate)
+                            .totalRestaurant(restaurantService.countRestaurantByDateCreated(localDate))
                             .total(totalValueInDate(localDate))
                     .build());
         }
@@ -93,14 +94,18 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
     @Override
     public List<StatisticAdminTable> getProfitInLastMonth() {
         List<StatisticAdminTable> res = new ArrayList<>();
-        LocalDateTime now = LocalDateTime.now().minusMonths(1);
-        int currentDay = now.getDayOfMonth();
-        for (int i = 0; i < currentDay; i++){
-            LocalDate localDate = now.with(TemporalAdjusters.firstDayOfMonth()).plusDays(i).toLocalDate();
+        LocalDate now = LocalDate.now(); // Current date
+        LocalDate firstDayOfLastMonth = now.minusMonths(1).with(TemporalAdjusters.firstDayOfMonth()); // First day of last month
+        LocalDate lastDayOfLastMonth = now.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth()); // Last day of last month
+
+        LocalDate currentDate = firstDayOfLastMonth;
+        while (!currentDate.isAfter(lastDayOfLastMonth)) {
             res.add(StatisticAdminTable.builder()
-                    .day(localDate)
-                    .total(totalValueInDate(localDate))
+                    .day(currentDate)
+                    .total(totalValueInDate(currentDate))
+                            .totalRestaurant(restaurantService.countRestaurantByDateCreated(currentDate))
                     .build());
+            currentDate = currentDate.plusDays(1);
         }
         return res;
     }
@@ -117,6 +122,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
             res.add(StatisticAdminTable.builder()
                     .day(currentDate)
                     .total(totalValueInDate(currentDate))
+                    .totalRestaurant(restaurantService.countRestaurantByDateCreated(currentDate))
                     .build());
             currentDate = currentDate.plusDays(1);
         }
@@ -135,6 +141,7 @@ public class RestaurantPackagePaymentHistoryService implements IRestaurantPackag
             res.add(StatisticAdminTable.builder()
                     .day(currentDate)
                     .total(totalValueInDate(currentDate))
+                    .totalRestaurant(restaurantService.countRestaurantByDateCreated(currentDate))
                     .build());
             currentDate = currentDate.plusDays(1);
         }
