@@ -2,8 +2,10 @@ package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.StatisticTableResponse;
 import com.restaurent.manager.dto.response.ApiResponse;
+import com.restaurent.manager.dto.response.StatisticAdminTable;
 import com.restaurent.manager.dto.response.StatisticChartValueManager;
 import com.restaurent.manager.dto.response.StatisticResponse;
+import com.restaurent.manager.service.IRestaurantPackagePaymentHistoryService;
 import com.restaurent.manager.service.IStatisticService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class StatisticController {
     IStatisticService statisticService;
+    IRestaurantPackagePaymentHistoryService service;
     @GetMapping(value = "/manager/restaurant/{restaurantId}")
     public ApiResponse<StatisticResponse> getStatisticRestaurantByIdInDay(@PathVariable Long restaurantId, @RequestParam(name = "day",defaultValue = "1") String day){
         return ApiResponse.<StatisticResponse>builder()
@@ -61,6 +64,12 @@ public class StatisticController {
     public ApiResponse<List<StatisticChartValueManager>> getTotalValueByTimeForRestaurant(@PathVariable Long restaurantId){
         return ApiResponse.<List<StatisticChartValueManager>>builder()
                 .result(statisticService.getValueByTimeAndCurrentDateForRestaurant(restaurantId))
+                .build();
+    }
+    @GetMapping(value = "/admin/time/{code}")
+    public ApiResponse<List<StatisticAdminTable>> getTotalValueByDate(@PathVariable String code){
+        return ApiResponse.<List<StatisticAdminTable>>builder()
+                .result(service.getTotalValueByDate(code))
                 .build();
     }
 }

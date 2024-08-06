@@ -32,9 +32,9 @@ public class PackageHistoryController {
                 .build();
     }
     @PutMapping(value = "/{packHistoryId}/success")
-    public ApiResponse<Void> restaurantPaidPack(@PathVariable Long packHistoryId, @RequestBody RestaurantPackagePaymentHistoryRequest request){
-        service.updateRestaurantPackagePaymentHistory(packHistoryId, request);
-        return ApiResponse.<Void>builder()
+    public ApiResponse<String> restaurantPaidPack(@PathVariable Long packHistoryId, @RequestBody RestaurantPackagePaymentHistoryRequest request){
+        return ApiResponse.<String>builder()
+                .result(service.updateRestaurantPackagePaymentHistory(packHistoryId, request))
                 .build();
     }
 
