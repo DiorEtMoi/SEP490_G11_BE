@@ -35,7 +35,6 @@ public class OrderController {
                 .result(orderService.createOrder(request))
                 .build();
     }
-    @PreAuthorize(value = "hasRole('WAITER')")
     @MessageMapping("/restaurant/{restaurantId}/addDishes")
     public void addDishToOrder(@DestinationVariable Long restaurantId, @Payload DishOrderAddRequest request){
         log.info(request.toString());
