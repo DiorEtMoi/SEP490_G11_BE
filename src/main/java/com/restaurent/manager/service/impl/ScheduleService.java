@@ -79,14 +79,14 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<ScheduleResponse> findScheduleRestaurantByDate(Long restaurantId, LocalDate date) {
-        return scheduleRepository.findByBookedDateAndRestaurant_Id(date,restaurantId).stream().map(scheduleMapper::toScheduleResponse).toList();
+        return scheduleRepository.findByBookedDateAndRestaurant_IdAndStatus(date,restaurantId,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
     }
 
     @Override
     public List<ScheduleResponse> findScheduleRestaurantLate(Long restaurantId) {
         LocalTime now = LocalTime.now();
         LocalDate dateNow = LocalDate.now();
-        return scheduleRepository.findByRestaurant_IdAndBookedDateAndTimeIsBefore(restaurantId,dateNow,now).stream().map(scheduleMapper::toScheduleResponse).toList();
+        return scheduleRepository.findByRestaurant_IdAndBookedDateAndTimeIsBeforeAndStatus(restaurantId,dateNow,now,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ScheduleService implements IScheduleService {
         for (int i = 0; i < 7; i++) {
             res.add(ScheduleTimeResponse.builder()
                             .date(now.plusDays(i))
-                            .numbersSchedule(scheduleRepository.countByRestaurant_IdAndBookedDate(restaurantId,now.plusDays(i)))
+                            .numbersSchedule(scheduleRepository.countByRestaurant_IdAndBookedDateAndStatus(restaurantId,now.plusDays(i),SCHEDULE_STATUS.PENDING))
                     .build());
         }
         return res;

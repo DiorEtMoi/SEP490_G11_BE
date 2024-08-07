@@ -29,9 +29,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
             @Param("tableRestaurantId") Long tableRestaurantId,
             @Param("bookedDate") LocalDate bookedDate
     );
-    List<Schedule> findByBookedDateAndRestaurant_Id(LocalDate date, Long restaurantId);
-    List<Schedule> findByRestaurant_IdAndBookedDateAndTimeIsBefore(Long restaurantID, LocalDate date, LocalTime time);
+    List<Schedule> findByBookedDateAndRestaurant_IdAndStatus(LocalDate date, Long restaurantId,SCHEDULE_STATUS status);
+    List<Schedule> findByRestaurant_IdAndBookedDateAndTimeIsBeforeAndStatus(Long restaurantID, LocalDate date, LocalTime time,SCHEDULE_STATUS status);
     List<Schedule> findByRestaurant_IdAndBookedDateAndTimeBetweenAndStatus(Long restaurantId, LocalDate date, LocalTime startTime, LocalTime endTime, SCHEDULE_STATUS status);
-    int countByRestaurant_IdAndBookedDate(Long restaurantId, LocalDate date);
+    int countByRestaurant_IdAndBookedDateAndStatus(Long restaurantId, LocalDate date,SCHEDULE_STATUS status);
     List<Schedule> findByRestaurant_Id(Long restaurantId, Pageable pageable);
 }
