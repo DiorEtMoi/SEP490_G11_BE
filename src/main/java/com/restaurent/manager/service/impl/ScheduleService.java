@@ -17,6 +17,7 @@ import com.restaurent.manager.service.ITableRestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -116,5 +117,10 @@ public class ScheduleService implements IScheduleService {
                     .build());
         }
         return res;
+    }
+
+    @Override
+    public List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable) {
+        return scheduleRepository.findByRestaurant_Id(restaurantId,pageable).stream().map(scheduleMapper::toScheduleResponse).toList();
     }
 }

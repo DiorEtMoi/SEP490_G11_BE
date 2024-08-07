@@ -8,9 +8,12 @@ import com.restaurent.manager.entity.Schedule;
 import com.restaurent.manager.enums.SCHEDULE_STATUS;
 import com.restaurent.manager.service.IScheduleService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -25,7 +28,7 @@ public class ScheduleController {
     IScheduleService scheduleService;
 
     @PostMapping(value = "/restaurant/{restaurantId}/create")
-    public ApiResponse<String> createSchedule(@PathVariable Long restaurantId, @RequestBody ScheduleRequest request){
+    public ApiResponse<String> createSchedule(@PathVariable Long restaurantId, @RequestBody @Valid ScheduleRequest request){
         return ApiResponse.<String>builder()
                 .result(scheduleService.createSchedule(restaurantId,request))
                 .build();
@@ -59,6 +62,13 @@ public class ScheduleController {
     public ApiResponse<List<ScheduleTimeResponse>> getScheduleRestaurantWithDay(@PathVariable Long restaurantId){
         return ApiResponse.<List<ScheduleTimeResponse>>builder()
                 .result(scheduleService.getNumberScheduleRestaurantWithTime(restaurantId))
+                .build();
+    }
+    @GetMapping(value = "/restaurant/{restaurantId}/find-all")
+    public ApiResponse<List<ScheduleResponse>> findAllScheduleRestaurant(@PathVariable Long restaurantId,@RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "20") int size){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
+        return ApiResponse.<List<ScheduleResponse>>builder()
+                .result(scheduleService.findAllScheduleRestaurant(restaurantId,pageable))
                 .build();
     }
 }
