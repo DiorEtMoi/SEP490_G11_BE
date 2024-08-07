@@ -18,7 +18,7 @@ public class ScheduleRequest {
     LocalDate bookedDate;
     String time;
     double deposit;
-    int intendTimeMinutes;
+    Long intendTimeMinutes;
     int numbersOfCustomer;
     List<Long> tables;
 }

@@ -51,7 +51,9 @@ public enum ErrorCode {
     MAX_AREA(400,"Bạn đã đạt giới hạn khu vực, vui lòng nâng cấp gói để có thể thêm", HttpStatus.BAD_REQUEST),
     RESTAURANT_ID_NULL(400,"restaurant id can be not null", HttpStatus.BAD_REQUEST),
     MAX_TABLE(400, "Bạn không thể tạo thêm bàn vì đã vượt qua giới hạn cho phép của gói, nâng cấp gói để tạo bàn.", HttpStatus.BAD_REQUEST),
-    BOOKED_TABLE(400, "Bàn đã được đặt trước, vui lòng đặt bàn khác", HttpStatus.BAD_REQUEST)
+    BOOKED_TABLE(400, "Bàn đã được đặt trước, vui lòng đặt bàn khác", HttpStatus.BAD_REQUEST),
+    BOOKED_DATE_INVALID(400, "Vui lòng chọn ngày lớn hơn ngày hiện tại", HttpStatus.BAD_REQUEST),
+    TIME_INVALID(400, "Vui lòng chọn thời gian lớn hơn thời gian hiện tại", HttpStatus.BAD_REQUEST)
     ;
 
 
