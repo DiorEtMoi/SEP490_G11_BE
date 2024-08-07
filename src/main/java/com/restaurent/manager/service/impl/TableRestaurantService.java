@@ -1,16 +1,15 @@
 package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.Table.TableRestaurantRequest;
-import com.restaurent.manager.dto.request.Table.TableRestaurantUpdateRequest;
 import com.restaurent.manager.dto.response.TableRestaurantResponse;
 import com.restaurent.manager.entity.*;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.TableRestaurantMapper;
 import com.restaurent.manager.repository.AreaRepository;
+import com.restaurent.manager.repository.ScheduleRepository;
 import com.restaurent.manager.repository.TableRestaurantRepository;
 import com.restaurent.manager.repository.TableTypeRepository;
-import com.restaurent.manager.service.IAreaService;
 import com.restaurent.manager.service.IRestaurantService;
 import com.restaurent.manager.service.ITableRestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class TableRestaurantService implements ITableRestaurantService {
     TableTypeRepository tableTypeRepository;
     TableRestaurantRepository tableRestaurantRepository;
     IRestaurantService restaurantService;
+    ScheduleRepository scheduleRepository;
     @Override
     public TableRestaurantResponse createTable(TableRestaurantRequest request) {
         if(tableRestaurantRepository.existsByNameAndArea_Id(request.getName(),request.getAreaId())){
@@ -64,7 +65,12 @@ public class TableRestaurantService implements ITableRestaurantService {
 
     @Override
     public List<TableRestaurantResponse> getTableByAreaId(Long areaId) {
-        return tableRestaurantRepository.findByArea_IdAndHidden(areaId,false).stream().map(tableRestaurantMapper::toTableRestaurantResponse).toList();
+        List<TableRestaurantResponse> responses = tableRestaurantRepository.findByArea_IdAndHidden(areaId,false).stream().map(tableRestaurantMapper::toTableRestaurantResponse).toList();
+        for (TableRestaurantResponse tableRestaurantResponse : responses){
+            List<Schedule> scheduleOfTable = scheduleRepository.findByTableIdAndBookedDate(tableRestaurantResponse.getId(), LocalDate.now());
+            tableRestaurantResponse.setBooked(!scheduleOfTable.isEmpty());
+        }
+        return responses;
     }
 
     @Override
