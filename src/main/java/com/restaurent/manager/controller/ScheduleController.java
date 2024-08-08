@@ -53,9 +53,9 @@ public class ScheduleController {
                 .result(scheduleService.findScheduleRestaurantByDate(restaurantId,date))
                 .build();
     }
-    @PutMapping(value = "/{scheduleId}/status/{status}")
-    public ApiResponse<Void> updateScheduleRestaurant(@PathVariable Long scheduleId, @PathVariable SCHEDULE_STATUS status){
-        scheduleService.updateStatusScheduleById(scheduleId,status);
+    @PutMapping(value = "/{scheduleId}/employee/{employeeId}/status/{status}")
+    public ApiResponse<Void> updateScheduleRestaurant(@PathVariable Long scheduleId, @PathVariable Long employeeId ,@PathVariable SCHEDULE_STATUS status){
+        scheduleService.updateStatusScheduleById(scheduleId,employeeId,status);
         return ApiResponse.<Void>builder().build();
     }
     @GetMapping(value = "/restaurant/{restaurantId}/day")

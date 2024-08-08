@@ -3,6 +3,7 @@ package com.restaurent.manager.service;
 import com.restaurent.manager.dto.request.ScheduleRequest;
 import com.restaurent.manager.dto.response.ScheduleResponse;
 import com.restaurent.manager.dto.response.ScheduleTimeResponse;
+import com.restaurent.manager.entity.Schedule;
 import com.restaurent.manager.enums.SCHEDULE_STATUS;
 import org.springframework.data.domain.Pageable;
 
@@ -15,7 +16,8 @@ public interface IScheduleService {
     List<ScheduleResponse> findScheduleRestaurantByDate(Long restaurantId,LocalDate date);
     List<ScheduleResponse> findScheduleRestaurantLate(Long restaurantId);
     List<ScheduleResponse> findScheduleRestaurantNearly(Long restaurantId);
-    void updateStatusScheduleById(Long scheduleId,SCHEDULE_STATUS status);
+    void updateStatusScheduleById(Long scheduleId, Long employeeId, SCHEDULE_STATUS status);
     List<ScheduleTimeResponse> getNumberScheduleRestaurantWithTime(Long restaurantId);
     List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable);
+    void customerReceiveBookTable(Long employeeId ,Schedule schedule);
 }

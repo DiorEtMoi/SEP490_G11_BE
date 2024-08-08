@@ -17,4 +17,5 @@ public interface ICustomerService {
     List<CustomerResponse> getCustomersOrderByTotalPoint(Long id);
     CustomerResponse findCustomerResponseByPhoneNumber(String phoneNumber);
     Customer findCustomerByPhoneNumber(String phoneNumber);
+    boolean existCustomerByPhoneNumber(String phone);
 }
