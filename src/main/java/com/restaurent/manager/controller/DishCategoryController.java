@@ -22,7 +22,7 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class DishCategoryController {
     IDishCategoryService dishCategoryService;
-    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CATEGORY')")
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('CATEGORY')")
     @GetMapping(value = "/{accountId}")
     public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<DishCategoryResponse>>builder()
