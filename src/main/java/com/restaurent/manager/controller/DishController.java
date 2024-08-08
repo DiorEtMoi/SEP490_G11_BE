@@ -30,14 +30,14 @@ public class DishController {
                 .result(dishService.createNewDish(request))
                 .build();
     }
-    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('DISH')")
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('DISH')")
     @GetMapping(value = "/account/{accountId}")
     public ApiResponse<List<DishResponse>> findDishesByAccountId(@PathVariable Long accountId){
         return ApiResponse.<List<DishResponse>>builder()
                 .result(dishService.getDishesByAccountId(accountId))
                 .build();
     }
-    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('DISH')")
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER', 'HOSTESS') and hasAuthority('DISH')")
     @GetMapping(value = "/category/{categoryCode}")
     public ApiResponse<List<DishResponse>> findDishesByCategoryCode(@PathVariable String categoryCode){
         return ApiResponse.<List<DishResponse>>builder()
@@ -51,7 +51,7 @@ public class DishController {
                 .result(dishService.updateDish(dishId,request))
                 .build();
     }
-    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('DISH')")
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('DISH')")
     @GetMapping(value = "/account/{accountId}/{status}")
     public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long accountId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
