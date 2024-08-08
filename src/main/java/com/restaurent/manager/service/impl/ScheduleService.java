@@ -1,19 +1,20 @@
 package com.restaurent.manager.service.impl;
 
 import com.restaurent.manager.dto.request.ScheduleRequest;
+import com.restaurent.manager.dto.request.order.DishOrderRequest;
+import com.restaurent.manager.dto.response.ScheduleDishResponse;
 import com.restaurent.manager.dto.response.ScheduleResponse;
 import com.restaurent.manager.dto.response.ScheduleTimeResponse;
-import com.restaurent.manager.entity.Schedule;
-import com.restaurent.manager.entity.TableRestaurant;
+import com.restaurent.manager.dto.response.order.OrderResponse;
+import com.restaurent.manager.entity.*;
 import com.restaurent.manager.enums.SCHEDULE_STATUS;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.mapper.ScheduleMapper;
+import com.restaurent.manager.repository.CustomerRepository;
 import com.restaurent.manager.repository.ScheduleRepository;
 import com.restaurent.manager.repository.TableRestaurantRepository;
-import com.restaurent.manager.service.IRestaurantService;
-import com.restaurent.manager.service.IScheduleService;
-import com.restaurent.manager.service.ITableRestaurantService;
+import com.restaurent.manager.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -36,6 +38,11 @@ public class ScheduleService implements IScheduleService {
     ITableRestaurantService tableRestaurantService;
     TableRestaurantRepository tableRestaurantRepository;
     IRestaurantService restaurantService;
+    IScheduleDishService scheduleDishService;
+    ICustomerService customerService;
+    IEmployeeService employeeService;
+    IOrderService orderService;
+    CustomerRepository customerRepository;
     @Override
     public String createSchedule(Long restaurantId, ScheduleRequest request) {
         //handling about time
@@ -64,7 +71,10 @@ public class ScheduleService implements IScheduleService {
         schedule.setIntendTime(intend_time);
         schedule.setStatus(SCHEDULE_STATUS.PENDING);
         schedule.setRestaurant(restaurantService.getRestaurantById(restaurantId));
-        scheduleRepository.save(schedule);
+        Schedule saved = scheduleRepository.save(schedule);
+        for (DishOrderRequest dishOrderRequest : request.getScheduleDishes()){
+            scheduleDishService.createScheduleDish(saved,dishOrderRequest);
+        }
         return "success";
     }
 
@@ -98,14 +108,50 @@ public class ScheduleService implements IScheduleService {
     }
 
     @Override
-    public void updateStatusScheduleById(Long scheduleId, SCHEDULE_STATUS status) {
+    public void updateStatusScheduleById(Long scheduleId, Long employeeId,SCHEDULE_STATUS status) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
         schedule.setStatus(status);
+        if(status.equals(SCHEDULE_STATUS.ACCEPT)){
+            customerReceiveBookTable(employeeId,schedule);
+        }
         scheduleRepository.save(schedule);
     }
-
+    @Override
+    public void customerReceiveBookTable(Long employeeId,Schedule schedule) {
+        Customer customer;
+        if(customerService.existCustomerByPhoneNumber(schedule.getCustomerPhone())){
+            customer = customerService.findCustomerByPhoneNumber(schedule.getCustomerPhone());
+        }else{
+            customer = Customer.builder()
+                    .name(schedule.getCustomerName())
+                    .phoneNumber(schedule.getCustomerPhone())
+                    .restaurant(schedule.getRestaurant())
+                    .dateCreated(LocalDateTime.now())
+                    .build();
+            customer = customerRepository.save(customer);
+        }
+        Employee employee = employeeService.findEmployeeById(employeeId);
+        List<DishOrderRequest> dishOrderRequests = new ArrayList<>();
+        for (ScheduleDishResponse dish : scheduleDishService.findDishOrComboBySchedule(schedule.getId())){
+            if(dish.getDish() != null){
+                dishOrderRequests.add(DishOrderRequest.builder()
+                        .dishId(dish.getDish().getId())
+                        .quantity(dish.getQuantity())
+                        .build());
+            }else{
+                dishOrderRequests.add(DishOrderRequest.builder()
+                        .comboId(dish.getCombo().getId())
+                        .quantity(dish.getQuantity())
+                        .build());
+            }
+        }
+        for (TableRestaurant tableRestaurant : schedule.getTableRestaurants()){
+            Long orderId = orderService.createOrder(customer,employee,tableRestaurant,schedule.getRestaurant());
+            orderService.addDishToOrder(orderId,dishOrderRequests);
+        }
+    }
     @Override
     public List<ScheduleTimeResponse> getNumberScheduleRestaurantWithTime(Long restaurantId) {
         LocalDate now = LocalDate.now();
@@ -123,4 +169,5 @@ public class ScheduleService implements IScheduleService {
     public List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable) {
         return scheduleRepository.findByRestaurant_Id(restaurantId,pageable).stream().map(scheduleMapper::toScheduleResponse).toList();
     }
+
 }

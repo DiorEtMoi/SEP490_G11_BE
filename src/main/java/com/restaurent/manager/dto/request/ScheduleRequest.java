@@ -1,5 +1,6 @@
 package com.restaurent.manager.dto.request;
 
+import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,4 +33,5 @@ public class ScheduleRequest {
     int numbersOfCustomer;
     @NotNull(message = "INVALID")
     List<Long> tables;
+    List<DishOrderRequest> scheduleDishes;
 }

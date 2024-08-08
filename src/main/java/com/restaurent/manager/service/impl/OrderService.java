@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,7 +74,12 @@ public class OrderService implements IOrderService {
                 dishOrder.setOrderDate(LocalDateTime.now());
                 DishOrder saved = dishOrderRepository.save(dishOrder);
                 results.add(dishOrderMapper.toDishOrderResponse(saved));
-                dishOrders.add(saved);
+                if(dishOrders != null){
+                    dishOrders.add(saved);
+                }else{
+                    dishOrders = new HashSet<>();
+                    dishOrders.add(saved);
+                }
             }
         order.setDishOrders(dishOrders);
         orderRepository.save(order);
@@ -131,5 +137,20 @@ public class OrderService implements IOrderService {
         orderResponse.setTotalMoney(Math.round(totalMoney));
         orderResponse.setTotalDish(count);
         return orderResponse;
+    }
+
+    @Override
+    public Long createOrder(Customer customer, Employee employee, TableRestaurant table, Restaurant restaurant) {
+        Order order = Order.builder()
+                .orderDate(LocalDate.now())
+                .customer(customer)
+                .restaurant(restaurant)
+                .tableRestaurant(table)
+                .employee(employee)
+                .build();
+        Long id = orderRepository.save(order).getId();
+        table.setOrderCurrent(id);
+        tableRestaurantRepository.save(table);
+        return id;
     }
 }

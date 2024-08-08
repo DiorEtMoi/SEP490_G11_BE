@@ -107,4 +107,9 @@ public class CustomerService implements ICustomerService {
         return customer;
     }
 
+    @Override
+    public boolean existCustomerByPhoneNumber(String phone) {
+        return customerRepository.existsByPhoneNumber(phone);
+    }
+
 }

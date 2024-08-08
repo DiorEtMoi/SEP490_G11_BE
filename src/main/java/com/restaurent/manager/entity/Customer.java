@@ -1,8 +1,7 @@
 package com.restaurent.manager.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
@@ -11,6 +10,9 @@ import java.util.Set;
 @Data
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

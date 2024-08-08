@@ -24,5 +24,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     List<Customer> findCustomerByRestaurant_IdInYesterday(Long restaurantId, Date date);
     @Query("select c from Customer c where c.restaurant.id = :restaurantId and c.dateCreated between :startDate and :endDate")
     List<Customer> findCustomerByRestaurantIdInStartDateAndEndDate(@Param("restaurantId") Long restaurantId, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
-
+    boolean existsByPhoneNumber(String phoneNumber);
 }
