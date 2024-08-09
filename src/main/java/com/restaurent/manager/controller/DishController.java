@@ -6,6 +6,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.DishResponse;
 import com.restaurent.manager.service.IDishService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,7 @@ public class DishController {
     IDishService dishService;
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('DISH')")
     @PostMapping(value = "/create")
-    public ApiResponse<DishResponse> createDish(@RequestBody DishRequest request){
+    public ApiResponse<DishResponse> createDish(@RequestBody @Valid DishRequest request){
         return ApiResponse.<DishResponse>builder()
                 .result(dishService.createNewDish(request))
                 .build();
@@ -46,7 +47,7 @@ public class DishController {
     }
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('DISH')")
     @PutMapping(value = "/{dishId}")
-    public ApiResponse<DishResponse> updateDishById(@PathVariable Long dishId, @RequestBody DishUpdateRequest request){
+    public ApiResponse<DishResponse> updateDishById(@PathVariable Long dishId, @RequestBody @Valid DishUpdateRequest request){
         return ApiResponse.<DishResponse>builder()
                 .result(dishService.updateDish(dishId,request))
                 .build();

@@ -46,14 +46,14 @@ public class RestaurantController {
     }
     @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping("/manager/{accountId}")
-    public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable Long accountId,@RequestBody RestaurantManagerUpdateRequest request){
+    public ApiResponse<RestaurantResponse> updateRestaurantByManager(@PathVariable Long accountId,@RequestBody @Valid RestaurantManagerUpdateRequest request){
         return ApiResponse.<RestaurantResponse>builder()
                 .result(restaurantService.updateRestaurant(accountId,request))
                 .build();
     }
     @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping("/manager/payment/{accountId}")
-    public ApiResponse<RestaurantResponse> updateRestaurantPayment(@PathVariable Long accountId,@RequestBody RestaurantPaymentRequest request){
+    public ApiResponse<RestaurantResponse> updateRestaurantPayment(@PathVariable Long accountId,@RequestBody @Valid RestaurantPaymentRequest request){
         return ApiResponse.<RestaurantResponse>builder()
                 .result(restaurantService.updateRestaurant(accountId,request))
                 .build();
@@ -67,7 +67,7 @@ public class RestaurantController {
     }
     @PreAuthorize(value = "hasRole('MANAGER')")
     @PostMapping(value = "/{restaurantId}/pack/require-money")
-    public ApiResponse<Double> getRequireMoneyToUpdatePackForRestaurant(@PathVariable Long restaurantId,@RequestBody RestaurantUpdateRequest request){
+    public ApiResponse<Double> getRequireMoneyToUpdatePackForRestaurant(@PathVariable Long restaurantId,@RequestBody @Valid RestaurantUpdateRequest request){
         return ApiResponse.<Double>builder()
                 .result(restaurantService.getMoneyToUpdatePackForRestaurant(restaurantId,request))
                 .build();

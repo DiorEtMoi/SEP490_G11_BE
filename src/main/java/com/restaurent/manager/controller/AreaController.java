@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.AreaResponse;
 import com.restaurent.manager.service.IAreaService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -29,7 +30,7 @@ public class AreaController {
     }
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('AREA')")
     @PostMapping(value = "/create")
-    public ApiResponse<AreaResponse> createArea(@RequestBody AreaRequest request){
+    public ApiResponse<AreaResponse> createArea(@RequestBody @Valid AreaRequest request){
         return ApiResponse.<AreaResponse>builder()
                 .result(areaService.createArea(request))
                 .build();

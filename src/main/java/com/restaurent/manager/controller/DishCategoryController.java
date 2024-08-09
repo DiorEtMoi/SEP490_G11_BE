@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.DishCategoryResponse;
 import com.restaurent.manager.service.IDishCategoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,7 +33,7 @@ public class DishCategoryController {
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")
 
     @PostMapping(value = "/create")
-    public  ApiResponse<DishCategoryResponse> createDishCategory(@RequestBody DishCategoryRequest request){
+    public  ApiResponse<DishCategoryResponse> createDishCategory(@RequestBody @Valid DishCategoryRequest request){
         return ApiResponse.<DishCategoryResponse>builder()
                 .result(dishCategoryService.createDishCategory(request))
                 .build();
@@ -47,7 +48,7 @@ public class DishCategoryController {
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER','WAITER') and hasAuthority('CATEGORY')")
     @PutMapping(value = "/{dishCategoryId}")
-    public ApiResponse<DishCategoryResponse> updateDishCategoryById(@PathVariable Long dishCategoryId, @RequestBody DishCategoryRequest request){
+    public ApiResponse<DishCategoryResponse> updateDishCategoryById(@PathVariable Long dishCategoryId, @RequestBody @Valid DishCategoryRequest request){
         return ApiResponse.<DishCategoryResponse>builder()
                 .result(dishCategoryService.updateDishCategoryById(request,dishCategoryId))
                 .build();

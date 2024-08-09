@@ -71,7 +71,7 @@ public class ScheduleController {
                 .build();
     }
     @PutMapping(value = "/{scheduleId}/update")
-    public ApiResponse<String> updateScheduleById(@PathVariable Long scheduleId, @RequestBody ScheduleRequest request){
+    public ApiResponse<String> updateScheduleById(@PathVariable Long scheduleId, @RequestBody @Valid ScheduleRequest request){
         return ApiResponse.<String>builder()
                 .result(scheduleService.updateScheduleRestaurant(scheduleId,request))
                 .build();

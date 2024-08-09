@@ -7,6 +7,7 @@ import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.dto.response.order.OrderResponse;
 import com.restaurent.manager.service.IOrderService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class OrderController {
     SimpMessagingTemplate messagingTemplate;
     @PreAuthorize(value = "hasRole('WAITER')")
     @PostMapping(value = "/create")
-    public ApiResponse<OrderResponse> createNewOrder(@RequestBody OrderRequest request){
+    public ApiResponse<OrderResponse> createNewOrder(@RequestBody @Valid OrderRequest request){
         return ApiResponse.<OrderResponse>builder()
                 .result(orderService.createOrder(request))
                 .build();
@@ -44,7 +45,7 @@ public class OrderController {
     }
     @PreAuthorize(value = "hasRole('WAITER')")
     @PutMapping("/order/add-dishes")
-    public ApiResponse<List<DishOrderResponse>> addDishes(@RequestBody DishOrderAddRequest request){
+    public ApiResponse<List<DishOrderResponse>> addDishes(@RequestBody @Valid DishOrderAddRequest request){
         log.info(request.toString());
         orderService.addDishToOrder(request.getOrderId(),request.getDishOrderRequests());
         return ApiResponse.<List<DishOrderResponse>>builder()

@@ -7,6 +7,7 @@ import com.restaurent.manager.dto.response.Pack.PackageResponse;
 import com.restaurent.manager.mapper.PackageMapper;
 import com.restaurent.manager.service.IPackageService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,7 +26,7 @@ public class PackageController {
     PackageMapper packageMapper;
     @PreAuthorize(value = "hasRole('ADMIN')")
     @PostMapping
-    public ApiResponse<PackageResponse> create(@RequestBody PackageRequest req){
+    public ApiResponse<PackageResponse> create(@RequestBody @Valid PackageRequest req){
         return ApiResponse.<PackageResponse>builder()
                 .result(packageService.create(req))
                 .build();
@@ -54,7 +55,7 @@ public class PackageController {
     }
     @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping("/{packId}")
-    public ApiResponse<PackageResponse> updatePackage(@PathVariable Long packId,@RequestBody PackageRequest request){
+    public ApiResponse<PackageResponse> updatePackage(@PathVariable Long packId,@RequestBody @Valid PackageRequest request){
         return ApiResponse.<PackageResponse>builder()
                 .result(packageService.updatePackage(packId,request))
                 .build();
