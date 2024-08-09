@@ -1,6 +1,6 @@
 package com.restaurent.manager.controller;
 
-import com.restaurent.manager.dto.request.StatisticTableResponse;
+import com.restaurent.manager.dto.response.StatisticTableResponse;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.StatisticAdminTable;
 import com.restaurent.manager.dto.response.StatisticChartValueManager;

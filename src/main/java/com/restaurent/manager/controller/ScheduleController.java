@@ -4,7 +4,6 @@ import com.restaurent.manager.dto.request.ScheduleRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.ScheduleResponse;
 import com.restaurent.manager.dto.response.ScheduleTimeResponse;
-import com.restaurent.manager.entity.Schedule;
 import com.restaurent.manager.enums.SCHEDULE_STATUS;
 import com.restaurent.manager.service.IScheduleService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -69,6 +68,12 @@ public class ScheduleController {
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<List<ScheduleResponse>>builder()
                 .result(scheduleService.findAllScheduleRestaurant(restaurantId,pageable))
+                .build();
+    }
+    @PutMapping(value = "/{scheduleId}/update")
+    public ApiResponse<String> updateScheduleById(@PathVariable Long scheduleId, @RequestBody ScheduleRequest request){
+        return ApiResponse.<String>builder()
+                .result(scheduleService.updateScheduleRestaurant(scheduleId,request))
                 .build();
     }
 }
