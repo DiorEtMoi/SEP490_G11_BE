@@ -23,4 +23,5 @@ public class ScheduleResponse {
     int numbersOfCustomer;
     List<TableRestaurantResponse> tableRestaurants;
     SCHEDULE_STATUS status;
+    List<ScheduleDishResponse> dishes;
 }

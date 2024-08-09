@@ -13,6 +13,5 @@ public class ScheduleDishResponse {
     Long id;
     ComboResponse combo;
     DishResponse dish;
-    ScheduleResponse schedule;
     int quantity;
 }

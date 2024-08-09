@@ -5,7 +5,6 @@ import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import com.restaurent.manager.dto.response.ScheduleDishResponse;
 import com.restaurent.manager.dto.response.ScheduleResponse;
 import com.restaurent.manager.dto.response.ScheduleTimeResponse;
-import com.restaurent.manager.dto.response.order.OrderResponse;
 import com.restaurent.manager.entity.*;
 import com.restaurent.manager.enums.SCHEDULE_STATUS;
 import com.restaurent.manager.exception.AppException;
@@ -89,14 +88,22 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<ScheduleResponse> findScheduleRestaurantByDate(Long restaurantId, LocalDate date) {
-        return scheduleRepository.findByBookedDateAndRestaurant_IdAndStatus(date,restaurantId,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
+        List<ScheduleResponse>  res = scheduleRepository.findByBookedDateAndRestaurant_IdAndStatus(date,restaurantId,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
+        for (ScheduleResponse scheduleResponse : res){
+            scheduleResponse.setDishes(scheduleDishService.findDishOrComboBySchedule(scheduleResponse.getId()));
+        }
+        return res;
     }
 
     @Override
     public List<ScheduleResponse> findScheduleRestaurantLate(Long restaurantId) {
         LocalTime now = LocalTime.now();
         LocalDate dateNow = LocalDate.now();
-        return scheduleRepository.findByRestaurant_IdAndBookedDateAndTimeIsBeforeAndStatus(restaurantId,dateNow,now,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
+        List<ScheduleResponse> res = scheduleRepository.findByRestaurant_IdAndBookedDateAndTimeIsBeforeAndStatus(restaurantId,dateNow,now,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
+        for (ScheduleResponse scheduleResponse : res){
+            scheduleResponse.setDishes(scheduleDishService.findDishOrComboBySchedule(scheduleResponse.getId()));
+        }
+        return  res;
     }
 
     @Override
@@ -104,7 +111,11 @@ public class ScheduleService implements IScheduleService {
         LocalTime startTime = LocalTime.now();
         LocalTime endTime = LocalTime.now().plusHours(1);
         LocalDate dateNow = LocalDate.now();
-        return scheduleRepository.findByRestaurant_IdAndBookedDateAndTimeBetweenAndStatus(restaurantId,dateNow,startTime,endTime,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
+        List<ScheduleResponse> res = scheduleRepository.findByRestaurant_IdAndBookedDateAndTimeBetweenAndStatus(restaurantId,dateNow,startTime,endTime,SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList();
+        for (ScheduleResponse scheduleResponse : res){
+            scheduleResponse.setDishes(scheduleDishService.findDishOrComboBySchedule(scheduleResponse.getId()));
+        }
+        return res;
     }
 
     @Override
@@ -167,7 +178,11 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable) {
-        return scheduleRepository.findByRestaurant_Id(restaurantId,pageable).stream().map(scheduleMapper::toScheduleResponse).toList();
+        List<ScheduleResponse> res = scheduleRepository.findByRestaurant_Id(restaurantId,pageable).stream().map(scheduleMapper::toScheduleResponse).toList();
+        for (ScheduleResponse scheduleResponse : res){
+            scheduleResponse.setDishes(scheduleDishService.findDishOrComboBySchedule(scheduleResponse.getId()));
+        }
+        return res;
     }
 
 }
