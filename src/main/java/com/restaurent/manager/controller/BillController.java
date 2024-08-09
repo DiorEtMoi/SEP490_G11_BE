@@ -6,6 +6,7 @@ import com.restaurent.manager.dto.response.BillResponse;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.service.IBillService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,7 @@ public class BillController {
     IBillService billService;
     @PreAuthorize(value = "hasRole('WAITER')")
     @PostMapping(value = "/create/order/{orderId}")
-    public ApiResponse<BillResponse> createBill(@PathVariable Long orderId, @RequestBody BillRequest request){
+    public ApiResponse<BillResponse> createBill(@PathVariable Long orderId, @RequestBody @Valid BillRequest request){
         return ApiResponse.<BillResponse>builder()
                 .result(billService.createBill(orderId,request))
                 .build();

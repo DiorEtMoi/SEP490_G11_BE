@@ -37,7 +37,7 @@ public class TableTypeController {
     }
     @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping(value = "/update")
-    public ApiResponse<TableTypeResponse> updateTableTypeById(@RequestBody TableTypeUpdateRequest request){
+    public ApiResponse<TableTypeResponse> updateTableTypeById(@RequestBody @Valid TableTypeUpdateRequest request){
         return ApiResponse.<TableTypeResponse>builder()
                 .result(tableTypeService.updateTableType(request))
                 .build();

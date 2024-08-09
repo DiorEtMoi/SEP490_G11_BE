@@ -1,9 +1,10 @@
 package com.restaurent.manager.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.logging.Level;
 
 @Data
 @NoArgsConstructor
@@ -11,5 +12,7 @@ import java.util.logging.Level;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class IntrospectRequest {
+    @NotNull(message = "NOT_EMPTY")
+    @NotBlank(message = "NOT_EMPTY")
     String token;
 }

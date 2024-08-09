@@ -8,6 +8,7 @@ import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.IntrospectResponse;
 import com.restaurent.manager.service.IAuthenticationService;
 import com.restaurent.manager.service.IEmployeeService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -35,7 +36,7 @@ public class AuthenticationController {
                 .build();
     }
     @PostMapping("/logout")
-    public ApiResponse<Void> logout(@RequestBody IntrospectRequest request) throws ParseException, JOSEException {
+    public ApiResponse<Void> logout(@RequestBody @Valid IntrospectRequest request) throws ParseException, JOSEException {
         authenticationService.logout(request);
         return ApiResponse.<Void>builder()
                 .build();

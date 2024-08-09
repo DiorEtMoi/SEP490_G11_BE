@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.RoleResponse;
 import com.restaurent.manager.service.IRoleService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,7 +21,7 @@ import java.util.List;
 public class RoleController {
     IRoleService roleService;
     @PostMapping
-    public ApiResponse<RoleResponse> createRole(@RequestBody RoleRequest req){
+    public ApiResponse<RoleResponse> createRole(@RequestBody @Valid RoleRequest req){
         return ApiResponse.<RoleResponse>builder()
                 .result(roleService.createRole(req))
                 .build();

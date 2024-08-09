@@ -24,5 +24,6 @@ public class CustomerRequest {
      String name;
 
      String address;
+     @NotNull(message = "NOT_NULL")
      Long restaurantId;
 }

@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.PermissionResponse;
 import com.restaurent.manager.service.IPermissionService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,7 @@ import java.util.List;
 public class PermissionController {
     IPermissionService permissionService;
     @PostMapping("/create")
-    public ApiResponse<PermissionResponse> createPermission(@RequestBody PermissionRequest request){
+    public ApiResponse<PermissionResponse> createPermission(@RequestBody @Valid PermissionRequest request){
         return ApiResponse.<PermissionResponse>builder()
                 .result(permissionService.createPermission(request))
                 .build();
@@ -35,7 +36,7 @@ public class PermissionController {
     }
 
     @PutMapping(value = "/{permissionId}")
-    public ApiResponse<PermissionResponse> updatePermission(@PathVariable Long permissionId,@RequestBody PermissionRequest request){
+    public ApiResponse<PermissionResponse> updatePermission(@PathVariable Long permissionId,@RequestBody @Valid PermissionRequest request){
         return ApiResponse.<PermissionResponse>builder()
                 .result(permissionService.updatePermission(permissionId,request))
                 .build();

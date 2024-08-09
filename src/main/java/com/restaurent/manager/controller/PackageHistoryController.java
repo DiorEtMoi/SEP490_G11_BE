@@ -4,6 +4,7 @@ import com.restaurent.manager.dto.request.RestaurantPackagePaymentHistoryRequest
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.service.IRestaurantPackagePaymentHistoryService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,7 +19,7 @@ public class PackageHistoryController {
     IRestaurantPackagePaymentHistoryService service;
     @PreAuthorize(value = "hasRole('MANAGER')")
     @PostMapping(value = "/create")
-    public ApiResponse<Long> create(@RequestBody RestaurantPackagePaymentHistoryRequest request){
+    public ApiResponse<Long> create(@RequestBody @Valid RestaurantPackagePaymentHistoryRequest request){
 
         return ApiResponse.<Long>builder()
                 .message("create success")

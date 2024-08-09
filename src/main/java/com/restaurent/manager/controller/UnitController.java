@@ -5,6 +5,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.UnitResponse;
 import com.restaurent.manager.service.IUnitService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -31,7 +32,7 @@ public class UnitController {
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('UNIT')")
 
     @PostMapping(value = "/create")
-    public ApiResponse<UnitResponse> createUnit(@RequestBody UnitRequest request){
+    public ApiResponse<UnitResponse> createUnit(@RequestBody @Valid UnitRequest request){
         return ApiResponse.<UnitResponse>builder()
                 .result(unitService.createUnit(request))
                 .build();
@@ -39,7 +40,7 @@ public class UnitController {
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('UNIT')")
 
     @PutMapping(value = "/{unitId}")
-    public ApiResponse<UnitResponse> updateUnit(@PathVariable Long unitId,@RequestBody UnitRequest request){
+    public ApiResponse<UnitResponse> updateUnit(@PathVariable Long unitId,@RequestBody @Valid UnitRequest request){
         return ApiResponse.<UnitResponse>builder()
                 .result(unitService.updateUnit(unitId,request))
                 .build();

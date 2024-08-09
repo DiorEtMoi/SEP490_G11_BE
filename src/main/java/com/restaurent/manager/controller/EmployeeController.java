@@ -6,6 +6,7 @@ import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.EmployeeResponse;
 import com.restaurent.manager.service.IEmployeeService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +24,13 @@ public class EmployeeController {
     IEmployeeService employeeService;
 
     @PostMapping("/create")
-    public ApiResponse<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest req){
+    public ApiResponse<EmployeeResponse> createEmployee(@RequestBody @Valid EmployeeRequest req){
         return ApiResponse.<EmployeeResponse>builder()
                 .result(employeeService.createEmployee(req))
                 .build();
     }
     @PutMapping("/{employeeId}")
-    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable Long employeeId,@RequestBody EmployeeUpdateRequest req){
+    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable Long employeeId,@RequestBody @Valid EmployeeUpdateRequest req){
         return ApiResponse.<EmployeeResponse>builder()
                 .result(employeeService.updateEmployee(employeeId,req))
                 .build();
