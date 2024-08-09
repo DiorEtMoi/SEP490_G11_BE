@@ -1,6 +1,6 @@
 package com.restaurent.manager.service.impl;
 
-import com.restaurent.manager.dto.request.StatisticTableResponse;
+import com.restaurent.manager.dto.response.StatisticTableResponse;
 import com.restaurent.manager.dto.response.StatisticChartValueManager;
 import com.restaurent.manager.dto.response.StatisticResponse;
 import com.restaurent.manager.repository.BillRepository;

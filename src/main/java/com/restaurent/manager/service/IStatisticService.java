@@ -1,10 +1,9 @@
 package com.restaurent.manager.service;
 
-import com.restaurent.manager.dto.request.StatisticTableResponse;
+import com.restaurent.manager.dto.response.StatisticTableResponse;
 import com.restaurent.manager.dto.response.StatisticChartValueManager;
 import com.restaurent.manager.dto.response.StatisticResponse;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 

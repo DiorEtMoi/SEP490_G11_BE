@@ -163,6 +163,57 @@ public class ScheduleService implements IScheduleService {
             orderService.addDishToOrder(orderId,dishOrderRequests);
         }
     }
+
+    @Override
+    public String updateScheduleRestaurant( Long scheduleId, ScheduleRequest request) {
+        if(request.getBookedDate().isBefore(LocalDate.now())){
+            throw new AppException(ErrorCode.NOT_EXIST);
+        }
+        LocalTime time = LocalTime.parse(request.getTime());
+        LocalTime intend_time = time.plusMinutes(request.getIntendTimeMinutes());
+
+        if(request.getBookedDate().equals(LocalDate.now())){
+            if(time.isBefore(LocalTime.now())){
+                throw new AppException(ErrorCode.TIME_INVALID);
+            }
+        }
+        List<ScheduleDish> scheduleDishes = scheduleDishService.findByScheduleId(scheduleId);
+        Schedule schedule = findById(scheduleId);
+        // handle order dish
+        if(!scheduleDishes.isEmpty()){
+            for (ScheduleDish scheduleDish : scheduleDishes){
+                scheduleDishService.deleteScheduleDishById(scheduleDish.getId());
+            }
+        }
+        for (DishOrderRequest dishOrderRequest : request.getScheduleDishes()){
+            scheduleDishService.createScheduleDish(schedule,dishOrderRequest);
+        }
+        // handle book table
+        schedule.setTableRestaurants(new HashSet<>());
+        scheduleRepository.save(schedule);
+        for (Long tableId : request.getTables()){
+            boolean isBooked = checkTableIsBooked(tableId,request);
+            TableRestaurant tableRestaurant = tableRestaurantService.findById(tableId);
+            if(isBooked){
+                return "Bàn " + tableRestaurant.getName() + " đã được đặt,  vui lòng chọn bàn khác hoặc khung giờ khác !";
+            }
+        }
+        List<TableRestaurant> tableRestaurants = tableRestaurantRepository.findAllById(request.getTables());
+        schedule.setTableRestaurants(new HashSet<>(tableRestaurants));
+        schedule.setTime(time);
+        schedule.setIntendTime(intend_time);
+        scheduleRepository.save(schedule);
+        return "success";
+    }
+
+    @Override
+    public Schedule findById(Long scheduleId) {
+        return scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+    }
+
+
     @Override
     public List<ScheduleTimeResponse> getNumberScheduleRestaurantWithTime(Long restaurantId) {
         LocalDate now = LocalDate.now();

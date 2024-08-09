@@ -41,4 +41,14 @@ public class ScheduleDishService implements IScheduleDishService {
     public List<ScheduleDishResponse> findDishOrComboBySchedule(Long scheduleId) {
         return repository.findBySchedule_Id(scheduleId).stream().map(scheduleDishMapper::toScheduleResponse).toList();
     }
+
+    @Override
+    public void deleteScheduleDishById(Long scheduleDishId) {
+        repository.deleteById(scheduleDishId);
+    }
+
+    @Override
+    public List<ScheduleDish> findByScheduleId(Long scheduleId) {
+        return repository.findBySchedule_Id(scheduleId);
+    }
 }

@@ -1,4 +1,4 @@
-package com.restaurent.manager.dto.request;
+package com.restaurent.manager.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Builder;

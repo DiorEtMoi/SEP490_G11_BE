@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     @Query("SELECT s FROM Schedule s JOIN s.tableRestaurants tr " +
@@ -34,4 +35,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     List<Schedule> findByRestaurant_IdAndBookedDateAndTimeBetweenAndStatus(Long restaurantId, LocalDate date, LocalTime startTime, LocalTime endTime, SCHEDULE_STATUS status);
     int countByRestaurant_IdAndBookedDateAndStatus(Long restaurantId, LocalDate date,SCHEDULE_STATUS status);
     List<Schedule> findByRestaurant_Id(Long restaurantId, Pageable pageable);
+    Optional<Schedule> findByIdAndRestaurant_Id(Long scheduleId, Long restaurantId);
 }

@@ -20,4 +20,6 @@ public interface IScheduleService {
     List<ScheduleTimeResponse> getNumberScheduleRestaurantWithTime(Long restaurantId);
     List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable);
     void customerReceiveBookTable(Long employeeId ,Schedule schedule);
+    String updateScheduleRestaurant(Long scheduleId, ScheduleRequest request);
+    Schedule findById(Long scheduleId);
 }
