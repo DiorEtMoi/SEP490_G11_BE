@@ -23,9 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -188,18 +186,29 @@ public class ScheduleService implements IScheduleService {
         for (DishOrderRequest dishOrderRequest : request.getScheduleDishes()){
             scheduleDishService.createScheduleDish(schedule,dishOrderRequest);
         }
+        Set<TableRestaurant> tableRestaurantSet = new HashSet<>();
         // handle book table
-        schedule.setTableRestaurants(new HashSet<>());
-        scheduleRepository.save(schedule);
         for (Long tableId : request.getTables()){
+            boolean flag = false;
+            for (TableRestaurant tableRestaurant : schedule.getTableRestaurants()){
+                if (Objects.equals(tableRestaurant.getId(), tableId)) {
+                    flag = true;
+                    tableRestaurantSet.add(tableRestaurant);
+                    break;
+                }
+            }
+            if(flag){
+                continue;
+            }
             boolean isBooked = checkTableIsBooked(tableId,request);
             TableRestaurant tableRestaurant = tableRestaurantService.findById(tableId);
             if(isBooked){
                 return "Bàn " + tableRestaurant.getName() + " đã được đặt,  vui lòng chọn bàn khác hoặc khung giờ khác !";
+            }else{
+                tableRestaurantSet.add(tableRestaurant);
             }
         }
-        List<TableRestaurant> tableRestaurants = tableRestaurantRepository.findAllById(request.getTables());
-        schedule.setTableRestaurants(new HashSet<>(tableRestaurants));
+        schedule.setTableRestaurants(tableRestaurantSet);
         schedule.setTime(time);
         schedule.setIntendTime(intend_time);
         schedule.setNumbersOfCustomer(request.getNumbersOfCustomer());
