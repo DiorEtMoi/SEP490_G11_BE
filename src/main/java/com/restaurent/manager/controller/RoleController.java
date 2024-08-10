@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class RoleController {
                 .result(roleService.createRole(req))
                 .build();
     }
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping
     public ApiResponse<List<RoleResponse>> getRolesInRestaurant(){
         return ApiResponse.<List<RoleResponse>>
