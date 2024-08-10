@@ -83,9 +83,13 @@ public class TableRestaurantService implements ITableRestaurantService {
                 totalTable += area.getTableRestaurants().size();
             }
             for (Permission permission : restaurant.getRestaurantPackage().getPermissions()){
-                if(permission.getName().equals("TABLE_MAX") && permission.getMaximum() != 0){
-                    if(totalTable + numbers > permission.getMaximum()){
-                        throw new AppException(ErrorCode.MAX_TABLE);
+                if(permission.getName().equals("TABLE_MAX")){
+                    if(permission.getMaximum() != 0){
+                        if(totalTable + numbers > permission.getMaximum()){
+                            throw new AppException(ErrorCode.MAX_TABLE);
+                        }
+                    }else{
+                        break;
                     }
                 }
             }
