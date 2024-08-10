@@ -25,6 +25,6 @@ public class EmployeeRequest {
     String employeeName;
     @NotNull(message = "NOT_EMPTY")
     Long accountId;
-    @NotBlank(message = "NOT_EMPTY")
+    @NotNull(message = "NOT_NULL")
     Long roleId;
 }
