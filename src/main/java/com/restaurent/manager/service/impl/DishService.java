@@ -44,6 +44,7 @@ public class DishService implements IDishService {
         dish.setDishCategory(dishCategoryService.findById(request.getDishCategoryId()));
         dish.setUnit(unitService.findById(request.getUnitId()));
         dish.setAccount(accountService.findAccountByID(request.getAccountId()));
+        dish.setStatus(true);
         return dishMapper.toDishResponse(dishRepository.save(dish));
     }
 
