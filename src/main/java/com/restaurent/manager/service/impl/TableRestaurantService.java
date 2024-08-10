@@ -37,21 +37,6 @@ public class TableRestaurantService implements ITableRestaurantService {
         if(tableRestaurantRepository.existsByNameAndArea_Id(request.getName(),request.getAreaId())){
             throw new AppException(ErrorCode.TABLE_NAME_EXISTED);
         }
-        List<Area> areas = areaRepository.findByRestaurant_Id(request.getRestaurantId());
-        Restaurant restaurant = restaurantService.getRestaurantById(request.getRestaurantId());
-        int totalTable = 0;
-        if(!areas.isEmpty()){
-            for (Area area : areas){
-                totalTable += area.getTableRestaurants().size();
-            }
-            for (Permission permission : restaurant.getRestaurantPackage().getPermissions()){
-                if(permission.getName().equals("TABLE_MAX")){
-                    if(totalTable  >= permission.getMaximum()){
-                        throw new AppException(ErrorCode.MAX_TABLE);
-                    }
-                }
-            }
-        }
         TableRestaurant tableRestaurant = tableRestaurantMapper.toTableRestaurant(request);
         tableRestaurant.setHidden(false);
         tableRestaurant.setTableType(tableTypeRepository.findById(request.getTableTypeId()).orElseThrow(
@@ -80,7 +65,8 @@ public class TableRestaurantService implements ITableRestaurantService {
         int totalTable = 0;
         if(!areas.isEmpty()){
             for (Area area : areas){
-                totalTable += area.getTableRestaurants().size();
+                totalTable += tableRestaurantRepository.findByArea_IdAndHidden(area.getId(),false).size();
+                log.info("size current table : " + totalTable);
             }
             for (Permission permission : restaurant.getRestaurantPackage().getPermissions()){
                 if(permission.getName().equals("TABLE_MAX")){
@@ -95,7 +81,6 @@ public class TableRestaurantService implements ITableRestaurantService {
         if(tableRestaurant != null){
             String[] originalName = tableRestaurant.getName().split("-");
             int tableNumber = Integer.parseInt(originalName[1]);
-            log.info(originalName[1]);
             for (int i = 1; i <= numbers; i++) {
                 tableNumber++;
                 request.setName(request.getName() + "-" + tableNumber);
