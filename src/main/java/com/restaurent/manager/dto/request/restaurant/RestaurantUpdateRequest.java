@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RestaurantUpdateRequest {
     @Valid
-    @NotNull(message = "id pack is require to update")
+    @NotNull(message = "NOT_NULL")
     private Long packId;
-    @NotNull(message = "months is require for extend package")
-    @Min(value = 1, message = "extend package months must be equal or greater than 1")
+    @NotNull(message = "NOT_NULL")
+    @Min(value = 1, message = "MIN_VALUE")
     private int months;
 }
