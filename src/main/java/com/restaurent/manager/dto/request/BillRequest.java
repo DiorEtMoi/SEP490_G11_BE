@@ -10,7 +10,6 @@ import lombok.Data;
 public class BillRequest {
     @Min(value = 0, message = "GREATER_NUMBER")
     double total;
-    @NotNull(message = "NOT_EMPTY")
-    @NotBlank(message = "NOT_EMPTY")
+    @NotNull(message = "NOT_NULL")
     MethodPayment methodPayment;
 }
