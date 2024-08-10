@@ -21,6 +21,7 @@ public class AccountRequest {
     private String phoneNumber;
 
     @Size(min = 8,message = "INVALID_PASSWORD")
+    @NotNull(message = "NOT_NULL")
     private String password;
 
     @NotNull(message = "INVALID_EMAIL")
