@@ -33,5 +33,6 @@ public class ScheduleRequest {
     int numbersOfCustomer;
     @NotNull(message = "INVALID")
     List<Long> tables;
+    @NotNull(message = "INVALID")
     List<DishOrderRequest> scheduleDishes;
 }
