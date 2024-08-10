@@ -54,7 +54,8 @@ public enum ErrorCode {
     BOOKED_TABLE(400, "Bàn đã được đặt trước, vui lòng đặt bàn khác", HttpStatus.BAD_REQUEST),
     BOOKED_DATE_INVALID(400, "Vui lòng chọn ngày lớn hơn ngày hiện tại", HttpStatus.BAD_REQUEST),
     TIME_INVALID(400, "Vui lòng chọn thời gian lớn hơn thời gian hiện tại", HttpStatus.BAD_REQUEST),
-    NOT_NULL(400, "Trường không thể để null", HttpStatus.BAD_REQUEST)
+    NOT_NULL(400, "Trường không thể để null", HttpStatus.BAD_REQUEST),
+    MIN_VALUE(400, "Must be greater than {min}", HttpStatus.BAD_REQUEST)
     ;
 
 
