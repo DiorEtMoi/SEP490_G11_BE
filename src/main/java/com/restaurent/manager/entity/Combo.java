@@ -19,6 +19,6 @@ public class Combo {
     boolean status;
     @ManyToMany(fetch = FetchType.EAGER)
     Set<Dish> dishes = new HashSet<>();
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     Account account;
 }
