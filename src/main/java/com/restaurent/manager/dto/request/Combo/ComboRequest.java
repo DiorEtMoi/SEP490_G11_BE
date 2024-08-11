@@ -28,10 +28,11 @@ public class ComboRequest {
     @NotNull(message = "INVALID_COMBO_DESCRIPTION")
     @NotBlank(message = "INVALID COMBO_DESCRIPTION")
     String description;
+    @NotNull(message = "NOT_NULL")
+    @NotBlank(message = "NOT_EMPTY")
     String imageUrl;
 
     boolean status;
     Set<Long> dishIds;
-
     Long accountId;
 }
