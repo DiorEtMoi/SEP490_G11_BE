@@ -46,7 +46,7 @@ public class RestaurantService implements IRestaurantService {
                 new AppException(ErrorCode.USER_NOT_EXISTED)
         );
         restaurant.setAccount(account);
-        restaurant.setRestaurantPackage(packageService.findByPackName("Trial"));
+        restaurant.setRestaurantPackage(packageService.findByPackName("TRIAL"));
         restaurant.setExpiryDate(LocalDateTime.now().plusDays(7));
         restaurant.setMonthsRegister(1);
         restaurant.setMoneyToPoint(100000);
