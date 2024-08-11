@@ -12,8 +12,8 @@ public class Combo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String comboName;
-    double comboPrice;
+    String name;
+    double price;
     String description;
     String imageUrl;
     boolean status;
