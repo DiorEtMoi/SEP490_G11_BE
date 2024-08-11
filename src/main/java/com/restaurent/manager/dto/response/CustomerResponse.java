@@ -12,7 +12,7 @@ public class CustomerResponse {
     private String phoneNumber;
     private String name;
     private String address;
-    private float point;
+    private float currentPoint;
     private float totalPoint;
     private String restaurantName;
 }
