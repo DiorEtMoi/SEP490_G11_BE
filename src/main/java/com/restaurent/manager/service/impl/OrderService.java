@@ -127,7 +127,11 @@ public class OrderService implements IOrderService {
         int count = 0;
         for (DishOrder dishOrder : order.getDishOrders()){
             if(dishOrder.getStatus() != DISH_ORDER_STATE.DECLINE){
-                totalMoney +=  (dishOrder.getDish().getPrice() * dishOrder.getQuantity());
+                if(dishOrder.getDish() != null){
+                    totalMoney +=  (dishOrder.getDish().getPrice() * dishOrder.getQuantity());
+                }else{
+                    totalMoney +=  (dishOrder.getCombo().getPrice() * dishOrder.getQuantity());
+                }
                 count++;
             }
         }
