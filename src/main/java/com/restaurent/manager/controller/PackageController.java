@@ -20,10 +20,10 @@ import java.util.List;
 @RequestMapping("/api/package")
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @AllArgsConstructor
-@SecurityRequirement(name = "bearerAuth")
 public class PackageController {
     IPackageService packageService;
     PackageMapper packageMapper;
+    @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize(value = "hasRole('ADMIN')")
     @PostMapping
     public ApiResponse<PackageResponse> create(@RequestBody @Valid PackageRequest req){
@@ -44,6 +44,8 @@ public class PackageController {
                 .result(packageService.getPacks())
                 .build();
     }
+    @SecurityRequirement(name = "bearerAuth")
+
     @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping("/{packId}/permission/{permissionId}")
     public ApiResponse<PackageResponse> addPermission(@PathVariable String packId, @PathVariable String permissionId ){
@@ -53,6 +55,8 @@ public class PackageController {
                     .result(packageService.addPermission(perId,pId))
                     .build();
     }
+    @SecurityRequirement(name = "bearerAuth")
+
     @PreAuthorize(value = "hasRole('ADMIN')")
     @PutMapping("/{packId}")
     public ApiResponse<PackageResponse> updatePackage(@PathVariable Long packId,@RequestBody @Valid PackageRequest request){
@@ -60,6 +64,8 @@ public class PackageController {
                 .result(packageService.updatePackage(packId,request))
                 .build();
     }
+    @SecurityRequirement(name = "bearerAuth")
+
     @PreAuthorize(value = "hasAnyRole('ADMIN','MANAGER')")
     @GetMapping(value = "/restaurant/{restaurantId}")
     public ApiResponse<PackUpgradeResponse> findPacksUpgradeForRestaurant(@PathVariable Long restaurantId){
@@ -67,6 +73,7 @@ public class PackageController {
                 .result(packageService.findPacksToUpgradeForRestaurant(restaurantId))
                 .build();
     }
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping(value = "/{packId}")
     public ApiResponse<PackageResponse> findPackById(@PathVariable Long packId){
         return ApiResponse.<PackageResponse>builder()
