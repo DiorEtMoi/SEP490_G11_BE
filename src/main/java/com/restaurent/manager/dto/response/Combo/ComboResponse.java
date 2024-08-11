@@ -9,8 +9,8 @@ import java.util.Set;
 @Data
 public class ComboResponse {
     Long id;
-    String comboName;
-    double comboPrice;
+    String name;
+    double price;
     String description;
     String imageUrl;
     boolean status;

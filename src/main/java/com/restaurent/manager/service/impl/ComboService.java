@@ -66,8 +66,8 @@ public class ComboService implements IComboService {
         Combo combo = comboRepository.findById(comboId)
                 .orElseThrow(() -> new AppException(ErrorCode.COMBO_NOT_EXISTED));
 
-        combo.setComboName(request.getComboName());
-        combo.setComboPrice(request.getComboPrice());
+        combo.setName(request.getName());
+        combo.setPrice(request.getPrice());
         combo.setDescription(request.getDescription());
         combo.setStatus(request.isStatus());
 

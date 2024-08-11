@@ -19,11 +19,11 @@ public class ComboRequest {
     @Valid
     @NotNull(message = "INVALID_COMBO_NAME")
     @NotBlank(message = "INVALID_COMBO_NAME")
-    String comboName;
+    String name;
 
     @NotNull(message = "INVALID_COMBO_PRICE")
     @Positive(message = "COMBO_PRICE_MUST_BE_POSITIVE")
-    double comboPrice;
+    double price;
 
     @NotNull(message = "INVALID_COMBO_DESCRIPTION")
     @NotBlank(message = "INVALID COMBO_DESCRIPTION")
