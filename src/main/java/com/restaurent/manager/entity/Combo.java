@@ -17,7 +17,7 @@ public class Combo {
     String description;
     String imageUrl;
     boolean status;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Dish> dishes = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     Account account;
