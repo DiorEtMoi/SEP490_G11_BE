@@ -50,6 +50,7 @@ public class BillService implements IBillService {
         Restaurant restaurant = order.getRestaurant();
         float currentPoint = (float) (customer.getCurrentPoint() + (request.getTotal() / restaurant.getMoneyToPoint()));
         customer.setCurrentPoint(Math.round(currentPoint));
+        customer.setTotalPoint(customer.getCurrentPoint() + customer.getTotalPoint());
         customerRepository.save(customer);
         return billMapper.toBillResponse(billRepository.save(bill));
     }
