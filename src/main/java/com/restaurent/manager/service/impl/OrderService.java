@@ -132,7 +132,7 @@ public class OrderService implements IOrderService {
                 }else{
                     totalMoney +=  (dishOrder.getCombo().getPrice() * dishOrder.getQuantity());
                 }
-                count++;
+                count += dishOrder.getQuantity();
             }
         }
         if(restaurant.isVatActive()){
