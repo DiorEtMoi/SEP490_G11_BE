@@ -113,7 +113,7 @@ public class StatisticService  implements IStatisticService{
         LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
         LocalDate currentDate = startOfWeek;
-       while(currentDate.isAfter(endOfWeek)){
+       while(!currentDate.isAfter(endOfWeek)){
            responses.add(StatisticTableResponse.builder()
                    .time(currentDate)
                    .profit(billService.getProfitRestaurantByIdAndDate(restaurantId, currentDate.atStartOfDay()))
@@ -130,7 +130,7 @@ public class StatisticService  implements IStatisticService{
         LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).minusWeeks(1);
         LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).minusWeeks(1);
         LocalDate currentDate = startOfWeek;
-        while(currentDate.isAfter(endOfWeek)){
+        while(!currentDate.isAfter(endOfWeek)){
             responses.add(StatisticTableResponse.builder()
                     .time(currentDate)
                     .profit(billService.getProfitRestaurantByIdAndDate(restaurantId, currentDate.atStartOfDay()))
