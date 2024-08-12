@@ -7,16 +7,16 @@ import lombok.Data;
 
 @Data
 public class RestaurantPackagePaymentHistoryRequest {
-    @NotNull(message = "NOT_NULL")
+    @NotNull(message = "PACKAGE_NOT_NULL")
     Long packageId;
-    @NotNull(message = "NOT_NULL")
+    @NotNull(message = "RESTAURANT_NOT_NULL")
     Long restaurantId;
     @NotNull(message = "NOT_NULL")
     @Min(value = 0, message = "GREATER_NUMBER")
     double totalMoney;
-    @NotNull(message = "NOT_NULL")
+    @NotNull(message = "MONTHS_NOT_NULL")
     @Min(value = 0, message = "GREATER_NUMBER")
     int months;
-    @NotNull(message = "NOT_NULL")
+    @NotNull(message = "ACCOUNT_NOT_NULL")
     Long accountId;
 }
