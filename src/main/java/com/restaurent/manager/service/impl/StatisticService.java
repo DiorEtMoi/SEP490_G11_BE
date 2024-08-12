@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
@@ -103,5 +104,39 @@ public class StatisticService  implements IStatisticService{
             }
         }
         return res;
+    }
+
+    @Override
+    public List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInCurrentWeek(Long restaurantId) {
+        List<StatisticTableResponse> responses = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        LocalDate currentDate = startOfWeek;
+       while(currentDate.isAfter(endOfWeek)){
+           responses.add(StatisticTableResponse.builder()
+                   .time(currentDate)
+                   .profit(billService.getProfitRestaurantByIdAndDate(restaurantId, currentDate.atStartOfDay()))
+                   .build());
+           currentDate = currentDate.plusDays(1);
+       }
+        return responses;
+    }
+
+    @Override
+    public List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInLastWeek(Long restaurantId) {
+        List<StatisticTableResponse> responses = new ArrayList<>();
+        LocalDate now = LocalDate.now();
+        LocalDate startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)).minusWeeks(1);
+        LocalDate endOfWeek = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)).minusWeeks(1);
+        LocalDate currentDate = startOfWeek;
+        while(currentDate.isAfter(endOfWeek)){
+            responses.add(StatisticTableResponse.builder()
+                    .time(currentDate)
+                    .profit(billService.getProfitRestaurantByIdAndDate(restaurantId, currentDate.atStartOfDay()))
+                    .build());
+            currentDate = currentDate.plusDays(1);
+        }
+        return responses;
     }
 }

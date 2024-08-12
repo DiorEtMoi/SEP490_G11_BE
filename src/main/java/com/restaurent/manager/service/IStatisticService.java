@@ -13,5 +13,7 @@ StatisticResponse getStatisticByRestaurantIdBetweenStartDayToEndDay(Long restaur
 List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInCurrentMonth(Long restaurantId);
 List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInLastMonth(Long restaurantId);
 List<StatisticChartValueManager> getValueByTimeAndCurrentDateForRestaurant(Long restaurantId);
+List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInCurrentWeek(Long restaurantId);
+List<StatisticTableResponse> getDetailStatisticRestaurantEachOfDayInLastWeek(Long restaurantId);
 
 }
