@@ -48,6 +48,18 @@ public class StatisticController {
                 .result(statisticService.getStatisticByRestaurantIdBetweenStartDayToEndDay(restaurantId,startDate,endDate))
                 .build();
     }
+    @GetMapping(value = "/manager/restaurant/{restaurantId}/last-week/table")
+    public ApiResponse<List<StatisticTableResponse>> getStatisticRestaurantByIdInLastWeek(@PathVariable Long restaurantId){
+        return ApiResponse.<List<StatisticTableResponse>>builder()
+                .result(statisticService.getDetailStatisticRestaurantEachOfDayInLastWeek(restaurantId))
+                .build();
+    }
+    @GetMapping(value = "/manager/restaurant/{restaurantId}/current-week/table")
+    public ApiResponse<List<StatisticTableResponse>> getStatisticRestaurantByIdInCurrentWeek(@PathVariable Long restaurantId){
+        return ApiResponse.<List<StatisticTableResponse>>builder()
+                .result(statisticService.getDetailStatisticRestaurantEachOfDayInCurrentWeek(restaurantId))
+                .build();
+    }
     @GetMapping(value = "/manager/restaurant/{restaurantId}/current-month/table")
     public ApiResponse<List<StatisticTableResponse>> getTableStatisticRestaurantByIdInCurrentMonth(@PathVariable Long restaurantId){
         return ApiResponse.<List<StatisticTableResponse>>builder()
