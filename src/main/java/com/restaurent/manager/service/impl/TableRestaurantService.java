@@ -100,11 +100,17 @@ public class TableRestaurantService implements ITableRestaurantService {
 
     @Override
     public TableRestaurantResponse updateTableByTableId(Long tableId, TableRestaurantRequest request) {
-        if(tableRestaurantRepository.existsByNameAndArea_Id(request.getName(),request.getAreaId())){
-            throw new AppException(ErrorCode.TABLE_NAME_EXISTED);
-        }
         TableRestaurant tableRestaurant = findById(tableId);
-        tableRestaurantMapper.updateTable(tableRestaurant,request);
+        if(!tableRestaurant.getName().equals(request.getName())){
+            if(tableRestaurantRepository.existsByNameAndArea_Id(request.getName(),request.getAreaId())){
+                throw new AppException(ErrorCode.TABLE_NAME_EXISTED);
+            }
+            tableRestaurant.setName(request.getName());
+        }
+        tableRestaurant.setNumberChairs(request.getNumberChairs());
+        tableRestaurant.setTableType(tableTypeRepository.findById(request.getTableTypeId()).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        ));
         return tableRestaurantMapper.toTableRestaurantResponse(tableRestaurantRepository.save(tableRestaurant));
     }
 
