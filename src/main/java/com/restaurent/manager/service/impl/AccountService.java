@@ -112,13 +112,11 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         if(!authenticated){
             throw new AppException(ErrorCode.PASSWORD_INCORRECT);
         }
-        String otp = emailService.generateCode(6);
-        account.setOtp(otp);
-        String body = "Your OTP is : " + otp;
-        emailService.sendEmail(account.getEmail(),body,"Verify Account");
+        String token = generateToken(account);
         accountRepository.save(account);
         return AuthenticationResponse.builder()
                 .authenticated(true)
+                .token(token)
                 .build();
     }
 
