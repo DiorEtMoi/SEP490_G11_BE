@@ -56,7 +56,7 @@ public class DishCategoryService implements IDishCategoryService {
     @Override
     public DishCategory findByCode(String code) {
         return dishCategoryRepository.findByCode(code).orElseThrow(
-                () -> new AppException(ErrorCode.NOT_EXIST)
+                () -> new AppException(ErrorCode.INVALID_CODE)
         );
     }
 

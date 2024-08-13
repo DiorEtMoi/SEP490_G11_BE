@@ -1,6 +1,7 @@
 package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.employee.EmployeeRequest;
+import com.restaurent.manager.dto.request.employee.EmployeeUpdateInformationRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.EmployeeResponse;
@@ -30,7 +31,7 @@ public class EmployeeController {
                 .build();
     }
     @PutMapping("/{employeeId}")
-    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable Long employeeId,@RequestBody @Valid EmployeeUpdateRequest req){
+    public ApiResponse<EmployeeResponse> updateEmployee(@PathVariable Long employeeId,@RequestBody @Valid EmployeeUpdateInformationRequest req){
         return ApiResponse.<EmployeeResponse>builder()
                 .result(employeeService.updateEmployee(employeeId,req))
                 .build();
@@ -53,5 +54,10 @@ public class EmployeeController {
         return  ApiResponse.<List<EmployeeResponse>>builder()
                 .result(employeeService.findEmployeesByAccountId(accountId))
                 .build();
+    }
+    @PutMapping(value = "/{employeeId}/change-password/{newPassword}")
+    public ApiResponse<Void> changePasswordByEmployeeId(@PathVariable Long employeeId, @PathVariable String newPassword){
+        employeeService.updateEmployeePassword(employeeId,newPassword);
+        return ApiResponse.<Void>builder().build();
     }
 }
