@@ -29,7 +29,7 @@ public enum ErrorCode {
     FIELD_EMPTY(400,"Trường không thể trống",HttpStatus.BAD_REQUEST),
     NUMBER_CHAIRS_TOO_FEW(400,"Số ghế phải lớn hơn {min}", HttpStatus.BAD_REQUEST),
     NOT_EXIST(404,"Id không tồn tại",HttpStatus.BAD_REQUEST),
-    GREATER_NUMBER(400,"Không thể đặt trường bằng 0 hoặc nhỏ hơn 0",HttpStatus.BAD_REQUEST),
+    GREATER_NUMBER(400,"Không thể đặt trường nhỏ hơn {min}",HttpStatus.BAD_REQUEST),
     DISH_NOT_FOUND(404,"Món ăn không tồn tại" , HttpStatus.NOT_FOUND ),
     INVALID_COMBO_PRICE(400, "Giá combo phải là số và lớn hơn 0", HttpStatus.BAD_REQUEST),
     INVALID_COMBO_DESCRIPTION(400, "Mô tả combo không được để trống", HttpStatus.BAD_REQUEST),
