@@ -2,6 +2,7 @@ package com.restaurent.manager.service;
 
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
+import com.restaurent.manager.dto.request.ForgotPasswordRequest;
 import com.restaurent.manager.dto.request.VerifyAccount;
 import com.restaurent.manager.dto.response.AccountResponse;
 import com.restaurent.manager.dto.response.AuthenticationResponse;
@@ -22,6 +23,7 @@ public interface IAccountService{
     AuthenticationResponse verifyOtp(VerifyAccount req);
     String sendOtp(String email);
     AuthenticationResponse authenticatedEmail(String email);
-
+    void forgotPassword(ForgotPasswordRequest request);
+    void changePassword(String newPassword ,AuthenticationRequest request);
 
 }
