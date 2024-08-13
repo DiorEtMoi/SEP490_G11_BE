@@ -17,6 +17,5 @@ public class RestaurantPackagePaymentHistoryRequest {
     @NotNull(message = "MONTHS_NOT_NULL")
     @Min(value = 0, message = "GREATER_NUMBER")
     int months;
-    @NotNull(message = "ACCOUNT_NOT_NULL")
     Long accountId;
 }
