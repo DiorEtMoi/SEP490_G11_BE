@@ -77,4 +77,16 @@ public class AccountController {
                 .result(accountService.verifyOtp(req))
                 .build();
     }
+    @PostMapping(value = "/{email}/login")
+    public ApiResponse<AuthenticationResponse> loginByEmail(@PathVariable String email){
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(accountService.authenticatedEmail(email))
+                .build();
+    }
+    @PostMapping(value = "/{email}/send-otp")
+    public ApiResponse<String> sendOtpLogin(@PathVariable String email){
+        return ApiResponse.<String>builder()
+                .result(accountService.sendOtp(email))
+                .build();
+    }
 }

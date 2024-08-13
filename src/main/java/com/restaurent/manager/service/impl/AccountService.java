@@ -139,6 +139,29 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     }
 
     @Override
+    public String sendOtp(String email) {
+        Account account = accountRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.EMAIL_NOT_EXIST)
+        );
+        String otp = emailService.generateCode(6);
+        account.setOtp(otp);
+        accountRepository.save(account);
+        String body = "Your OTP is : " + otp;
+        emailService.sendEmail(account.getEmail(),body,"Verify Account");
+        return otp;
+    }
+
+    @Override
+    public AuthenticationResponse authenticatedEmail(String email) {
+        Account account = accountRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.EMAIL_NOT_EXIST)
+        );
+        return AuthenticationResponse.builder()
+                .authenticated(true)
+                .build();
+    }
+
+    @Override
     public String regenerateOtp(String email) {
         Account account = accountRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         String otp = emailService.generateCode(6);
