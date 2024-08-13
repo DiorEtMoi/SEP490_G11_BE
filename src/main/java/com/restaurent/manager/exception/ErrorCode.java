@@ -59,7 +59,8 @@ public enum ErrorCode {
     RESTAURANT_NOT_NULL(400,"Mã nhà hàng không phải là null",HttpStatus.BAD_REQUEST),
     PACKAGE_NOT_NULL(400,"Gói id không phải là null", HttpStatus.BAD_REQUEST),
     MONTHS_NOT_NULL(400,"Tháng không thể để trống", HttpStatus.BAD_REQUEST),
-    EMAIL_PHONE_NUMBER_INVAILD(400, "Số điện thoại hoặc email không tồn tại", HttpStatus.BAD_REQUEST)
+    EMAIL_PHONE_NUMBER_INVAILD(400, "Số điện thoại hoặc email không tồn tại", HttpStatus.BAD_REQUEST),
+    INVALID_CODE(400,"Thực đơn không tồn tại", HttpStatus.BAD_REQUEST)
     ;
 
 

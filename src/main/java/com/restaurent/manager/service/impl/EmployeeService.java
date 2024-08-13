@@ -6,6 +6,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeLoginRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeRequest;
+import com.restaurent.manager.dto.request.employee.EmployeeUpdateInformationRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateRequest;
 import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.EmployeeResponse;
@@ -73,11 +74,9 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
     }
 
     @Override
-    public EmployeeResponse updateEmployee(Long employeeId,EmployeeUpdateRequest request) {
+    public EmployeeResponse updateEmployee(Long employeeId, EmployeeUpdateInformationRequest request) {
         Employee employee = findEmployeeById(employeeId);
         employeeMapper.updateRestaurant(employee,request);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employee.setRole(roleRepository.findById(request.getRoleId()).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         ));
@@ -129,6 +128,14 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
                 .token(token)
                 .authenticated(true)
                 .build();
+    }
+
+    @Override
+    public void updateEmployeePassword(Long employeeId, String newPassword) {
+        Employee employee = findEmployeeById(employeeId);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        employee.setPassword(passwordEncoder.encode(newPassword));
+        employeeRepository.save(employee);
     }
 
     @Override
