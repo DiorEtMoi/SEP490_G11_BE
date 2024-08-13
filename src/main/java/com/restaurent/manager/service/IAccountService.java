@@ -20,5 +20,8 @@ public interface IAccountService{
     Account findAccountByPhoneNumber(String phoneNumber);
     AuthenticationResponse authenticated(AuthenticationRequest req);
     AuthenticationResponse verifyOtp(VerifyAccount req);
+    String sendOtp(String email);
+    AuthenticationResponse authenticatedEmail(String email);
+
 
 }
