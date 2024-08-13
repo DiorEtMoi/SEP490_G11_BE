@@ -5,6 +5,7 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
+import com.restaurent.manager.dto.request.ForgotPasswordRequest;
 import com.restaurent.manager.dto.request.VerifyAccount;
 import com.restaurent.manager.dto.response.AccountResponse;
 import com.restaurent.manager.dto.response.AuthenticationResponse;
@@ -157,6 +158,32 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         return AuthenticationResponse.builder()
                 .authenticated(true)
                 .build();
+    }
+
+    @Override
+    public void forgotPassword(ForgotPasswordRequest request) {
+        Account account = accountRepository.findByEmailAndPhoneNumber(request.getEmail(),request.getPhoneNumber()).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+        String password = emailService.generateCode(6);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        account.setPassword(passwordEncoder.encode(password));
+        emailService.sendEmail(account.getEmail(),"Password is reset : " + password, "Reset password");
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void changePassword(String newPassword, AuthenticationRequest request) {
+        Account account = accountRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        boolean authenticated =  passwordEncoder.matches(request.getPassword(), account.getPassword());
+        if(!authenticated){
+            throw new AppException(ErrorCode.PASSWORD_INCORRECT);
+        }
+        account.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(account);
     }
 
     @Override

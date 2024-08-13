@@ -2,6 +2,7 @@ package com.restaurent.manager.controller;
 
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
+import com.restaurent.manager.dto.request.ForgotPasswordRequest;
 import com.restaurent.manager.dto.request.VerifyAccount;
 import com.restaurent.manager.dto.response.*;
 import com.restaurent.manager.service.IAccountService;
@@ -87,6 +88,20 @@ public class AccountController {
     public ApiResponse<String> sendOtpLogin(@PathVariable String email){
         return ApiResponse.<String>builder()
                 .result(accountService.sendOtp(email))
+                .build();
+    }
+    @PostMapping(value = "/forgot-password")
+    public ApiResponse<Void> forgotPassword(@RequestBody ForgotPasswordRequest request){
+        accountService.forgotPassword(request);
+        return ApiResponse.<Void>builder()
+                .message("success")
+                .build();
+    }
+    @PostMapping(value = "/change-password/{newPassword}")
+    public ApiResponse<Void> changePassword(@RequestBody AuthenticationRequest request,@PathVariable String newPassword){
+        accountService.changePassword(newPassword, request);
+        return  ApiResponse.<Void>builder()
+                .message("success")
                 .build();
     }
 }
