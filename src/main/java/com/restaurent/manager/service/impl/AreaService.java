@@ -50,11 +50,11 @@ public class AreaService implements IAreaService {
     }
 
     @Override
-    public void updateArea(Long areaId, AreaRequest request) {
+    public AreaResponse updateArea(Long areaId, AreaRequest request) {
         Area area = areaRepository.findById(areaId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
         area.setName(request.getName());
-        areaRepository.save(area);
+        return areaMapper.toAreaResponse(areaRepository.save(area));
     }
 }
