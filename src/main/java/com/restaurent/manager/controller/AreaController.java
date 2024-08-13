@@ -35,4 +35,10 @@ public class AreaController {
                 .result(areaService.createArea(request))
                 .build();
     }
+    @PutMapping(value = "/{areaId}")
+    public ApiResponse<Void> updateArea(@PathVariable Long areaId, @RequestBody AreaRequest request){
+        areaService.updateArea(areaId,request);
+        return ApiResponse.<Void>builder()
+                .build();
+    }
 }

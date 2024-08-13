@@ -49,5 +49,12 @@ public class AreaService implements IAreaService {
         return areaRepository.findByRestaurant_Id(restaurantId).stream().map(areaMapper::toAreaResponse).toList();
     }
 
-
+    @Override
+    public void updateArea(Long areaId, AreaRequest request) {
+        Area area = areaRepository.findById(areaId).orElseThrow(
+                () -> new AppException(ErrorCode.NOT_EXIST)
+        );
+        area.setName(request.getName());
+        areaRepository.save(area);
+    }
 }
