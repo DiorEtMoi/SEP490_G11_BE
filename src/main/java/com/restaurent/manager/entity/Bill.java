@@ -20,6 +20,7 @@ public class Bill {
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     Order order;
     double total;
+    double pointUsed;
     LocalDateTime dateCreated;
     @Enumerated(EnumType.STRING)
     MethodPayment methodPayment;

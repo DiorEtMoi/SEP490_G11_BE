@@ -26,12 +26,14 @@ public class PackageHistoryController {
                 .result(service.createRestaurantPackagePaymentHistory(request))
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @GetMapping(value = "/new-id")
     public ApiResponse<Long> getNewID(){
         return ApiResponse.<Long>builder()
                 .result(service.getNewId())
                 .build();
     }
+    @PreAuthorize(value = "hasRole('MANAGER')")
     @PutMapping(value = "/{packHistoryId}/success")
     public ApiResponse<String> restaurantPaidPack(@PathVariable Long packHistoryId, @RequestBody RestaurantPackagePaymentHistoryRequest request){
         return ApiResponse.<String>builder()

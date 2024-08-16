@@ -14,7 +14,7 @@ public class DishRequest {
     @NotBlank(message = "NOT_EMPTY")
     String name;
     @NotNull(message = "NOT_NULL")
-    @Min(value = 1, message = "GREATER_NUMBER")
+    @Min(value = 0, message = "GREATER_NUMBER")
     float weight;
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
@@ -22,13 +22,10 @@ public class DishRequest {
     @NotNull(message = "NOT_NULL")
     @Min(value = 1, message = "GREATER_NUMBER")
     double price;
-    @NotNull(message = "NOT_NULL")
     Long dishCategoryId;
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
     String imageUrl;
-    @NotNull(message = "NOT_NULL")
     Long unitId;
-    @NotNull(message = "NOT_NULL")
     Long accountId;
 }

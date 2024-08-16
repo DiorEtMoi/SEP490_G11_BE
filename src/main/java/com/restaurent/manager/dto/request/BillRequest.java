@@ -10,6 +10,8 @@ import lombok.Data;
 public class BillRequest {
     @Min(value = 0, message = "GREATER_NUMBER")
     double total;
+    @Min(value = 0, message = "GREATER_NUMBER")
+    int points;
     @NotNull(message = "NOT_NULL")
     MethodPayment methodPayment;
 }

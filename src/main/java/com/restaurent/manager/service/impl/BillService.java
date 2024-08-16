@@ -48,10 +48,21 @@ public class BillService implements IBillService {
         bill.setDateCreated(LocalDateTime.now());
         // handle adding point for customer
         Restaurant restaurant = order.getRestaurant();
-        float currentPoint = (float) (customer.getCurrentPoint() + (request.getTotal() / restaurant.getMoneyToPoint()));
-        customer.setCurrentPoint(Math.round(currentPoint));
-        customer.setTotalPoint(customer.getCurrentPoint() + customer.getTotalPoint());
-        customerRepository.save(customer);
+        if(request.getPoints() != 0){
+            // handle reduce point when apply using point
+            bill.setPointUsed(request.getPoints());
+            int points = (int) (customer.getCurrentPoint() - request.getPoints());
+            if(points < 0){
+                throw new AppException(ErrorCode.NOT_EXIST);
+            }
+            customer.setCurrentPoint(points);
+        }else{
+            // handle adding point when customer paid
+            float currentPoint = (float) (customer.getCurrentPoint() + (request.getTotal() / restaurant.getMoneyToPoint()));
+            customer.setCurrentPoint(Math.round(currentPoint));
+            customer.setTotalPoint(customer.getCurrentPoint() + customer.getTotalPoint());
+            customerRepository.save(customer);
+        }
         return billMapper.toBillResponse(billRepository.save(bill));
     }
 

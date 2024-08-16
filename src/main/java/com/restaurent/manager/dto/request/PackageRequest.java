@@ -19,8 +19,8 @@ public class PackageRequest {
     @NotNull(message = "INVALID")
     private String packName;
     private Set<Long> permissions;
-    @Min(value = 1,message = "GREATER_NUMBER")
+    @Min(value = 0,message = "GREATER_NUMBER")
     private double pricePerMonth;
-    @Min(value = 1,message = "GREATER_NUMBER")
+    @Min(value = 0,message = "GREATER_NUMBER")
     private double pricePerYear;
 }
