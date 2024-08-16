@@ -24,10 +24,10 @@ import java.util.List;
 public class DishCategoryController {
     IDishCategoryService dishCategoryService;
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('CATEGORY')")
-    @GetMapping(value = "/{accountId}")
-    public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long accountId){
+    @GetMapping(value = "/{restaurantId}")
+    public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long restaurantId){
         return ApiResponse.<List<DishCategoryResponse>>builder()
-                .result(dishCategoryService.getAllDishCategoryByAccountId(accountId))
+                .result(dishCategoryService.getAllDishCategoryByAccountId(restaurantId))
                 .build();
     }
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")

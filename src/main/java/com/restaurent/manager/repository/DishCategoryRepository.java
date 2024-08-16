@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface DishCategoryRepository extends JpaRepository<DishCategory,Long> {
     boolean existsByNameAndRestaurant_Id(String name,Long accountId);
-    List<DishCategory> findByAccount_Id(Long accountId);
+    List<DishCategory> findByRestaurant_Id(Long restaurantId);
     Optional<DishCategory> findByCodeAndRestaurant_Id(String code, Long restaurantId);
 }
