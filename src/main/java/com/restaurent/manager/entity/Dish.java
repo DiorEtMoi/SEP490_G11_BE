@@ -29,4 +29,6 @@ public class Dish {
     Set<DishOrder> dishOrders;
     @ManyToOne(fetch = FetchType.LAZY)
     Account account;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Restaurant restaurant;
 }
