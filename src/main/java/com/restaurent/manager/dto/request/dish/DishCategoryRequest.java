@@ -9,12 +9,7 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DishCategoryRequest {
-    @NotNull(message = "NOT_EMPTY")
-    @NotBlank(message = "NOT_EMPTY")
     String name;
-    @NotNull(message = "NOT_EMPTY")
-    @NotBlank(message = "NOT_EMPTY")
     String description;
-    @NotNull(message = "NOT_NULL")
     Long restaurantId;
 }
