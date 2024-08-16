@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface TableRestaurantRepository extends JpaRepository<TableRestaurant,Long> {
     List<TableRestaurant> findByArea_IdAndHidden(Long areaId,boolean hidden);
     boolean existsByNameAndArea_Id(String name,Long areaId);
-    TableRestaurant findTopByNameStartingWithOrderByNameDesc(String name);
+    TableRestaurant findTopByAreaRestaurant_IdAndNameStartingWithOrderByNameDesc(Long areaId,String name);
 
 }
