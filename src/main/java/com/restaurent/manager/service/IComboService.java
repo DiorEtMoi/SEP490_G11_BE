@@ -16,4 +16,5 @@ public interface IComboService {
 
     ComboResponse getComboById(Long id);
     Combo findComboById(Long id);
+    List<ComboResponse> getComboByRestaurantID(Long restaurantID);
 }

@@ -10,6 +10,7 @@ import com.restaurent.manager.mapper.DishCategoryMapper;
 import com.restaurent.manager.repository.DishCategoryRepository;
 import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IDishCategoryService;
+import com.restaurent.manager.service.IRestaurantService;
 import com.restaurent.manager.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,15 +27,15 @@ public class DishCategoryService implements IDishCategoryService {
     DishCategoryRepository dishCategoryRepository;
     DishCategoryMapper dishCategoryMapper;
     IAccountService accountService;
+    IRestaurantService restaurantService;
     @Override
     public DishCategoryResponse createDishCategory(DishCategoryRequest request) {
-        if(dishCategoryRepository.existsByNameAndAccount_Id(request.getName(), request.getAccountId())){
+        if(dishCategoryRepository.existsByNameAndRestaurant_Id(request.getName(), request.getRestaurantId())){
             throw new AppException(ErrorCode.DISH_CATEGORY_EXIST);
         }
         DishCategory dishCategory = dishCategoryMapper.toDishCategory(request);
         dishCategory.setCode(SlugUtils.toSlug(dishCategory.getName()));
-        Account account = accountService.findAccountByID(request.getAccountId());
-        dishCategory.setAccount(account);
+        dishCategory.setRestaurant(restaurantService.getRestaurantById(request.getRestaurantId()));
         return dishCategoryMapper.toDishCategoryResponse(
                 dishCategoryRepository.save(
                         dishCategory));
@@ -54,8 +55,8 @@ public class DishCategoryService implements IDishCategoryService {
     }
 
     @Override
-    public DishCategory findByCode(String code) {
-        return dishCategoryRepository.findByCode(code).orElseThrow(
+    public DishCategory findByCodeAndRestaurantId(String code, Long restaurantId) {
+        return dishCategoryRepository.findByCodeAndRestaurant_Id(code,restaurantId).orElseThrow(
                 () -> new AppException(ErrorCode.INVALID_CODE)
         );
     }

@@ -39,10 +39,10 @@ public class DishController {
                 .build();
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER', 'HOSTESS') and hasAuthority('DISH')")
-    @GetMapping(value = "/category/{categoryCode}")
-    public ApiResponse<List<DishResponse>> findDishesByCategoryCode(@PathVariable String categoryCode){
+    @GetMapping(value = "/category/{categoryCode}/restaurant/{restaurantId}")
+    public ApiResponse<List<DishResponse>> findDishesByCategoryCode(@PathVariable String categoryCode, @PathVariable Long restaurantId){
         return ApiResponse.<List<DishResponse>>builder()
-                .result(dishService.findDishesByCategoryCode(categoryCode))
+                .result(dishService.findDishesByCategoryCode(categoryCode,restaurantId))
                 .build();
     }
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('DISH')")
