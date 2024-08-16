@@ -10,9 +10,9 @@ import java.util.List;
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Long> {
     // Các phương thức tùy chỉnh nếu cần
-    List<Dish> findByAccount_Id(Long accountId);
+    List<Dish> findByRestaurant_Id(Long restaurantId);
     List<Dish> findByDishCategory_Id(Long categoryId);
-    List<Dish> findByAccount_IdAndStatus(Long accountId, boolean status, Pageable pageable);
+    List<Dish> findByRestaurant_IdAndStatus(Long accountId, boolean status, Pageable pageable);
     boolean existsByUnit_Id(Long unitId);
     List<Dish> findByAccountRestaurant_Id(Long restaurantId);
 }

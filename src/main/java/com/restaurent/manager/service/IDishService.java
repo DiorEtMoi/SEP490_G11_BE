@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface IDishService {
     DishResponse createNewDish(DishRequest request);
-    List<DishResponse> getDishesByAccountId(Long accountId);
+    List<DishResponse> findByRestaurant_Id(Long accountId);
     DishResponse updateDish(Long dishId, DishUpdateRequest request);
     Dish findByDishId(Long DishId);
     List<DishResponse> findDishesByCategoryCode(String categoryCode, Long restaurantId);
-    List<DishResponse> getDishesByAccountIdAndStatus(Long accountId, boolean status, Pageable pageable);
+    List<DishResponse> getDishesByRestaurantIdAndStatus(Long accountId, boolean status, Pageable pageable);
 }

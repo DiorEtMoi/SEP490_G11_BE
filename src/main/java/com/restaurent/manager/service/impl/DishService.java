@@ -12,10 +12,7 @@ import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.DishCategoryRepository;
 import com.restaurent.manager.repository.DishRepository;
 import com.restaurent.manager.repository.UnitRepository;
-import com.restaurent.manager.service.IAccountService;
-import com.restaurent.manager.service.IDishCategoryService;
-import com.restaurent.manager.service.IDishService;
-import com.restaurent.manager.service.IUnitService;
+import com.restaurent.manager.service.*;
 import com.restaurent.manager.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -37,20 +34,21 @@ public class DishService implements IDishService {
     IDishCategoryService dishCategoryService;
     IUnitService unitService;
     IAccountService accountService;
+    IRestaurantService restaurantService;
     @Override
     public DishResponse createNewDish(DishRequest request) {
         Dish dish = dishMapper.toDish(request);
         dish.setCode(SlugUtils.toSlug(dish.getName()));
         dish.setDishCategory(dishCategoryService.findById(request.getDishCategoryId()));
         dish.setUnit(unitService.findById(request.getUnitId()));
-        dish.setAccount(accountService.findAccountByID(request.getAccountId()));
+        dish.setRestaurant(restaurantService.getRestaurantById(request.getRestaurantId()));
         dish.setStatus(true);
         return dishMapper.toDishResponse(dishRepository.save(dish));
     }
 
     @Override
-    public List<DishResponse> getDishesByAccountId(Long accountId) {
-        return dishRepository.findByAccount_Id(accountId).stream().map(dishMapper::toDishResponse).toList();
+    public List<DishResponse> findByRestaurant_Id(Long restaurantId) {
+        return dishRepository.findByRestaurant_Id(restaurantId).stream().map(dishMapper::toDishResponse).toList();
     }
 
     @Override
@@ -81,7 +79,7 @@ public class DishService implements IDishService {
     }
 
     @Override
-    public List<DishResponse> getDishesByAccountIdAndStatus(Long accountId, boolean status,Pageable pageable) {
-        return dishRepository.findByAccount_IdAndStatus(accountId,status,pageable).stream().map(dishMapper::toDishResponse).toList();
+    public List<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status,Pageable pageable) {
+        return dishRepository.findByRestaurant_IdAndStatus(restaurantId,status,pageable).stream().map(dishMapper::toDishResponse).toList();
     }
 }

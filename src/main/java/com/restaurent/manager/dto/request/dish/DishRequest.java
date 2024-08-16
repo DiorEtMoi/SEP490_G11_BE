@@ -27,5 +27,5 @@ public class DishRequest {
     @NotBlank(message = "NOT_EMPTY")
     String imageUrl;
     Long unitId;
-    Long accountId;
+    Long restaurantId;
 }
