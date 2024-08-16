@@ -77,7 +77,7 @@ public class TableRestaurantService implements ITableRestaurantService {
             }
         }
         List<TableRestaurantResponse> tableRestaurantResponses = new ArrayList<>();
-        TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByAreaRestaurant_IdAndNameStartingWithOrderByNameDesc(request.getRestaurantId(),request.getName());
+        TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByArea_IdAndNameStartingWithOrderByNameDesc(request.getRestaurantId(),request.getName());;
         if(tableRestaurant != null){
             String[] originalName = tableRestaurant.getName().split("-");
             int tableNumber = Integer.parseInt(originalName[1]);
