@@ -60,7 +60,9 @@ public enum ErrorCode {
     PACKAGE_NOT_NULL(400,"Gói id không phải là null", HttpStatus.BAD_REQUEST),
     MONTHS_NOT_NULL(400,"Tháng không thể để trống", HttpStatus.BAD_REQUEST),
     EMAIL_PHONE_NUMBER_INVAILD(400, "Số điện thoại hoặc email không tồn tại", HttpStatus.BAD_REQUEST),
-    INVALID_CODE(400,"Thực đơn không tồn tại", HttpStatus.BAD_REQUEST)
+    INVALID_CODE(400,"Thực đơn không tồn tại", HttpStatus.BAD_REQUEST),
+    POINT_INVALID(400, "Số điểm sử dụng đã vượt quá số điểm còn dư", HttpStatus.BAD_REQUEST),
+    QUANTITY_INVALID(400, "Quantity phải lớn hơn hoặc bằng 1", HttpStatus.BAD_REQUEST),
     ;
 
 
