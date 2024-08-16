@@ -42,8 +42,8 @@ public class DishCategoryService implements IDishCategoryService {
     }
 
     @Override
-    public List<DishCategoryResponse> getAllDishCategoryByAccountId(Long accountId) {
-        return dishCategoryRepository.findByAccount_Id(accountId).stream().map(dishCategoryMapper::toDishCategoryResponse)
+    public List<DishCategoryResponse> getAllDishCategoryByAccountId(Long restaurantId) {
+        return dishCategoryRepository.findByRestaurant_Id(restaurantId).stream().map(dishCategoryMapper::toDishCategoryResponse)
                 .toList();
     }
 
