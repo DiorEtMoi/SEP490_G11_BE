@@ -66,7 +66,6 @@ public class TableRestaurantService implements ITableRestaurantService {
         if(!areas.isEmpty()){
             for (Area area : areas){
                 totalTable += tableRestaurantRepository.findByArea_IdAndHidden(area.getId(),false).size();
-                log.info("size current table : " + totalTable);
             }
             for (Permission permission : restaurant.getRestaurantPackage().getPermissions()){
                 if(permission.getName().equals("TABLE_MAX")){
@@ -77,12 +76,13 @@ public class TableRestaurantService implements ITableRestaurantService {
             }
         }
         List<TableRestaurantResponse> tableRestaurantResponses = new ArrayList<>();
-        TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByArea_IdAndNameStartingWithOrderByNameDesc(request.getRestaurantId(),request.getName());;
+        TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByRestaurant_IdAndNameStartingWithOrderByNameDesc(request.getRestaurantId(),request.getName());
         if(tableRestaurant != null){
             String[] originalName = tableRestaurant.getName().split("-");
+            log.info(tableRestaurant.getName());
             int tableNumber = Integer.parseInt(originalName[1]);
             for (int i = 1; i <= numbers; i++) {
-                tableNumber++;
+                tableNumber += i;
                 request.setName(request.getName() + "-" + tableNumber);
                 tableRestaurantResponses.add(createTable(request));
                 request.setName(originalName[0]);
