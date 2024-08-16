@@ -10,7 +10,7 @@ public interface IDishCategoryService {
     DishCategoryResponse createDishCategory(DishCategoryRequest request);
     List<DishCategoryResponse> getAllDishCategoryByAccountId(Long accountId);
     DishCategory findById(Long id);
-    DishCategory findByCode(String code);
+    DishCategory findByCodeAndRestaurantId(String code, Long restaurantId);
     void deleteCategoryById(Long id);
     DishCategoryResponse updateDishCategoryById(DishCategoryRequest request, Long id);
 }

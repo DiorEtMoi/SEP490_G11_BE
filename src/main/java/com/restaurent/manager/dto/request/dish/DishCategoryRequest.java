@@ -16,5 +16,5 @@ public class DishCategoryRequest {
     @NotBlank(message = "NOT_EMPTY")
     String description;
     @NotNull(message = "NOT_NULL")
-    Long accountId;
+    Long restaurantId;
 }
