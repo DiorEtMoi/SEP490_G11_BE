@@ -37,10 +37,11 @@ public class VatService implements IVatService {
         Vat vat = vatMapper.toVat(request);
         vat.setTaxValue(taxValue);
         vat.setTaxName(taxName);
+        Vat saved = vatRepository.save(vat);
         restaurant.setVatActive(true);
-        restaurant.setVat(vat);
+        restaurant.setVat(saved);
         repository.save(restaurant);
-        return vatRepository.save(vat);
+        return saved;
     }
 
     @Override
