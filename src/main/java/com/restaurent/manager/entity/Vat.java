@@ -24,4 +24,5 @@ public class Vat {
     String registrationNumber;
     float taxValue;
     String taxName;
+    Long restaurantId;
 }
