@@ -21,7 +21,6 @@ public class DishUpdateRequest {
     String description;
     @Min(value = 0, message = "GREATER_NUMBER")
     double price;
-    @NotNull(message = "NOT_EMPTY")
     Long dishCategoryId;
     @NotNull(message = "NOT_EMPTY")
     String imageUrl;
