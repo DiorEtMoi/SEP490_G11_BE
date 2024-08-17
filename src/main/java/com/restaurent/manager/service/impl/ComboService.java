@@ -14,6 +14,7 @@ import com.restaurent.manager.repository.AccountRepository;
 import com.restaurent.manager.repository.ComboRepository;
 import com.restaurent.manager.repository.DishRepository;
 import com.restaurent.manager.service.IComboService;
+import com.restaurent.manager.service.IRestaurantService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -30,8 +31,8 @@ import java.util.stream.Collectors;
 public class ComboService implements IComboService {
     ComboRepository comboRepository;
     DishRepository dishRepository;
-    AccountRepository accountRepository;
     ComboMapper comboMapper;
+    IRestaurantService restaurantService;
 
     @Override
     public ComboResponse createCombo(ComboRequest comboRequest) {
@@ -45,9 +46,8 @@ public class ComboService implements IComboService {
         }
         combo.setDishes(dishes);
 
-        Account account = accountRepository.findById(comboRequest.getAccountId())
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        combo.setAccount(account);
+
+        combo.setRestaurant(restaurantService.getRestaurantById(comboRequest.getRestaurantId()));
 
         Combo savedCombo = comboRepository.save(combo);
 
@@ -98,7 +98,7 @@ public class ComboService implements IComboService {
 
     @Override
     public List<ComboResponse> getComboByRestaurantID(Long restaurantID) {
-        return null;
+        return comboRepository.findByRestaurant_Id(restaurantID).stream().map(comboMapper::toComboResponse).toList();
     }
 
 
