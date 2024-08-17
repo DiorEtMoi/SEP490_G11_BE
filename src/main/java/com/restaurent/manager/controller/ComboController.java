@@ -43,4 +43,10 @@ public class ComboController {
                 .result(comboService.getComboById(comboId))
                 .build();
     }
+    @GetMapping(value = "/restaurant/{restaurantId}")
+    public ApiResponse<List<ComboResponse>> getComboByRestaurantId(@PathVariable Long restaurantId){
+        return ApiResponse.<List<ComboResponse>>builder()
+                .result(comboService.getComboByRestaurantID(restaurantId))
+                .build();
+    }
 }

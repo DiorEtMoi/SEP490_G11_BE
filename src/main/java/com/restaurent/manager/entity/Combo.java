@@ -21,4 +21,6 @@ public class Combo {
     Set<Dish> dishes = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     Account account;
+    @ManyToOne(fetch = FetchType.LAZY)
+    Restaurant restaurant;
 }

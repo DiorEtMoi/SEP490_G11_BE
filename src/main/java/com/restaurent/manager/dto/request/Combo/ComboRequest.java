@@ -34,5 +34,5 @@ public class ComboRequest {
 
     boolean status;
     Set<Long> dishIds;
-    Long accountId;
+    Long restaurantId;
 }

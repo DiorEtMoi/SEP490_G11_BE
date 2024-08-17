@@ -56,13 +56,14 @@ public class BillService implements IBillService {
                 throw new AppException(ErrorCode.NOT_EXIST);
             }
             customer.setCurrentPoint(points);
+            customer.setTotalPoint(customer.getCurrentPoint() + request.getPoints());
         }else{
             // handle adding point when customer paid
-            float currentPoint = (float) (customer.getCurrentPoint() + (request.getTotal() / restaurant.getMoneyToPoint()));
-            customer.setCurrentPoint(Math.round(currentPoint));
-            customer.setTotalPoint(customer.getCurrentPoint() + customer.getTotalPoint());
-            customerRepository.save(customer);
+            double points = request.getTotal() / restaurant.getMoneyToPoint();
+            customer.setCurrentPoint(customer.getCurrentPoint() + Math.round(points));
+            customer.setTotalPoint(customer.getTotalPoint() + Math.round(points));
         }
+        customerRepository.save(customer);
         return billMapper.toBillResponse(billRepository.save(bill));
     }
 
