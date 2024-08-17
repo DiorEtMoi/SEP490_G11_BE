@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DishUpdateRequest {
-    @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
     String name;
     @NotNull(message = "NOT_EMPTY")
@@ -19,15 +18,12 @@ public class DishUpdateRequest {
     @NotNull(message = "NOT_EMPTY")
     boolean status;
     @NotNull(message = "NOT_EMPTY")
-    @NotBlank(message = "NOT_EMPTY")
     String description;
     @Min(value = 0, message = "GREATER_NUMBER")
     double price;
     @NotNull(message = "NOT_EMPTY")
     Long dishCategoryId;
     @NotNull(message = "NOT_EMPTY")
-    @NotBlank(message = "NOT_EMPTY")
     String imageUrl;
-    @NotNull(message = "NOT_EMPTY")
     Long unitId;
 }
