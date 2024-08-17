@@ -72,7 +72,7 @@ public enum ErrorCode {
         this.message = message;
         this.statusCode = statusCode;
     }
-    private int code;
-    private String message;
-    private HttpStatusCode statusCode;
+    private final int code;
+    private final String message;
+    private final HttpStatusCode statusCode;
 }
