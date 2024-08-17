@@ -56,7 +56,7 @@ public class BillService implements IBillService {
                 throw new AppException(ErrorCode.POINT_INVALID);
             }
             customer.setCurrentPoint(points);
-            customer.setTotalPoint(customer.getCurrentPoint() + request.getPoints());
+            customer.setTotalPoint(customer.getTotalPoint() + request.getPoints());
         }else{
             // handle adding point when customer paid
             int points = (int) (request.getTotal() / restaurant.getMoneyToPoint());
