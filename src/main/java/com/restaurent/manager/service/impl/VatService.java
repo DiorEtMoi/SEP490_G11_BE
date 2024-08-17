@@ -58,8 +58,8 @@ public class VatService implements IVatService {
     }
 
     @Override
-    public Vat updateTax(Long vatId, TaxRequest request) {
-        Vat vat = findById(vatId);
+    public Vat updateTax(Long restaurantId, TaxRequest request) {
+        Vat vat = findById(restaurantService.getRestaurantById(restaurantId).getVat().getId());
         vat.setTaxValue(request.getTaxValue());
         vat.setTaxName(request.getTaxName());
         return vatRepository.save(vat);
