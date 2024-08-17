@@ -34,10 +34,10 @@ public class VatController {
                 .build();
     }
     @PreAuthorize(value = "hasRole('MANAGER')")
-    @PutMapping(value = "/restaurant/{restaurantId}/tax")
-    public ApiResponse<Vat> updateTax(@PathVariable Long restaurantId, @RequestBody @Valid TaxRequest request){
+    @PutMapping(value = "/{vatId}/tax")
+    public ApiResponse<Vat> updateTax(@PathVariable Long vatId, @RequestBody @Valid TaxRequest request){
         return ApiResponse.<Vat>builder()
-                .result(vatService.updateTax(restaurantId,request))
+                .result(vatService.updateTax(vatId,request))
                 .build();
     }
 }
