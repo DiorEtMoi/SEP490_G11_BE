@@ -60,6 +60,7 @@ public class BillService implements IBillService {
         }else{
             // handle adding point when customer paid
             int points = (int) (request.getTotal() / restaurant.getMoneyToPoint());
+            log.info("point : " + points + "money to point : " + restaurant.getMoneyToPoint() + " Total "  + request.getTotal());
             customer.setCurrentPoint(customer.getCurrentPoint() + points);
             customer.setTotalPoint(customer.getTotalPoint() + points);
         }
