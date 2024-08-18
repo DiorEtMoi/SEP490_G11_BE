@@ -1,6 +1,7 @@
 package com.restaurent.manager.dto.request;
 
 import com.restaurent.manager.custom.ValidEmail;
+import com.restaurent.manager.custom.ValidPassword;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -22,6 +23,7 @@ public class AccountRequest {
 
     @Size(min = 8,message = "INVALID_PASSWORD")
     @NotNull(message = "NOT_NULL")
+    @ValidPassword
     private String password;
 
     @NotNull(message = "INVALID_EMAIL")
