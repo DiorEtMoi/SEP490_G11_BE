@@ -44,7 +44,7 @@ public class ScheduleService implements IScheduleService {
     public String createSchedule(Long restaurantId, ScheduleRequest request) {
         //handling about time
         if(request.getBookedDate().isBefore(LocalDate.now())){
-            throw new AppException(ErrorCode.NOT_EXIST);
+            throw new AppException(ErrorCode.TIME_INVALID);
         }
 
         Schedule schedule = scheduleMapper.toSchedule(request);
