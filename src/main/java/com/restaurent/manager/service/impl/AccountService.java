@@ -3,6 +3,7 @@ package com.restaurent.manager.service.impl;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.restaurent.manager.custom.PasswordGenerator;
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.ForgotPasswordRequest;
@@ -165,7 +166,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         Account account = accountRepository.findByEmailAndPhoneNumber(request.getEmail(),request.getPhoneNumber()).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
         );
-        String password = emailService.generateCode(6);
+        String password = PasswordGenerator.generateRandomPassword(6);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         account.setPassword(passwordEncoder.encode(password));
         emailService.sendEmail(account.getEmail(),"Password is reset : " + password, "Reset password");
