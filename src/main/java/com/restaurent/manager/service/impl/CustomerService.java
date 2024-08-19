@@ -88,11 +88,13 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public PagingResult<CustomerResponse> getCustomersOrderByTotalPoint(Long restaurantId, Pageable pageable, String query) {
-        List<Customer> customers = customerRepository.findByRestaurant_IdAndPhoneNumberContainingOrNameContainingOrderByTotalPointDesc(restaurantId,query,pageable);
+        List<Customer> customers = customerRepository.findByRestaurant_IdAndNameContainingOrderByTotalPointDesc(restaurantId,query,pageable);
+        List<Customer> customerPhone = customerRepository.findByRestaurant_IdAndPhoneNumberContainingOrderByTotalPointDesc(restaurantId,query,pageable);
+        if(!customerPhone.isEmpty()){
+            customers.addAll(customerPhone);
+        }
         return PagingResult.<CustomerResponse>builder()
-                .results(customers.stream()
-                        .map(customerMapper::toCustomerResponse)
-                        .collect(Collectors.toList()))
+                .results(customers.stream().map(customerMapper::toCustomerResponse).toList())
                 .totalItems(customerRepository.countByRestaurant_Id(restaurantId))
                 .build();
     }
