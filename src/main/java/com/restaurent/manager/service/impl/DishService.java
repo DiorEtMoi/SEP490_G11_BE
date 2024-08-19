@@ -79,7 +79,7 @@ public class DishService implements IDishService {
     }
 
     @Override
-    public List<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status,Pageable pageable) {
-        return dishRepository.findByRestaurant_IdAndStatus(restaurantId,status,pageable).stream().map(dishMapper::toDishResponse).toList();
+    public List<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status,Pageable pageable, String query) {
+        return dishRepository.findByRestaurant_IdAndStatusAndNameContaining(restaurantId,status,pageable, query).stream().map(dishMapper::toDishResponse).toList();
     }
 }

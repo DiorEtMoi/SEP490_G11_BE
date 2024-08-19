@@ -54,10 +54,11 @@ public class DishController {
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('DISH')")
     @GetMapping(value = "/restaurant/{restaurantId}/{status}")
-    public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long restaurantId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+    public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long restaurantId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size
+    , @RequestParam(value = "query", defaultValue = "") String query){
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<List<DishResponse>>builder()
-                .result(dishService.getDishesByRestaurantIdAndStatus(restaurantId,status,pageable))
+                .result(dishService.getDishesByRestaurantIdAndStatus(restaurantId,status,pageable,query))
                 .build();
     }
 }
