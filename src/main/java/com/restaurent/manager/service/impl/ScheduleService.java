@@ -161,6 +161,8 @@ public class ScheduleService implements IScheduleService {
             if(tableRestaurant.getOrderCurrent() == null){
                 throw new AppException(ErrorCode.TABLE_NOT_FREE);
             }
+        }
+        for (TableRestaurant tableRestaurant : schedule.getTableRestaurants()){
             Long orderId = orderService.createOrder(customer,employee,tableRestaurant,schedule.getRestaurant());
             orderService.addDishToOrder(orderId,dishOrderRequests);
         }
