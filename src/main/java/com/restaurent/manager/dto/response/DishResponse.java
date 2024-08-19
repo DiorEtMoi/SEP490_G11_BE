@@ -11,7 +11,6 @@ public class DishResponse {
     String name;
     String code;
     boolean status;
-    float weight;
     String description;
     double price;
     DishCategoryResponse dishCategory;
