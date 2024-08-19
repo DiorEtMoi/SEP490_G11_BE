@@ -13,9 +13,6 @@ public class DishUpdateRequest {
     @NotBlank(message = "NOT_EMPTY")
     String name;
     @NotNull(message = "NOT_EMPTY")
-    @Min(value = 0, message = "GREATER_NUMBER")
-    float weight;
-    @NotNull(message = "NOT_EMPTY")
     boolean status;
     @NotNull(message = "NOT_EMPTY")
     String description;

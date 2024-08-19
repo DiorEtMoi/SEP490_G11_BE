@@ -16,7 +16,6 @@ public class Dish {
     Long id;
     String name;
     String code;
-    float weight;
     String description;
     double price;
     @ManyToOne(fetch = FetchType.EAGER)

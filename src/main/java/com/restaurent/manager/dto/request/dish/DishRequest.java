@@ -13,9 +13,6 @@ public class DishRequest {
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
     String name;
-    @NotNull(message = "NOT_NULL")
-    @Min(value = 0, message = "GREATER_NUMBER")
-    float weight;
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
     String description;
