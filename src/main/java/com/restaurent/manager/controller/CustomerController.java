@@ -8,6 +8,8 @@ import com.restaurent.manager.service.ICustomerService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,8 +47,9 @@ public class CustomerController {
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CUSTOMER')")
     @GetMapping("/rankingCustomer/{restaurantID}")
-    public List<CustomerResponse> getCustomersOrderByTotalPoint(@PathVariable long restaurantID) {
-        return customerService.getCustomersOrderByTotalPoint(restaurantID);
+    public List<CustomerResponse> getCustomersOrderByTotalPoint(@PathVariable long restaurantID, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
+        return customerService.getCustomersOrderByTotalPoint(restaurantID,pageable);
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CUSTOMER')")
     @GetMapping(value = "/{phoneNumber}")
