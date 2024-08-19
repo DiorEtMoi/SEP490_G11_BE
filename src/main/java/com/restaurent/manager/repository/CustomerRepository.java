@@ -7,16 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByPhoneNumberAndRestaurantId(String phoneNumber, Long restaurantId);
-
-
-    List<Customer> findByRestaurant_IdAndPhoneNumberContainingOrNameContainingOrderByTotalPointDesc(Long restaurantId,String query ,Pageable pageable);
+    List<Customer> findByRestaurant_IdAndNameContainingOrderByTotalPointDesc(Long restaurantId, String query, Pageable pageable);
+    List<Customer> findByRestaurant_IdAndPhoneNumberContainingOrderByTotalPointDesc(Long restaurantId, String query, Pageable pageable);
     int countByRestaurant_Id(Long restaurantId);
     Optional<Customer> findByPhoneNumber(String phoneNumber);
     @Query("select c from Customer  c where c.restaurant.id = :restaurantId and DATE (c.dateCreated) = CURRENT_DATE")
