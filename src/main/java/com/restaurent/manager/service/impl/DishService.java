@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.dish.DishRequest;
 import com.restaurent.manager.dto.request.dish.DishUpdateRequest;
 import com.restaurent.manager.dto.response.DishResponse;
@@ -79,7 +80,10 @@ public class DishService implements IDishService {
     }
 
     @Override
-    public List<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status,Pageable pageable, String query) {
-        return dishRepository.findByRestaurant_IdAndStatusAndNameContaining(restaurantId,status,pageable, query).stream().map(dishMapper::toDishResponse).toList();
+    public PagingResult<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status, Pageable pageable, String query) {
+        return PagingResult.<DishResponse>builder()
+                .results(dishRepository.findByRestaurant_IdAndStatusAndNameContaining(restaurantId,status,pageable, query).stream().map(dishMapper::toDishResponse).toList())
+                .totalItems(dishRepository.countByRestaurant_IdAndStatus(restaurantId,status))
+                .build();
     }
 }
