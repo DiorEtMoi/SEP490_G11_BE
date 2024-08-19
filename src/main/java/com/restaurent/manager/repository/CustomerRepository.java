@@ -1,6 +1,7 @@
 package com.restaurent.manager.repository;
 
 import com.restaurent.manager.entity.Customer;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,8 +16,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByPhoneNumberAndRestaurantId(String phoneNumber, Long restaurantId);
 
 
-    @Query("SELECT c FROM Customer c WHERE c.restaurant.id = :restaurantId ORDER BY c.totalPoint DESC")
-    List<Customer> findAllOrderByTotalPointDesc(Long restaurantId);
+    List<Customer> findByRestaurant_IdOrderByTotalPointDesc(Long restaurantId, Pageable pageable);
     Optional<Customer> findByPhoneNumber(String phoneNumber);
     @Query("select c from Customer  c where c.restaurant.id = :restaurantId and DATE (c.dateCreated) = CURRENT_DATE")
     List<Customer> findCustomerByRestaurant_IdInToday(Long restaurantId);

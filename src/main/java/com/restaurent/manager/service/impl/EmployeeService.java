@@ -29,6 +29,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -103,12 +104,12 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
     }
 
     @Override
-    public List<EmployeeResponse> findEmployeesByAccountId(Long accountId) {
+    public List<EmployeeResponse> findEmployeesByAccountId(Long accountId, Pageable pageable) {
         Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
         if(restaurant == null){
             throw new AppException(ErrorCode.NOT_EXIST);
         }
-        return employeeRepository.findByRestaurant_Id(restaurant.getId()).stream().map(employeeMapper::toEmployeeResponse).toList();
+        return employeeRepository.findByRestaurant_Id(restaurant.getId(),pageable).stream().map(employeeMapper::toEmployeeResponse).toList();
     }
 
     @Override

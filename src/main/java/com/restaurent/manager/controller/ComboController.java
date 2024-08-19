@@ -9,6 +9,8 @@ import com.restaurent.manager.service.IComboService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,9 +46,10 @@ public class ComboController {
                 .build();
     }
     @GetMapping(value = "/restaurant/{restaurantId}")
-    public ApiResponse<List<ComboResponse>> getComboByRestaurantId(@PathVariable Long restaurantId){
+    public ApiResponse<List<ComboResponse>> getComboByRestaurantId(@PathVariable Long restaurantId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<List<ComboResponse>>builder()
-                .result(comboService.getComboByRestaurantID(restaurantId))
+                .result(comboService.getComboByRestaurantID(restaurantId,pageable))
                 .build();
     }
 }

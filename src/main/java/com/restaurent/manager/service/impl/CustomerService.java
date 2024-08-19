@@ -14,6 +14,7 @@ import com.restaurent.manager.service.ICustomerService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -85,8 +86,8 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public List<CustomerResponse> getCustomersOrderByTotalPoint(Long restaurantId) {
-        List<Customer> customers = customerRepository.findAllOrderByTotalPointDesc(restaurantId);
+    public List<CustomerResponse> getCustomersOrderByTotalPoint(Long restaurantId, Pageable pageable) {
+        List<Customer> customers = customerRepository.findByRestaurant_IdOrderByTotalPointDesc(restaurantId,pageable);
         return customers.stream()
                 .map(customerMapper::toCustomerResponse)
                 .collect(Collectors.toList());

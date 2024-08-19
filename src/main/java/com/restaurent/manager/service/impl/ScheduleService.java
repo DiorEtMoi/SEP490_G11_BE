@@ -81,6 +81,7 @@ public class ScheduleService implements IScheduleService {
         LocalTime intend_time = time.plusMinutes(request.getIntendTimeMinutes());
         List<Schedule> schedules = scheduleRepository.findSchedulesByTableAndDateRange(tableId,request.getBookedDate(),
                 time,intend_time);
+
         return !schedules.isEmpty();
     }
 
@@ -157,6 +158,9 @@ public class ScheduleService implements IScheduleService {
             }
         }
         for (TableRestaurant tableRestaurant : schedule.getTableRestaurants()){
+            if(tableRestaurant.getOrderCurrent() == null){
+                throw new AppException(ErrorCode.TABLE_NOT_FREE);
+            }
             Long orderId = orderService.createOrder(customer,employee,tableRestaurant,schedule.getRestaurant());
             orderService.addDishToOrder(orderId,dishOrderRequests);
         }

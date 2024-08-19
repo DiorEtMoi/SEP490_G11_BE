@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,9 +52,10 @@ public class EmployeeController {
                 .build();
     }
     @GetMapping("/restaurant/{accountId}")
-    public ApiResponse<List<EmployeeResponse>> getEmployeesInRestaurantByAccountId(@PathVariable Long accountId){
+    public ApiResponse<List<EmployeeResponse>> getEmployeesInRestaurantByAccountId(@PathVariable Long accountId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return  ApiResponse.<List<EmployeeResponse>>builder()
-                .result(employeeService.findEmployeesByAccountId(accountId))
+                .result(employeeService.findEmployeesByAccountId(accountId, pageable))
                 .build();
     }
     @PutMapping(value = "/{employeeId}/change-password/{newPassword}")

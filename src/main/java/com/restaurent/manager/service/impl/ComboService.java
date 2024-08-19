@@ -18,6 +18,7 @@ import com.restaurent.manager.service.IRestaurantService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -97,8 +98,8 @@ public class ComboService implements IComboService {
     }
 
     @Override
-    public List<ComboResponse> getComboByRestaurantID(Long restaurantID) {
-        return comboRepository.findByRestaurant_Id(restaurantID).stream().map(comboMapper::toComboResponse).toList();
+    public List<ComboResponse> getComboByRestaurantID(Long restaurantID, Pageable pageable) {
+        return comboRepository.findByRestaurant_Id(restaurantID,pageable).stream().map(comboMapper::toComboResponse).toList();
     }
 
 
