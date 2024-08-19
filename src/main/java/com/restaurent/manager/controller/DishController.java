@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.dish.DishRequest;
 import com.restaurent.manager.dto.request.dish.DishUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
@@ -54,10 +55,10 @@ public class DishController {
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('DISH')")
     @GetMapping(value = "/restaurant/{restaurantId}/{status}")
-    public ApiResponse<List<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long restaurantId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size
+    public ApiResponse<PagingResult<DishResponse>> findDishesByAccountIdAndStatus(@PathVariable Long restaurantId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size
     , @RequestParam(value = "query", defaultValue = "") String query){
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
-        return ApiResponse.<List<DishResponse>>builder()
+        return ApiResponse.<PagingResult<DishResponse>>builder()
                 .result(dishService.getDishesByRestaurantIdAndStatus(restaurantId,status,pageable,query))
                 .build();
     }
