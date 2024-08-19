@@ -39,6 +39,13 @@ public class DishController {
                 .result(dishService.findByRestaurant_Id(restaurantId))
                 .build();
     }
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('DISH')")
+    @GetMapping(value = "/restaurant/{restaurantId}/active")
+    public ApiResponse<List<DishResponse>> findDishesByRestaurant(@PathVariable Long restaurantId){
+        return ApiResponse.<List<DishResponse>>builder()
+                .result(dishService.findDishesByRestaurantActive(restaurantId))
+                .build();
+    }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER', 'HOSTESS') and hasAuthority('DISH')")
     @GetMapping(value = "/category/{categoryCode}/restaurant/{restaurantId}")
     public ApiResponse<List<DishResponse>> findDishesByCategoryCode(@PathVariable String categoryCode, @PathVariable Long restaurantId){

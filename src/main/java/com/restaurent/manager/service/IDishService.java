@@ -16,5 +16,6 @@ public interface IDishService {
     DishResponse updateDish(Long dishId, DishUpdateRequest request);
     Dish findByDishId(Long DishId);
     List<DishResponse> findDishesByCategoryCode(String categoryCode, Long restaurantId);
+    List<DishResponse> findDishesByRestaurantActive(Long restaurantId);
     PagingResult<DishResponse> getDishesByRestaurantIdAndStatus(Long accountId, boolean status, Pageable pageable, String query);
 }
