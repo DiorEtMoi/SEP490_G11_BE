@@ -80,6 +80,11 @@ public class DishService implements IDishService {
     }
 
     @Override
+    public List<DishResponse> findDishesByRestaurantActive(Long restaurantId) {
+        return dishRepository.findByRestaurant_IdAndStatus(restaurantId,true).stream().map(dishMapper::toDishResponse).toList();
+    }
+
+    @Override
     public PagingResult<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status, Pageable pageable, String query) {
         return PagingResult.<DishResponse>builder()
                 .results(dishRepository.findByRestaurant_IdAndStatusAndNameContaining(restaurantId,status,pageable, query).stream().map(dishMapper::toDishResponse).toList())

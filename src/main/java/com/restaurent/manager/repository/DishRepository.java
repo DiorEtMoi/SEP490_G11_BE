@@ -15,5 +15,5 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     List<Dish> findByRestaurant_IdAndStatusAndNameContaining(Long accountId, boolean status, Pageable pageable, String query);
     int countByRestaurant_IdAndStatus(Long accountId, boolean status);
     boolean existsByUnit_Id(Long unitId);
-    List<Dish> findByAccountRestaurant_Id(Long restaurantId);
+    List<Dish> findByRestaurant_IdAndStatus(Long restaurantId, boolean status);
 }

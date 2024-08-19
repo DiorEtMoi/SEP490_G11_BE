@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.Customer.CustomerRequest;
 import com.restaurent.manager.dto.request.Customer.CustomerUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
@@ -47,9 +48,10 @@ public class CustomerController {
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CUSTOMER')")
     @GetMapping("/rankingCustomer/{restaurantID}")
-    public List<CustomerResponse> getCustomersOrderByTotalPoint(@PathVariable long restaurantID, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size) {
+    public PagingResult<CustomerResponse> getCustomersOrderByTotalPoint(@PathVariable long restaurantID, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size,
+                                                                        @RequestParam(value = "query",defaultValue = "") String query) {
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
-        return customerService.getCustomersOrderByTotalPoint(restaurantID,pageable);
+        return customerService.getCustomersOrderByTotalPoint(restaurantID,pageable,query);
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CUSTOMER')")
     @GetMapping(value = "/{phoneNumber}")

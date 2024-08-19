@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.Customer.CustomerRequest;
 import com.restaurent.manager.dto.request.Customer.CustomerUpdateRequest;
 import com.restaurent.manager.dto.response.CustomerResponse;
@@ -86,11 +87,14 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public List<CustomerResponse> getCustomersOrderByTotalPoint(Long restaurantId, Pageable pageable) {
-        List<Customer> customers = customerRepository.findByRestaurant_IdOrderByTotalPointDesc(restaurantId,pageable);
-        return customers.stream()
-                .map(customerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
+    public PagingResult<CustomerResponse> getCustomersOrderByTotalPoint(Long restaurantId, Pageable pageable, String query) {
+        List<Customer> customers = customerRepository.findByRestaurant_IdAndPhoneNumberContainingOrNameContainingOrderByTotalPointDesc(restaurantId,query,pageable);
+        return PagingResult.<CustomerResponse>builder()
+                .results(customers.stream()
+                        .map(customerMapper::toCustomerResponse)
+                        .collect(Collectors.toList()))
+                .totalItems(customerRepository.countByRestaurant_Id(restaurantId))
+                .build();
     }
 
     @Override
