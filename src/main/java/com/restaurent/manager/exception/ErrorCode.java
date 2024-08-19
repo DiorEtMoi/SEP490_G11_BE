@@ -63,6 +63,7 @@ public enum ErrorCode {
     INVALID_CODE(400,"Thực đơn không tồn tại", HttpStatus.BAD_REQUEST),
     POINT_INVALID(400, "Số điểm sử dụng đã vượt quá số điểm còn dư", HttpStatus.BAD_REQUEST),
     QUANTITY_INVALID(400, "Quantity phải lớn hơn hoặc bằng 1", HttpStatus.BAD_REQUEST),
+    INVALID(400, "vui lòng nhập đầy đủ thông tin", HttpStatus.BAD_REQUEST)
     ;
 
 

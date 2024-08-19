@@ -25,8 +25,10 @@ public class ScheduleRequest {
     LocalDate bookedDate;
     @NotNull(message = "INVALID")
     String time;
+    @NotNull(message = "INVALID")
     @Min(value = 1,message = "GREATER_NUMBER")
     double deposit;
+    @NotNull(message = "INVALID")
     @Min(value = 10,message = "GREATER_NUMBER")
     Long intendTimeMinutes;
     @Min(value = 1,message = "GREATER_NUMBER")
