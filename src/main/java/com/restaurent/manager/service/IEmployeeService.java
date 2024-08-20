@@ -1,6 +1,7 @@
 package com.restaurent.manager.service;
 
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.employee.EmployeeLoginRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateInformationRequest;
@@ -18,7 +19,7 @@ public interface IEmployeeService {
     Employee findEmployeeById(Long id);
     EmployeeResponse findEmployeeByIdConvertDTO(Long id);
     void deleteEmployee(Long id);
-    List<EmployeeResponse> findEmployeesByAccountId(Long accountId, Pageable pageable);
+    PagingResult<EmployeeResponse> findEmployeesByAccountId(Long accountId, Pageable pageable, String query);
     AuthenticationResponse authenticated(EmployeeLoginRequest request);
     void updateEmployeePassword(Long employeeId, String newPassword);
 }

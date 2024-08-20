@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
-    List<Employee> findByRestaurant_Id(Long restaurantId, Pageable pageable);
+    List<Employee> findByRestaurant_IdAndEmployeeNameContaining(Long restaurantId, String query ,Pageable pageable);
+    int countByRestaurant_Id(Long restaurantId);
     Optional<Employee> findByUsernameAndRestaurant_Id(String userName, Long restaurantId);
     boolean existsByUsernameAndRestaurant_Id(String userName,Long restaurantId);
 }

@@ -4,6 +4,7 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.openid.connect.sdk.AuthenticationRequest;
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.employee.EmployeeLoginRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateInformationRequest;
@@ -104,12 +105,15 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
     }
 
     @Override
-    public List<EmployeeResponse> findEmployeesByAccountId(Long accountId, Pageable pageable) {
+    public PagingResult<EmployeeResponse> findEmployeesByAccountId(Long accountId, Pageable pageable, String query) {
         Restaurant restaurant = restaurantRepository.findByAccount_Id(accountId);
         if(restaurant == null){
             throw new AppException(ErrorCode.NOT_EXIST);
         }
-        return employeeRepository.findByRestaurant_Id(restaurant.getId(),pageable).stream().map(employeeMapper::toEmployeeResponse).toList();
+        return PagingResult.<EmployeeResponse>builder()
+                .results(employeeRepository.findByRestaurant_IdAndEmployeeNameContaining(restaurant.getId(),query,pageable).stream().map(employeeMapper::toEmployeeResponse).toList())
+                .totalItems(employeeRepository.countByRestaurant_Id(restaurant.getId()))
+                .build();
     }
 
     @Override

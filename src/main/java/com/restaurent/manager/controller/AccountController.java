@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.ForgotPasswordRequest;
@@ -12,6 +13,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +37,12 @@ public class AccountController {
     @SecurityRequirement(name = "bearerAuth")
     @PreAuthorize(value = "hasRole('ADMIN')")
     @GetMapping(value = "/manager")
-    public ApiResponse<List<AccountResponse>> getAccountsByRoleId(){
-        return ApiResponse.<List<AccountResponse>>
+    public ApiResponse<PagingResult<AccountResponse>> getAccountsByRoleId(@RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size,
+                                                         @RequestParam(value = "query",defaultValue = "") String query){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
+        return ApiResponse.<PagingResult<AccountResponse>>
                 builder()
-                .result(accountService.getAccountsManager())
+                .result(accountService.getAccountsManager(pageable,query))
                 .build();
     }
     @PostMapping("/verify")
