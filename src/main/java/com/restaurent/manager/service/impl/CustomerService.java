@@ -116,8 +116,8 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public boolean existCustomerByPhoneNumber(String phone) {
-        return customerRepository.existsByPhoneNumber(phone);
+    public boolean existCustomerByPhoneNumberAndRestaurantId(String phone, Long restaurantId) {
+        return customerRepository.existsByPhoneNumberAndRestaurant_Id(phone,restaurantId);
     }
 
 }
