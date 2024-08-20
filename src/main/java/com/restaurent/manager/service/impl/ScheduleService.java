@@ -245,11 +245,15 @@ public class ScheduleService implements IScheduleService {
 
     @Override
     public List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable) {
-        List<ScheduleResponse> res = scheduleRepository.findByRestaurant_Id(restaurantId,pageable).stream().map(scheduleMapper::toScheduleResponse).toList();
-        for (ScheduleResponse scheduleResponse : res){
+        List<ScheduleResponse> pending = new ArrayList<>(scheduleRepository.findByRestaurant_IdAndStatus(restaurantId, pageable, SCHEDULE_STATUS.PENDING).stream().map(scheduleMapper::toScheduleResponse).toList());
+        List<ScheduleResponse> cancel = scheduleRepository.findByRestaurant_IdAndStatus(restaurantId,pageable,SCHEDULE_STATUS.CANCEL).stream().map(scheduleMapper::toScheduleResponse).toList();
+        if(!pending.isEmpty()){
+            pending.addAll(cancel);
+        }
+        for (ScheduleResponse scheduleResponse : pending){
             scheduleResponse.setDishes(scheduleDishService.findDishOrComboBySchedule(scheduleResponse.getId()));
         }
-        return res;
+        return pending;
     }
 
 }
