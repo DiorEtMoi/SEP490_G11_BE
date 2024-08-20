@@ -15,7 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByPhoneNumberAndRestaurantId(String phoneNumber, Long restaurantId);
     List<Customer> findByRestaurant_IdAndNameContainingOrderByTotalPointDesc(Long restaurantId, String query, Pageable pageable);
     List<Customer> findByRestaurant_IdAndPhoneNumberContainingOrderByTotalPointDesc(Long restaurantId, String query, Pageable pageable);
-    int countByRestaurant_Id(Long restaurantId);
+    int countByRestaurant_IdAndNameContaining(Long restaurantId,String query);
     Optional<Customer> findByPhoneNumber(String phoneNumber);
     @Query("select c from Customer  c where c.restaurant.id = :restaurantId and DATE (c.dateCreated) = CURRENT_DATE")
     List<Customer> findCustomerByRestaurant_IdInToday(Long restaurantId);

@@ -112,7 +112,7 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
         }
         return PagingResult.<EmployeeResponse>builder()
                 .results(employeeRepository.findByRestaurant_IdAndEmployeeNameContaining(restaurant.getId(),query,pageable).stream().map(employeeMapper::toEmployeeResponse).toList())
-                .totalItems(employeeRepository.countByRestaurant_Id(restaurant.getId()))
+                .totalItems(employeeRepository.countByRestaurant_IdAndEmployeeNameContaining(restaurant.getId(),query))
                 .build();
     }
 
