@@ -131,7 +131,7 @@ public class ScheduleService implements IScheduleService {
     @Override
     public void customerReceiveBookTable(Long employeeId,Schedule schedule) {
         Customer customer;
-        if(customerService.existCustomerByPhoneNumber(schedule.getCustomerPhone())){
+        if(customerService.existCustomerByPhoneNumberAndRestaurantId(schedule.getCustomerPhone(),schedule.getRestaurant().getId())){
             customer = customerService.findCustomerByPhoneNumber(schedule.getCustomerPhone(),schedule.getRestaurant().getId());
         }else{
             customer = Customer.builder()
