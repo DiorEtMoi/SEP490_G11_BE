@@ -34,6 +34,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     List<Schedule> findByRestaurant_IdAndBookedDateAndTimeIsBeforeAndStatus(Long restaurantID, LocalDate date, LocalTime time,SCHEDULE_STATUS status);
     List<Schedule> findByRestaurant_IdAndBookedDateAndTimeBetweenAndStatus(Long restaurantId, LocalDate date, LocalTime startTime, LocalTime endTime, SCHEDULE_STATUS status);
     int countByRestaurant_IdAndBookedDateAndStatus(Long restaurantId, LocalDate date,SCHEDULE_STATUS status);
-    List<Schedule> findByRestaurant_Id(Long restaurantId, Pageable pageable);
+    List<Schedule> findByRestaurant_IdAndStatus(Long restaurantId, Pageable pageable,SCHEDULE_STATUS status);
     Optional<Schedule> findByIdAndRestaurant_Id(Long scheduleId, Long restaurantId);
 }
