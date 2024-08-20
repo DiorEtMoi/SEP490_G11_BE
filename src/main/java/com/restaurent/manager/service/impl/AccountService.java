@@ -87,7 +87,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     public PagingResult<AccountResponse> getAccountsManager(Pageable pageable, String query) {
         return PagingResult.<AccountResponse>builder()
                 .results(accountRepository.findByRole_IdAndUsernameContaining(5L,query,pageable).stream().map(accountMapper::toAccountResponse).toList())
-                .totalItems(accountRepository.countByRole_IdAndUsername(5L,query))
+                .totalItems(accountRepository.countByRole_IdAndUsernameContaining(5L,query))
                 .build();
     }
 

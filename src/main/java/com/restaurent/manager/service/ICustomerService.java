@@ -17,7 +17,7 @@ public interface ICustomerService {
     CustomerResponse getCustomerById(Long id); // New method declaration
 
     PagingResult<CustomerResponse> getCustomersOrderByTotalPoint(Long id, Pageable pageable, String query);
-    CustomerResponse findCustomerResponseByPhoneNumber(String phoneNumber);
-    Customer findCustomerByPhoneNumber(String phoneNumber);
+    CustomerResponse findCustomerResponseByPhoneNumber(String phoneNumber, Long restaurantId);
+    Customer findCustomerByPhoneNumber(String phoneNumber, Long restaurantId);
     boolean existCustomerByPhoneNumber(String phone);
 }

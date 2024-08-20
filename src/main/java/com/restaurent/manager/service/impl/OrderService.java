@@ -45,7 +45,7 @@ public class OrderService implements IOrderService {
     public OrderResponse createOrder(OrderRequest request) {
         TableRestaurant tableRestaurant = tableRestaurantService.findById(request.getTableId());
         Order order = new Order();
-        Customer customer = customerService.findCustomerByPhoneNumber(request.getCustomerResponse().getPhoneNumber());
+        Customer customer = customerService.findCustomerByPhoneNumber(request.getCustomerResponse().getPhoneNumber(),request.getRestaurantId());
         order.setCustomer(customer);
         order.setRestaurant(restaurantService.getRestaurantById(request.getRestaurantId()));
         order.setTableRestaurant(tableRestaurant);
