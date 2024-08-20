@@ -88,7 +88,7 @@ public class DishService implements IDishService {
     public PagingResult<DishResponse> getDishesByRestaurantIdAndStatus(Long restaurantId, boolean status, Pageable pageable, String query) {
         return PagingResult.<DishResponse>builder()
                 .results(dishRepository.findByRestaurant_IdAndStatusAndNameContaining(restaurantId,status,pageable, query).stream().map(dishMapper::toDishResponse).toList())
-                .totalItems(dishRepository.countByRestaurant_IdAndStatus(restaurantId,status))
+                .totalItems(dishRepository.countByRestaurant_IdAndStatusAndNameContaining(restaurantId,status,query))
                 .build();
     }
 }

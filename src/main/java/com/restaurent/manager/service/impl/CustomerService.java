@@ -97,7 +97,7 @@ public class CustomerService implements ICustomerService {
        }
         return PagingResult.<CustomerResponse>builder()
                 .results(customers.stream().map(customerMapper::toCustomerResponse).toList())
-                .totalItems(customerRepository.countByRestaurant_Id(restaurantId))
+                .totalItems(customerRepository.countByRestaurant_IdAndNameContaining(restaurantId,query))
                 .build();
     }
 
