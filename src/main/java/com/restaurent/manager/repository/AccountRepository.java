@@ -1,6 +1,7 @@
 package com.restaurent.manager.repository;
 
 import com.restaurent.manager.entity.Account;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -12,7 +13,8 @@ public interface AccountRepository extends JpaRepository<Account,Long> {
 
     Optional<Account> findByEmailAndStatus(String email,boolean status);
     Optional<Account> findByEmail(String userName);
-    List<Account> findByRole_Id(Long roleId);
+    List<Account> findByRole_IdAndUsernameContaining(Long roleId, String query, Pageable pageable);
+    int countByRole_Id(Long roleId);
     Optional<Account> findByPhoneNumber(String phoneNumber);
     Optional<Account> findByEmailAndPhoneNumber(String email, String phoneNumber);
 }

@@ -4,6 +4,7 @@ import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.restaurent.manager.custom.PasswordGenerator;
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.ForgotPasswordRequest;
@@ -29,6 +30,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -82,8 +84,11 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     }
 
     @Override
-    public List<AccountResponse> getAccountsManager() {
-        return accountRepository.findByRole_Id(5L).stream().map(accountMapper::toAccountResponse).toList();
+    public PagingResult<AccountResponse> getAccountsManager(Pageable pageable, String query) {
+        return PagingResult.<AccountResponse>builder()
+                .results(accountRepository.findByRole_IdAndUsernameContaining(5L,query,pageable).stream().map(accountMapper::toAccountResponse).toList())
+                .totalItems(accountRepository.countByRole_Id(5L))
+                .build();
     }
 
 

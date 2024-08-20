@@ -1,5 +1,6 @@
 package com.restaurent.manager.service;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.AccountRequest;
 import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.ForgotPasswordRequest;
@@ -8,12 +9,13 @@ import com.restaurent.manager.dto.response.AccountResponse;
 import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.VerifyResponse;
 import com.restaurent.manager.entity.Account;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface IAccountService{
     AccountResponse register(AccountRequest req);
-    List<AccountResponse> getAccountsManager();
+    PagingResult<AccountResponse> getAccountsManager(Pageable pageable, String query);
     VerifyResponse verifyAccount(VerifyAccount req);
     String regenerateOtp(String email);
     Account findAccountByID(Long id);

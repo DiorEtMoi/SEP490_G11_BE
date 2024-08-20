@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.employee.EmployeeRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateInformationRequest;
 import com.restaurent.manager.dto.request.employee.EmployeeUpdateRequest;
@@ -52,10 +53,11 @@ public class EmployeeController {
                 .build();
     }
     @GetMapping("/restaurant/{accountId}")
-    public ApiResponse<List<EmployeeResponse>> getEmployeesInRestaurantByAccountId(@PathVariable Long accountId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+    public ApiResponse<PagingResult<EmployeeResponse>> getEmployeesInRestaurantByAccountId(@PathVariable Long accountId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size,
+                                                                         @RequestParam(value = "query",defaultValue = "") String query){
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
-        return  ApiResponse.<List<EmployeeResponse>>builder()
-                .result(employeeService.findEmployeesByAccountId(accountId, pageable))
+        return  ApiResponse.<PagingResult<EmployeeResponse>>builder()
+                .result(employeeService.findEmployeesByAccountId(accountId, pageable, query))
                 .build();
     }
     @PutMapping(value = "/{employeeId}/change-password/{newPassword}")
