@@ -158,7 +158,7 @@ public class ScheduleService implements IScheduleService {
             }
         }
         for (TableRestaurant tableRestaurant : schedule.getTableRestaurants()){
-            if(tableRestaurant.getOrderCurrent() == null){
+            if(tableRestaurant.getOrderCurrent() != null){
                 throw new AppException(ErrorCode.TABLE_NOT_FREE);
             }
         }
