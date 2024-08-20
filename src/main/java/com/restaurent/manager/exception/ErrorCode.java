@@ -67,6 +67,11 @@ public enum ErrorCode {
     TABLE_NOT_FREE(400, "Bàn đang có người sử dụng không thể vào bàn", HttpStatus.BAD_REQUEST),
     ACCOUNT_NOT_EXIST(400, "Tài khoản không tồn tại", HttpStatus.BAD_REQUEST),
     NAME_EMPTY(400,"Name không thể để trống", HttpStatus.BAD_REQUEST),
+    STATUS_NOT_NULL(400, "Trạng thái món ăn không thể để trống", HttpStatus.BAD_REQUEST),
+    DESCRIPTION_NOT_NULL(400, "Miêu tả không thể để trống", HttpStatus.BAD_REQUEST),
+    CATEGORY_NOT_NULL(400, "Thể loại món ăn không thể để trống", HttpStatus.BAD_REQUEST),
+    IMAGE_NOT_NULL(400, "Ảnh không thể để trống", HttpStatus.BAD_REQUEST),
+    UNIT_NOT_NULL(400, "Unit không thể để trống", HttpStatus.BAD_REQUEST)
     ;
 
 

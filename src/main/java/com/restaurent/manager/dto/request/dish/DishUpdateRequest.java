@@ -12,16 +12,16 @@ import lombok.experimental.FieldDefaults;
 public class DishUpdateRequest {
     @NotBlank(message = "NAME_EMPTY")
     String name;
-    @NotNull(message = "NOT_EMPTY")
+    @NotNull(message = "STATUS_NOT_NULL")
     boolean status;
-    @NotNull(message = "NOT_EMPTY")
+    @NotNull(message = "DESCRIPTION_NOT_NULL")
     String description;
     @Min(value = 0, message = "GREATER_NUMBER")
     double price;
-    @NotNull(message = "NOT_NULL")
+    @NotNull(message = "CATEGORY_NOT_NULL")
     Long dishCategoryId;
-    @NotNull(message = "NOT_EMPTY")
+    @NotNull(message = "IMAGE_NOT_NULL")
     String imageUrl;
-    @NotNull(message = "NOT_NULL")
+    @NotNull(message = "UNIT_NOT_NULL")
     Long unitId;
 }
