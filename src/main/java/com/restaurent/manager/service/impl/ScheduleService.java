@@ -132,7 +132,7 @@ public class ScheduleService implements IScheduleService {
     public void customerReceiveBookTable(Long employeeId,Schedule schedule) {
         Customer customer;
         if(customerService.existCustomerByPhoneNumber(schedule.getCustomerPhone())){
-            customer = customerService.findCustomerByPhoneNumber(schedule.getCustomerPhone());
+            customer = customerService.findCustomerByPhoneNumber(schedule.getCustomerPhone(),schedule.getRestaurant().getId());
         }else{
             customer = Customer.builder()
                     .name(schedule.getCustomerName())

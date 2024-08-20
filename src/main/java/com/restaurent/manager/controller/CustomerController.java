@@ -54,10 +54,10 @@ public class CustomerController {
         return customerService.getCustomersOrderByTotalPoint(restaurantID,pageable,query);
     }
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER') and hasAuthority('CUSTOMER')")
-    @GetMapping(value = "/{phoneNumber}")
-    public ApiResponse<CustomerResponse> findCustomerByPhoneNumber(@PathVariable String phoneNumber){
+    @GetMapping(value = "/restaurant/{restaurantId}/{phoneNumber}")
+    public ApiResponse<CustomerResponse> findCustomerByPhoneNumberAndRestaurant(@PathVariable String phoneNumber, @PathVariable Long restaurantId){
         return ApiResponse.<CustomerResponse>builder()
-                .result(customerService.findCustomerResponseByPhoneNumber(phoneNumber))
+                .result(customerService.findCustomerResponseByPhoneNumber(phoneNumber,restaurantId))
                 .build();
     }
 

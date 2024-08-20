@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -102,15 +101,15 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public CustomerResponse findCustomerResponseByPhoneNumber(String phoneNumber) {
-        Customer customer = customerRepository.findByPhoneNumber(phoneNumber).orElseThrow(
+    public CustomerResponse findCustomerResponseByPhoneNumber(String phoneNumber, Long restaurantId) {
+        Customer customer = customerRepository.findByPhoneNumberAndRestaurant_Id(phoneNumber,restaurantId).orElseThrow(
                 () -> new AppException(ErrorCode.CUSTOMER_NOT_EXIST)
         );
         return customerMapper.toCustomerResponse(customer);
     }
     @Override
-    public Customer findCustomerByPhoneNumber(String phoneNumber) {
-        Customer customer = customerRepository.findByPhoneNumber(phoneNumber).orElseThrow(
+    public Customer findCustomerByPhoneNumber(String phoneNumber, Long restaurantId) {
+        Customer customer = customerRepository.findByPhoneNumberAndRestaurant_Id(phoneNumber,restaurantId).orElseThrow(
                 () -> new AppException(ErrorCode.CUSTOMER_NOT_EXIST)
         );
         return customer;
