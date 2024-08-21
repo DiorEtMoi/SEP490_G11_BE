@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface DishOrderRepository extends JpaRepository<DishOrder,Long> {
     List<DishOrder> findDishOrderByOrder_Id(Long orderId);
     List<DishOrder> findDishOrderByOrder_Id(Long orderId, Pageable pageable);
+    int countByOrder_Id(Long orderId);
     List<DishOrder> findDishOrderByOrder_IdAndStatusAndOrderDateBetween(Long orderId, DISH_ORDER_STATE state, LocalDateTime startTime, LocalDateTime endTime);
 
 }

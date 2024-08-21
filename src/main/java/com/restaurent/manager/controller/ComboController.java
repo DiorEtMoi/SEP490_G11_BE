@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.Combo.ComboRequest;
 import com.restaurent.manager.dto.request.Combo.ComboUpdateRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
@@ -46,10 +47,11 @@ public class ComboController {
                 .build();
     }
     @GetMapping(value = "/restaurant/{restaurantId}")
-    public ApiResponse<List<ComboResponse>> getComboByRestaurantId(@PathVariable Long restaurantId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+    public ApiResponse<PagingResult<ComboResponse>> getComboByRestaurantId(@PathVariable Long restaurantId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size,
+                                                            @RequestParam(value = "query", defaultValue = "") String query){
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
-        return ApiResponse.<List<ComboResponse>>builder()
-                .result(comboService.getComboByRestaurantID(restaurantId,pageable))
+        return ApiResponse.<PagingResult<ComboResponse>>builder()
+                .result(comboService.getComboByRestaurantID(restaurantId,pageable,query))
                 .build();
     }
 }

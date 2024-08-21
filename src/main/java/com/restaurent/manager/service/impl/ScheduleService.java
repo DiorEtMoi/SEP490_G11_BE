@@ -223,6 +223,11 @@ public class ScheduleService implements IScheduleService {
     }
 
     @Override
+    public List<ScheduleResponse> findSchedulesByTableId(Long tableId) {
+        return scheduleRepository.findSchedulesByTableIdAndDate(tableId,LocalDate.now()).stream().map(scheduleMapper::toScheduleResponse).toList();
+    }
+
+    @Override
     public Schedule findById(Long scheduleId) {
         return scheduleRepository.findById(scheduleId).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)

@@ -25,6 +25,13 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     );
     @Query("SELECT s FROM Schedule s JOIN s.tableRestaurants tr " +
             "WHERE tr.id = :tableRestaurantId AND s.bookedDate = :bookedDate " +
+            "AND (s.status = 'PENDING' OR s.status = 'ACCEPT')")
+    List<Schedule> findSchedulesByTableIdAndDate(
+            @Param("tableRestaurantId") Long tableRestaurantId,
+            @Param("bookedDate") LocalDate bookedDate
+    );
+    @Query("SELECT s FROM Schedule s JOIN s.tableRestaurants tr " +
+            "WHERE tr.id = :tableRestaurantId AND s.bookedDate = :bookedDate " +
             "AND (s.status = 'PENDING')")
     List<Schedule> findByTableIdAndBookedDate(
             @Param("tableRestaurantId") Long tableRestaurantId,

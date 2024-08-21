@@ -1,6 +1,7 @@
 package com.restaurent.manager.service.impl;
 
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.Combo.ComboRequest;
 import com.restaurent.manager.dto.request.Combo.ComboUpdateRequest;
 import com.restaurent.manager.dto.response.Combo.ComboResponse;
@@ -98,8 +99,11 @@ public class ComboService implements IComboService {
     }
 
     @Override
-    public List<ComboResponse> getComboByRestaurantID(Long restaurantID, Pageable pageable) {
-        return comboRepository.findByRestaurant_Id(restaurantID,pageable).stream().map(comboMapper::toComboResponse).toList();
+    public PagingResult<ComboResponse> getComboByRestaurantID(Long restaurantID, Pageable pageable, String query) {
+        return PagingResult.<ComboResponse>builder()
+                .results(comboRepository.findByRestaurant_IdAndNameContaining(restaurantID,query,pageable).stream().map(comboMapper::toComboResponse).toList())
+                .totalItems(comboRepository.countByRestaurant_IdAndNameContaining(restaurantID,query))
+                .build();
     }
 
 

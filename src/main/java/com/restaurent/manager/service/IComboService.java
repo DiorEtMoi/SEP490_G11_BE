@@ -1,5 +1,6 @@
 package com.restaurent.manager.service;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.Combo.ComboRequest;
 import com.restaurent.manager.dto.request.Combo.ComboUpdateRequest;
 import com.restaurent.manager.dto.response.Combo.ComboResponse;
@@ -17,5 +18,5 @@ public interface IComboService {
 
     ComboResponse getComboById(Long id);
     Combo findComboById(Long id);
-    List<ComboResponse> getComboByRestaurantID(Long restaurantID, Pageable pageable);
+    PagingResult<ComboResponse> getComboByRestaurantID(Long restaurantID, Pageable pageable, String query);
 }

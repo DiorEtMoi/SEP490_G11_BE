@@ -12,5 +12,6 @@ import java.util.List;
 public interface ComboRepository extends JpaRepository<Combo, Long> {
     @Query("SELECT c FROM Combo c WHERE c.status = true")
     List<Combo> findAllActiveCombos();
-    List<Combo> findByRestaurant_Id(Long restaurantId, Pageable pageable);
+    List<Combo> findByRestaurant_IdAndNameContaining(Long restaurantId, String query,Pageable pageable);
+    int countByRestaurant_IdAndNameContaining(Long restaurantId, String query);
 }

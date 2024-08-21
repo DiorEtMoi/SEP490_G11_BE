@@ -21,5 +21,6 @@ public interface IScheduleService {
     List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable);
     void customerReceiveBookTable(Long employeeId ,Schedule schedule);
     String updateScheduleRestaurant(Long scheduleId, ScheduleRequest request);
+    List<ScheduleResponse> findSchedulesByTableId(Long tableId);
     Schedule findById(Long scheduleId);
 }

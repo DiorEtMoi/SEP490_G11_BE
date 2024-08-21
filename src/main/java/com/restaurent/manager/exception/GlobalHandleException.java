@@ -20,6 +20,7 @@ import java.util.Objects;
 @Slf4j
 public class GlobalHandleException {
     private static final String MIN_ATTRIBUTE = "min";
+    private static final String VALUE_ATTRIBUTE = "value";
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
         log.error("Exception: ", exception);
@@ -76,7 +77,7 @@ public class GlobalHandleException {
 
             attributes = constraintViolation.getConstraintDescriptor().getAttributes();
 
-            log.info(attributes.toString());
+            log.info("attributes : " + attributes.toString());
 
         } catch (IllegalArgumentException e) {
 
@@ -94,7 +95,10 @@ public class GlobalHandleException {
     }
     private String mapAttribute(String message, Map<String, Object> attributes) {
         String minValue = String.valueOf(attributes.get(MIN_ATTRIBUTE));
-
+        String value = String.valueOf(attributes.get(VALUE_ATTRIBUTE));
+        if(!value.isEmpty()){
+            return message.replace("{" + VALUE_ATTRIBUTE + "}", value);
+        }
         return message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
     }
 }
