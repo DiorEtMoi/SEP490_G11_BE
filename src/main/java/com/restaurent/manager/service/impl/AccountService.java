@@ -169,7 +169,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
     @Override
     public void forgotPassword(ForgotPasswordRequest request) {
         Account account = accountRepository.findByEmailAndPhoneNumber(request.getEmail(),request.getPhoneNumber()).orElseThrow(
-                () -> new AppException(ErrorCode.NOT_EXIST)
+                () -> new AppException(ErrorCode.ACCOUNT_NOT_EXIST)
         );
         String password = PasswordGenerator.generateRandomPassword(6);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);

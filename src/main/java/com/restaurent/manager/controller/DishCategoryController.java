@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.dish.DishCategoryRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.DishCategoryResponse;
@@ -10,6 +11,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +28,11 @@ public class DishCategoryController {
     IDishCategoryService dishCategoryService;
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('CATEGORY')")
     @GetMapping(value = "/{restaurantId}")
-    public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long restaurantId){
-        return ApiResponse.<List<DishCategoryResponse>>builder()
-                .result(dishCategoryService.getAllDishCategoryByAccountId(restaurantId))
+    public ApiResponse<PagingResult<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long restaurantId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size
+            , @RequestParam(value = "query", defaultValue = "") String query){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
+        return ApiResponse.<PagingResult<DishCategoryResponse>>builder()
+                .result(dishCategoryService.getAllDishCategoryByRestaurantId(restaurantId,query,pageable))
                 .build();
     }
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")

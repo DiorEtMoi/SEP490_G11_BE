@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.entity.Dish;
 import com.restaurent.manager.entity.DishOrder;
@@ -16,6 +17,7 @@ import com.restaurent.manager.service.ITableRestaurantService;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -62,9 +64,11 @@ public class DishOrderService implements IDishOrderService {
     }
 
     @Override
-    public List<DishOrderResponse> findDishOrderByOrderId(Long orderId) {
-
-        return dishOrderRepository.findDishOrderByOrder_Id(orderId).stream().map(dishOrderMapper::toDishOrderResponse).toList();
+    public PagingResult<DishOrderResponse> findDishOrderByOrderId(Long orderId, Pageable pageable) {
+        return PagingResult.<DishOrderResponse>builder()
+                .results(dishOrderRepository.findDishOrderByOrder_Id(orderId,pageable).stream().map(dishOrderMapper::toDishOrderResponse).toList())
+                .totalItems(dishOrderRepository.countByOrder_Id(orderId))
+                .build();
     }
 
     @Override

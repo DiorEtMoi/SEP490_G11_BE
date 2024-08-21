@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.dish.DishCategoryRequest;
 import com.restaurent.manager.dto.response.DishCategoryResponse;
 import com.restaurent.manager.entity.Account;
@@ -15,6 +16,7 @@ import com.restaurent.manager.utils.SlugUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,9 +44,12 @@ public class DishCategoryService implements IDishCategoryService {
     }
 
     @Override
-    public List<DishCategoryResponse> getAllDishCategoryByAccountId(Long restaurantId) {
-        return dishCategoryRepository.findByRestaurant_Id(restaurantId).stream().map(dishCategoryMapper::toDishCategoryResponse)
-                .toList();
+    public PagingResult<DishCategoryResponse> getAllDishCategoryByRestaurantId(Long restaurantId, String query, Pageable pageable) {
+        return PagingResult.<DishCategoryResponse>builder()
+                .results(dishCategoryRepository.findByRestaurant_IdAndNameContaining(restaurantId,query,pageable).stream().map(dishCategoryMapper::toDishCategoryResponse)
+                        .toList())
+                .totalItems(dishCategoryRepository.countByRestaurant_IdAndNameContaining(restaurantId,query))
+                .build();
     }
 
     @Override

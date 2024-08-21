@@ -76,4 +76,10 @@ public class ScheduleController {
                 .result(scheduleService.updateScheduleRestaurant(scheduleId,request))
                 .build();
     }
+    @GetMapping(value = "/table/{tableId}")
+    public ApiResponse<List<ScheduleResponse>> findSchedulesByTableId(@PathVariable Long tableId){
+        return ApiResponse.<List<ScheduleResponse>>builder()
+                .result(scheduleService.findSchedulesByTableId(tableId))
+                .build();
+    }
 }
