@@ -1,5 +1,6 @@
 package com.restaurent.manager.controller;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.ScheduleRequest;
 import com.restaurent.manager.dto.response.ApiResponse;
 import com.restaurent.manager.dto.response.ScheduleResponse;
@@ -77,9 +78,10 @@ public class ScheduleController {
                 .build();
     }
     @GetMapping(value = "/table/{tableId}")
-    public ApiResponse<List<ScheduleResponse>> findSchedulesByTableId(@PathVariable Long tableId){
-        return ApiResponse.<List<ScheduleResponse>>builder()
-                .result(scheduleService.findSchedulesByTableId(tableId))
+    public ApiResponse<PagingResult<ScheduleResponse>> findSchedulesByTableId(@PathVariable Long tableId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(pageIndex - 1,size);
+        return ApiResponse.<PagingResult<ScheduleResponse>>builder()
+                .result(scheduleService.findSchedulesByTableId(tableId,pageable))
                 .build();
     }
 }

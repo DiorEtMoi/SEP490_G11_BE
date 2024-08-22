@@ -1,5 +1,6 @@
 package com.restaurent.manager.service;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.ScheduleRequest;
 import com.restaurent.manager.dto.response.ScheduleResponse;
 import com.restaurent.manager.dto.response.ScheduleTimeResponse;
@@ -21,6 +22,6 @@ public interface IScheduleService {
     List<ScheduleResponse> findAllScheduleRestaurant(Long restaurantId, Pageable pageable);
     void customerReceiveBookTable(Long employeeId ,Schedule schedule);
     String updateScheduleRestaurant(Long scheduleId, ScheduleRequest request);
-    List<ScheduleResponse> findSchedulesByTableId(Long tableId);
+    PagingResult<ScheduleResponse> findSchedulesByTableId(Long tableId, Pageable pageable);
     Schedule findById(Long scheduleId);
 }

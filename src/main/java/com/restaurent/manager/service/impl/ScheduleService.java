@@ -1,5 +1,6 @@
 package com.restaurent.manager.service.impl;
 
+import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.request.ScheduleRequest;
 import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import com.restaurent.manager.dto.response.ScheduleDishResponse;
@@ -223,8 +224,11 @@ public class ScheduleService implements IScheduleService {
     }
 
     @Override
-    public List<ScheduleResponse> findSchedulesByTableId(Long tableId) {
-        return scheduleRepository.findSchedulesByTableIdAndDate(tableId,LocalDate.now()).stream().map(scheduleMapper::toScheduleResponse).toList();
+    public PagingResult<ScheduleResponse> findSchedulesByTableId(Long tableId, Pageable pageable) {
+        return PagingResult.<ScheduleResponse>builder()
+                .results(scheduleRepository.findSchedulesByTableIdAndDate(tableId,LocalDate.now(),pageable).stream().map(scheduleMapper::toScheduleResponse).toList())
+                .totalItems(scheduleRepository.countSchedulesByTableIdAndDate(tableId,LocalDate.now()))
+                .build();
     }
 
     @Override

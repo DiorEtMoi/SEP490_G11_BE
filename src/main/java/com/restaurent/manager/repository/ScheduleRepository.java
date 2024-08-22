@@ -28,6 +28,14 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
             "AND (s.status = 'PENDING' OR s.status = 'ACCEPT')")
     List<Schedule> findSchedulesByTableIdAndDate(
             @Param("tableRestaurantId") Long tableRestaurantId,
+            @Param("bookedDate") LocalDate bookedDate,
+            Pageable pageable
+    );
+    @Query("SELECT COUNT(s) FROM Schedule s JOIN s.tableRestaurants tr " +
+            "WHERE tr.id = :tableRestaurantId AND s.bookedDate = :bookedDate " +
+            "AND (s.status = 'PENDING' OR s.status = 'ACCEPT')")
+    int countSchedulesByTableIdAndDate(
+            @Param("tableRestaurantId") Long tableRestaurantId,
             @Param("bookedDate") LocalDate bookedDate
     );
     @Query("SELECT s FROM Schedule s JOIN s.tableRestaurants tr " +
