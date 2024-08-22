@@ -53,6 +53,11 @@ public class DishCategoryService implements IDishCategoryService {
     }
 
     @Override
+    public List<DishCategoryResponse> findDishCategoryByRestaurantId(Long restaurantId) {
+        return dishCategoryRepository.findByRestaurant_Id(restaurantId).stream().map(dishCategoryMapper::toDishCategoryResponse).toList();
+    }
+
+    @Override
     public DishCategory findById(Long id) {
         return dishCategoryRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.NOT_EXIST)
