@@ -165,7 +165,9 @@ public class ScheduleService implements IScheduleService {
         }
         for (TableRestaurant tableRestaurant : schedule.getTableRestaurants()){
             Long orderId = orderService.createOrder(customer,employee,tableRestaurant,schedule.getRestaurant());
-            orderService.addDishToOrder(orderId,dishOrderRequests);
+            if(!dishOrderRequests.isEmpty()){
+                orderService.addDishToOrder(orderId,dishOrderRequests);
+            }
         }
     }
 

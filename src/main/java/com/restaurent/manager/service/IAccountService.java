@@ -11,7 +11,6 @@ import com.restaurent.manager.dto.response.VerifyResponse;
 import com.restaurent.manager.entity.Account;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface IAccountService{
     AccountResponse register(AccountRequest req);
