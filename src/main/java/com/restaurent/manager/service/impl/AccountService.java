@@ -14,6 +14,7 @@ import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.VerifyResponse;
 import com.restaurent.manager.entity.Account;
 import com.restaurent.manager.entity.Role;
+import com.restaurent.manager.enums.EmailContainer;
 import com.restaurent.manager.enums.RoleSystem;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
@@ -77,9 +78,8 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         account.setOtpGeneratedTime(LocalDateTime.now());
         Role role = roleService.findByRoleName(RoleSystem.MANAGER.name());
         role.assignAccount(account);
+        emailService.sendEmail(account.getEmail(),EmailContainer.formMailBody(otp),"Verify account ");
         Account saved = accountRepository.save(account);
-        String body = "Your OTP is : " + otp;
-        emailService.sendEmail(account.getEmail(),body,"Verify account ");
         return accountMapper.toAccountResponse(saved);
     }
 
@@ -151,8 +151,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         String otp = emailService.generateCode(6);
         account.setOtp(otp);
         accountRepository.save(account);
-        String body = "Your OTP is : " + otp;
-        emailService.sendEmail(account.getEmail(),body,"Verify Account");
+        emailService.sendEmail(account.getEmail(), EmailContainer.formMailBody(otp),"Verify Account");
         return otp;
     }
 
@@ -199,8 +198,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         account.setOtp(otp);
         account.setOtpGeneratedTime(LocalDateTime.now());
         accountRepository.save(account);
-        String body = "Your OTP is : " + otp;
-        emailService.sendEmail(account.getEmail(),body,"Verify account ");
+        emailService.sendEmail(account.getEmail(),EmailContainer.formMailBody(otp),"Verify account ");
         return "New otp are generated !";
     }
 

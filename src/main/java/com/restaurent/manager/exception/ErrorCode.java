@@ -11,7 +11,7 @@ public enum ErrorCode {
     EMAIL_EXIST(400, "Email đã tồn tại", HttpStatus.BAD_REQUEST),
     PHONENUMBER_EXIST(400, "Số điện thoại đã tồn tại", HttpStatus.BAD_REQUEST),
     USERNAME_INVALID(400, "Tên người dùng phải có ít nhất {min} ký tự", HttpStatus.BAD_REQUEST),
-    INVALID_PASSWORD(400, "Mật khẩu phải có ít nhất {min} ký tự", HttpStatus.BAD_REQUEST),
+    INVALID_PASSWORD(400, "Mật khẩu phải có từ 8 đến 16 ký tự bao gồm chữ số chữ hoa chữ thường và ký tự đặc biệt", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(404, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(401, "Chưa xác thực", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(403, "No permission", HttpStatus.FORBIDDEN),
