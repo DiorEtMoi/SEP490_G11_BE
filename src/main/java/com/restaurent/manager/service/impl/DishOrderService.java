@@ -76,7 +76,7 @@ public class DishOrderService implements IDishOrderService {
         LocalDate today = LocalDate.now();
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.atTime(23, 59, 59);
-        return dishOrderRepository.findDishOrderByOrder_IdAndStatusAndOrderDateBetween(orderId,state,startOfDay,endOfDay).stream().map(dishOrderMapper::toDishOrderResponse).toList();
+        return dishOrderRepository.findDishOrderByOrder_IdAndStatusAndOrderDateBetweenOrderByOrderDate(orderId,state,startOfDay,endOfDay).stream().map(dishOrderMapper::toDishOrderResponse).toList();
     }
 
     @Override
@@ -89,7 +89,7 @@ public class DishOrderService implements IDishOrderService {
         LocalDateTime endOfDay = today.atTime(23, 59, 59);
         if(!orders.isEmpty()){
             for (Order order: orders){
-                orderDishes = dishOrderRepository.findDishOrderByOrder_IdAndStatusAndOrderDateBetween(order.getId(),state,startOfDay,endOfDay);
+                orderDishes = dishOrderRepository.findDishOrderByOrder_IdAndStatusAndOrderDateBetweenOrderByOrderDate(order.getId(),state,startOfDay,endOfDay);
                 if(!orderDishes.isEmpty()){
                     dishOrders.addAll(orderDishes);
                 }

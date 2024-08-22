@@ -16,7 +16,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
     @Query("SELECT s FROM Schedule s JOIN s.tableRestaurants tr " +
             "WHERE tr.id = :tableRestaurantId AND s.bookedDate = :bookedDate " +
             "AND s.intendTime BETWEEN :startTime AND :endTime " +
-            "AND (s.status = 'PENDING' OR s.status = 'ACCEPT')")
+            "AND (s.status = 'PENDING')")
     List<Schedule> findSchedulesByTableAndDateRange(
             @Param("tableRestaurantId") Long tableRestaurantId,
             @Param("bookedDate") LocalDate bookedDate,

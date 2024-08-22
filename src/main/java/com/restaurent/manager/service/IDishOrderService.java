@@ -3,7 +3,6 @@ package com.restaurent.manager.service;
 import com.restaurent.manager.dto.PagingResult;
 import com.restaurent.manager.dto.response.order.DishOrderResponse;
 import com.restaurent.manager.entity.DishOrder;
-import com.restaurent.manager.entity.Order;
 import com.restaurent.manager.enums.DISH_ORDER_STATE;
 import org.springframework.data.domain.Pageable;
 

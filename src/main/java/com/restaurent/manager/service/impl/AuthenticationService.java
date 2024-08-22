@@ -8,11 +8,15 @@ import com.restaurent.manager.dto.request.AuthenticationRequest;
 import com.restaurent.manager.dto.request.IntrospectRequest;
 import com.restaurent.manager.dto.response.AuthenticationResponse;
 import com.restaurent.manager.dto.response.IntrospectResponse;
+import com.restaurent.manager.entity.Account;
 import com.restaurent.manager.entity.InvalidToken;
 import com.restaurent.manager.exception.AppException;
 import com.restaurent.manager.exception.ErrorCode;
 import com.restaurent.manager.repository.InvalidTokenRepository;
+import com.restaurent.manager.service.IAccountService;
 import com.restaurent.manager.service.IAuthenticationService;
+import com.restaurent.manager.service.IEmployeeService;
+import com.restaurent.manager.service.ITokenGenerate;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -33,6 +37,9 @@ public class AuthenticationService implements IAuthenticationService {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
     InvalidTokenRepository invalidTokenRepository;
+    IEmployeeService employeeService;
+    IAccountService accountService;
+    ITokenGenerate<Account> tokenGenerate ;
 
     @Override
     public IntrospectResponse introspect(IntrospectRequest req) throws JOSEException, ParseException {
@@ -61,8 +68,8 @@ public class AuthenticationService implements IAuthenticationService {
       }
     }
 
-
-    private SignedJWT verifyToken(String token) throws JOSEException, ParseException {
+    @Override
+    public SignedJWT verifyToken(String token) throws JOSEException, ParseException {
         JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
         SignedJWT signedJWT = SignedJWT.parse(token);
 
@@ -75,5 +82,28 @@ public class AuthenticationService implements IAuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
         return signedJWT;
+    }
+
+    @Override
+    public AuthenticationResponse refreshToken(String token) throws ParseException, JOSEException {
+        var signJWT = verifyToken(token);
+
+        InvalidToken invalidToken = InvalidToken.builder()
+                .id(signJWT.getJWTClaimsSet().getJWTID())
+                .expireDate(signJWT.getJWTClaimsSet().getExpirationTime())
+                .build();
+
+        invalidTokenRepository.save(invalidToken);
+
+        var accountId = signJWT.getJWTClaimsSet().getClaim("accountId");
+        if(accountId != null){
+            Account account = accountService.findAccountByID((Long) accountId);
+            return AuthenticationResponse.builder()
+                    .token(tokenGenerate.generateToken(account))
+                    .build();
+        }
+        return AuthenticationResponse.builder()
+                .authenticated(false)
+                .build();
     }
 }

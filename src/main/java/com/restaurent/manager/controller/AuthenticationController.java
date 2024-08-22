@@ -47,4 +47,10 @@ public class AuthenticationController {
                 .result(employeeService.authenticated(request))
                 .build();
     }
+    @PostMapping(value = "/refresh-token/{token}")
+    public ApiResponse<AuthenticationResponse> refreshToken(@PathVariable String token) throws ParseException, JOSEException {
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(authenticationService.refreshToken(token))
+                .build();
+    }
 }
