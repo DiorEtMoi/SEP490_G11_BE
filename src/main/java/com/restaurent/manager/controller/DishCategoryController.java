@@ -27,12 +27,19 @@ import java.util.List;
 public class DishCategoryController {
     IDishCategoryService dishCategoryService;
     @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('CATEGORY')")
-    @GetMapping(value = "/{restaurantId}")
-    public ApiResponse<PagingResult<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long restaurantId, @PathVariable boolean status, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size
+    @GetMapping(value = "/{restaurantId}/page")
+    public ApiResponse<PagingResult<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long restaurantId, @RequestParam(value = "page", defaultValue = "1") int pageIndex, @RequestParam(value = "size",defaultValue = "10") int size
             , @RequestParam(value = "query", defaultValue = "") String query){
         Pageable pageable = PageRequest.of(pageIndex - 1,size);
         return ApiResponse.<PagingResult<DishCategoryResponse>>builder()
                 .result(dishCategoryService.getAllDishCategoryByRestaurantId(restaurantId,query,pageable))
+                .build();
+    }
+    @PreAuthorize(value = "hasAnyRole('MANAGER', 'WAITER','HOSTESS') and hasAuthority('CATEGORY')")
+    @GetMapping(value = "/{restaurantId}")
+    public ApiResponse<List<DishCategoryResponse>> getDishCategoryByAccountId(@PathVariable Long restaurantId){
+        return ApiResponse.<List<DishCategoryResponse>>builder()
+                .result(dishCategoryService.findDishCategoryByRestaurantId(restaurantId))
                 .build();
     }
     @PreAuthorize(value = "hasRole('MANAGER') and hasAuthority('CATEGORY')")
