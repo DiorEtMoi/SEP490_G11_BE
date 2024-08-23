@@ -173,7 +173,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
         String password = PasswordGenerator.generateRandomPassword(6);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         account.setPassword(passwordEncoder.encode(password));
-        emailService.sendEmail(account.getEmail(),"Password is reset : " + password, "Reset password");
+        emailService.sendEmail(account.getEmail(),EmailContainer.formMailForgot(password), "Reset password");
         accountRepository.save(account);
     }
 
@@ -235,7 +235,7 @@ public class AccountService implements IAccountService, ITokenGenerate<Account> 
                 .subject(user.getUsername())
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(4, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("scope",buildScope(user))
                 .claim("email",user.getEmail())

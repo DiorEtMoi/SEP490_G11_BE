@@ -161,7 +161,7 @@ public class EmployeeService implements IEmployeeService, ITokenGenerate<Employe
                 .issuer(employee.getEmployeeName())
                 .issueTime(new Date())
                 .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                        Instant.now().plus(4, ChronoUnit.HOURS).toEpochMilli()
                 ))
                 .claim("scope",buildScope(employee))
                 .claim("restaurantId",employee.getRestaurant().getId())
