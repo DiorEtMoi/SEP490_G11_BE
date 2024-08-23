@@ -66,7 +66,7 @@ public class EmailContainer {
                 "                                </tr>\n" +
                 "                                <tr>\n" +
                 "                                    <td align=\"center\" style=\"padding-bottom: 15px;\">\n" +
-                "                                        <h1 style=\"font-family: 'Trebuchet MS', sans-serif; color: #096b81; font-size: 46px; margin: 0;\">Verification Code</h1>\n" +
+                "                                        <h1 style=\"font-family: 'Trebuchet MS', sans-serif; color: #096b81; font-size: 46px; margin: 0;\">Mã xác nhận</h1>\n" +
                 "                                    </td>\n" +
                 "                                </tr>\n" +
                 "                                <tr>\n" +
