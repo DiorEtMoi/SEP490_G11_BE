@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 public class EmployeeRequest {
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
+    @Size(max = 15, message = "USERNAME_NAME_INVALID")
     String username;
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
@@ -22,6 +23,7 @@ public class EmployeeRequest {
     String phoneNumber;
     @NotNull(message = "NOT_EMPTY")
     @NotBlank(message = "NOT_EMPTY")
+    @Size(max = 30, message = "EMPLOYEE_NAME_INVALID")
     String employeeName;
     @NotNull(message = "NOT_EMPTY")
     Long accountId;

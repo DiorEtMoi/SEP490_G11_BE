@@ -4,6 +4,7 @@ import com.restaurent.manager.dto.request.order.DishOrderRequest;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ScheduleRequest {
     @NotNull(message = "INVALID")
     @NotBlank(message = "INVALID")
+    @Size(max = 30, message = "CUSTOMER_NAME_INVALID")
     String customerName;
     @NotNull(message = "INVALID")
     @NotBlank(message = "INVALID")

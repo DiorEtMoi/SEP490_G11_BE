@@ -220,6 +220,7 @@ public class ScheduleService implements IScheduleService {
         schedule.setTableRestaurants(tableRestaurantSet);
         schedule.setTime(time);
         schedule.setIntendTime(intend_time);
+        schedule.setBookedDate(request.getBookedDate());
         schedule.setNumbersOfCustomer(request.getNumbersOfCustomer());
         scheduleRepository.save(schedule);
         return "success";

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface TableRestaurantRepository extends JpaRepository<TableRestaurant,Long> {
     List<TableRestaurant> findByArea_IdAndHidden(Long areaId,boolean hidden);
     boolean existsByNameAndArea_Id(String name,Long areaId);
-    @Query("select tb from TableRestaurant tb join Area a on a.id = tb.area.id where tb.name like :name% and a.restaurant.id = :restaurantId ORDER BY tb.name DESC LIMIT 1")
+    @Query("select tb from TableRestaurant tb join Area a on a.id = tb.area.id where tb.name like :name% and a.restaurant.id = :restaurantId ORDER BY tb.id DESC LIMIT 1")
     TableRestaurant findTopByRestaurant_IdAndNameStartingWithOrderByNameDesc(Long restaurantId,String name);
 
 }
