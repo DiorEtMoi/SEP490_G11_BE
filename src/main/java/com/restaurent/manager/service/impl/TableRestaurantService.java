@@ -34,9 +34,6 @@ public class TableRestaurantService implements ITableRestaurantService {
     ScheduleRepository scheduleRepository;
     @Override
     public TableRestaurantResponse createTable(TableRestaurantRequest request) {
-        if(tableRestaurantRepository.existsByNameAndArea_Id(request.getName(),request.getAreaId())){
-            throw new AppException(ErrorCode.TABLE_NAME_EXISTED);
-        }
         TableRestaurant tableRestaurant = tableRestaurantMapper.toTableRestaurant(request);
         tableRestaurant.setHidden(false);
         tableRestaurant.setTableType(tableTypeRepository.findById(request.getTableTypeId()).orElseThrow(
@@ -76,13 +73,13 @@ public class TableRestaurantService implements ITableRestaurantService {
             }
         }
         List<TableRestaurantResponse> tableRestaurantResponses = new ArrayList<>();
-        TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByRestaurant_IdAndNameStartingWithOrderByNameDesc(request.getRestaurantId(),request.getName());
+        TableRestaurant tableRestaurant = tableRestaurantRepository.findTopByRestaurant_IdAndNameStartingWithOrderByNameDesc(request.getRestaurantId(),request.getName() + "-");
         if(tableRestaurant != null){
             String[] originalName = tableRestaurant.getName().split("-");
             log.info(tableRestaurant.getName());
             int tableNumber = Integer.parseInt(originalName[1]);
             for (int i = 1; i <= numbers; i++) {
-                tableNumber += i;
+                tableNumber ++;
                 request.setName(request.getName() + "-" + tableNumber);
                 tableRestaurantResponses.add(createTable(request));
                 request.setName(originalName[0]);

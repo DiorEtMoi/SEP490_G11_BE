@@ -20,6 +20,8 @@ import java.util.Objects;
 @Slf4j
 public class GlobalHandleException {
     private static final String MIN_ATTRIBUTE = "min";
+    private static final String MAX_ATTRIBUTE = "max";
+
     private static final String VALUE_ATTRIBUTE = "value";
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {
@@ -96,9 +98,17 @@ public class GlobalHandleException {
     private String mapAttribute(String message, Map<String, Object> attributes) {
         String minValue = String.valueOf(attributes.get(MIN_ATTRIBUTE));
         String value = String.valueOf(attributes.get(VALUE_ATTRIBUTE));
-        if(!value.isEmpty()){
+        String max = String.valueOf(attributes.get(MAX_ATTRIBUTE));
+        log.info("max : " + max + " min : " + minValue + " value : " + value);
+
+        if(value != null && !"null".equals(value)){
+            log.info("value : " + value);
             return message.replace("{" + VALUE_ATTRIBUTE + "}", value);
+        } else if(max != null && !"null".equals(max)){
+            log.info("max : " + max);
+            return message.replace("{" + MAX_ATTRIBUTE + "}", max);
         }
+        log.info("min : " + minValue);
         return message.replace("{" + MIN_ATTRIBUTE + "}", minValue);
     }
 }

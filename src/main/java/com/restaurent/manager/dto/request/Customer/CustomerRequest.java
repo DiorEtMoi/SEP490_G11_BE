@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,8 +24,9 @@ public class CustomerRequest {
 
      @NotNull(message = "INVALID_CUSTOMER_NAME")
      @NotBlank(message = "INVALID_CUSTOMER_NAME")
+     @Size(max = 30, message = "CUSTOMER_NAME_INVALID")
      String name;
-
+     @Size(max = 100, message = "ADDRESS_INVALID")
      String address;
      @NotNull(message = "NOT_NULL")
      Long restaurantId;

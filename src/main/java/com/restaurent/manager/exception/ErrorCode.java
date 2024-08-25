@@ -71,7 +71,12 @@ public enum ErrorCode {
     DESCRIPTION_NOT_NULL(400, "Miêu tả không thể để trống", HttpStatus.BAD_REQUEST),
     CATEGORY_NOT_NULL(400, "Thể loại món ăn không thể để trống", HttpStatus.BAD_REQUEST),
     IMAGE_NOT_NULL(400, "Ảnh không thể để trống", HttpStatus.BAD_REQUEST),
-    UNIT_NOT_NULL(400, "Unit không thể để trống", HttpStatus.BAD_REQUEST)
+    UNIT_NOT_NULL(400, "Unit không thể để trống", HttpStatus.BAD_REQUEST),
+    VAT_INVALID(400,"Vui lòng cập nhật thông tin thuế !", HttpStatus.BAD_REQUEST),
+    CUSTOMER_NAME_INVALID(400, "Tên khách hàng không thể vượt quá {max} kí tự", HttpStatus.BAD_REQUEST),
+    USERNAME_NAME_INVALID(400,"Tên tài khoản nhân viên không thể vượt quá {max} kí tự",HttpStatus.BAD_REQUEST),
+    EMPLOYEE_NAME_INVALID(400,"Tên nhân viên không thể vượt quá {max} kí tự",HttpStatus.BAD_REQUEST),
+    ADDRESS_INVALID(400, "địa chỉ dưới 100 kí tự",HttpStatus.BAD_REQUEST)
     ;
 
 

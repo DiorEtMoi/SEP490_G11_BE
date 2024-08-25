@@ -136,7 +136,12 @@ public class OrderService implements IOrderService {
             }
         }
         if(restaurant.isVatActive()){
-            totalMoney += (totalMoney * (restaurant.getVat().getTaxValue() / 100));
+            if(restaurant.getVat() != null) {
+                totalMoney += (totalMoney * (restaurant.getVat().getTaxValue() / 100));
+            }else{
+                throw new AppException(ErrorCode.VAT_INVALID);
+            }
+
         }
         orderResponse.setTotalMoney(Math.round(totalMoney));
         orderResponse.setTotalDish(count);
