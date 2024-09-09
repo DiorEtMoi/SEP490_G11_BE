@@ -117,6 +117,7 @@ public class StatisticService  implements IStatisticService{
            responses.add(StatisticTableResponse.builder()
                    .time(currentDate)
                    .profit(billService.getProfitRestaurantByIdAndDate(restaurantId, currentDate.atStartOfDay()))
+                           .numbersBill(billRepository.findByDateCreated(restaurantId,Date.valueOf(currentDate)).size())
                    .build());
            currentDate = currentDate.plusDays(1);
        }
@@ -134,6 +135,7 @@ public class StatisticService  implements IStatisticService{
             responses.add(StatisticTableResponse.builder()
                     .time(currentDate)
                     .profit(billService.getProfitRestaurantByIdAndDate(restaurantId, currentDate.atStartOfDay()))
+                    .numbersBill(billRepository.findByDateCreated(restaurantId,Date.valueOf(currentDate)).size())
                     .build());
             currentDate = currentDate.plusDays(1);
         }

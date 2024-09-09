@@ -76,7 +76,8 @@ public enum ErrorCode {
     CUSTOMER_NAME_INVALID(400, "Tên khách hàng không thể vượt quá {max} kí tự", HttpStatus.BAD_REQUEST),
     USERNAME_NAME_INVALID(400,"Tên tài khoản nhân viên không thể vượt quá {max} kí tự",HttpStatus.BAD_REQUEST),
     EMPLOYEE_NAME_INVALID(400,"Tên nhân viên không thể vượt quá {max} kí tự",HttpStatus.BAD_REQUEST),
-    ADDRESS_INVALID(400, "địa chỉ dưới 100 kí tự",HttpStatus.BAD_REQUEST)
+    ADDRESS_INVALID(400, "địa chỉ dưới 100 kí tự",HttpStatus.BAD_REQUEST),
+    NOT_TODAY(400, "Chưa đến thời gian để nhận bàn", HttpStatus.BAD_REQUEST)
     ;
 
 

@@ -118,9 +118,11 @@ public class BillService implements IBillService {
         List<Bill> bills = billRepository.findByDateCreated(resId, sqlDate);
         Restaurant restaurant = restaurantService.getRestaurantById(resId);
         double res = 0;
-        if (!bills.isEmpty() && restaurant.getVat().getTaxValue() != 0) {
-            for (Bill bill : bills) {
-                res += bill.getTotal() * (restaurant.getVat().getTaxValue() / 110);
+        if (!bills.isEmpty()) {
+            if(restaurant.isVatActive() && restaurant.getVat() != null){
+                for (Bill bill : bills) {
+                    res += bill.getTotal() * (restaurant.getVat().getTaxValue() / (100 + restaurant.getVat().getTaxValue()));
+                }
             }
             return Math.round(res);
         }
@@ -132,9 +134,11 @@ public class BillService implements IBillService {
         List<Bill> bills = billRepository.findByDateCreatedBetween(resId, start, end);
         Restaurant restaurant = restaurantService.getRestaurantById(resId);
         double res = 0;
-        if (!bills.isEmpty() && restaurant.getVat().getTaxValue() != 0) {
-            for (Bill bill : bills) {
-                res += bill.getTotal() * (restaurant.getVat().getTaxValue() / 110);
+        if (!bills.isEmpty()) {
+            if(restaurant.isVatActive() && restaurant.getVat() != null){
+                for (Bill bill : bills) {
+                    res += bill.getTotal() * (restaurant.getVat().getTaxValue() / (100 + restaurant.getVat().getTaxValue()));
+                }
             }
             return Math.round(res);
         }

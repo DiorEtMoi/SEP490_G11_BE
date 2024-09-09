@@ -11,7 +11,7 @@ import java.util.List;
 public interface DishRepository extends JpaRepository<Dish, Long> {
     // Các phương thức tùy chỉnh nếu cần
     List<Dish> findByRestaurant_Id(Long restaurantId);
-    List<Dish> findByDishCategory_Id(Long categoryId);
+    List<Dish> findByDishCategory_IdAndStatus(Long categoryId, boolean status);
     List<Dish> findByRestaurant_IdAndStatusAndNameContaining(Long accountId, boolean status, Pageable pageable, String query);
     int countByRestaurant_IdAndStatusAndNameContaining(Long accountId, boolean status, String query);
     boolean existsByUnit_Id(Long unitId);
