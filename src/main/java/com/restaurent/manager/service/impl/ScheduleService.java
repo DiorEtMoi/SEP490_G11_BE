@@ -125,6 +125,9 @@ public class ScheduleService implements IScheduleService {
         );
         schedule.setStatus(status);
         if(status.equals(SCHEDULE_STATUS.ACCEPT)){
+            if(!schedule.getBookedDate().equals(LocalDate.now())){
+                throw new AppException(ErrorCode.NOT_TODAY);
+            }
             customerReceiveBookTable(employeeId,schedule);
         }
         scheduleRepository.save(schedule);

@@ -73,10 +73,10 @@ public class DishService implements IDishService {
     @Override
     public List<DishResponse> findDishesByCategoryCode(String categoryCode, Long restaurantId) {
         if(categoryCode.equals("all")){
-            return dishRepository.findByRestaurant_Id(restaurantId).stream().map(dishMapper::toDishResponse).toList();
+            return dishRepository.findByRestaurant_IdAndStatus(restaurantId,true).stream().map(dishMapper::toDishResponse).toList();
         }
         DishCategory category = dishCategoryService.findByCodeAndRestaurantId(categoryCode,restaurantId);
-        return dishRepository.findByDishCategory_Id(category.getId()).stream().map(dishMapper::toDishResponse).toList();
+        return dishRepository.findByDishCategory_IdAndStatus(category.getId(),true).stream().map(dishMapper::toDishResponse).toList();
     }
 
     @Override
